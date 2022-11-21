@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from webapp.quickstart.serializers import UserSerializer, GroupSerializer
 
+def index(request):
+    return render(request, 'index.html')
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
