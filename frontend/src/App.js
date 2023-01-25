@@ -14,9 +14,7 @@ function App() {
         <AuthProvider>
           <Header/>
             <Routes>
-              <Route element={<PrivateRoutes />}>
-                  <Route path="/" element={<HomePage/>} exact/>
-              </Route>
+              <Route path="/" element={<HomePage/>} exact guard={<PrivateRoutes/>} />
               <Route path="/login" element={<LoginPage/>}/>
             </Routes>
         </AuthProvider>
