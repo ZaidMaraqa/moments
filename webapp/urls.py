@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from webapp.quickstart import views
+from quickstart import views
 from django.views.generic import TemplateView
 
 # router = routers.DefaultRouter()
@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('webapp.quickstart.api.urls')),
+    path('api/', include('quickstart.api.urls')),
     # path('', include(router.urls)),
     path('', TemplateView.as_view(template_name='index.html')),
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

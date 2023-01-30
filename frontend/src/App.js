@@ -14,10 +14,10 @@ function App() {
         <AuthProvider>
           <Header/>
             <Routes>
-              {/* <Route element={<PrivateRoutes />}>
-                  <Route path="/" element={<HomePage/>} exact/>
-              </Route> */}
-              <Route path="/" element={<HomePage/>} exact/>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/" element={<HomePage/>} />
+              </Route>
+              {/* <Route path="/" element={<HomePage/>} exact/> */}
               <Route path="/login" element={<LoginPage/>}/>
             </Routes>
         </AuthProvider>

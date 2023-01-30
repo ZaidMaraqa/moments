@@ -32,6 +32,7 @@ export const AuthProvider = ({children}) => {
           setUser(jwt_decode(data.access))
           localStorage.setItem('authTokens', JSON.stringify(data))
           navigate('/')
+          console.log('something good')
 
         }else{
             alert('Something went wrong here :(')
@@ -47,6 +48,7 @@ export const AuthProvider = ({children}) => {
 
     let contextData = {
         user:user,
+        authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser
     }
@@ -69,7 +71,6 @@ export const AuthProvider = ({children}) => {
         }else{
             logoutUser()
         }
-
     }
 
     useEffect(() =>{
@@ -78,7 +79,7 @@ export const AuthProvider = ({children}) => {
             if(authTokens){
                 updateToken()
             }
-        }, 2000)
+        }, fourMinutes)
         return ()=> clearInterval(interval)
 
     }, [authTokens, loading])

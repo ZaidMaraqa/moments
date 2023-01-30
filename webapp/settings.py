@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'frontend',
-    # 'webapp.quickstart.apps.QuickstartConfig',
+    'quickstart',
 ]
 
 REST_FRAMEWORK = {
