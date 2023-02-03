@@ -7,7 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import NoteSerializer
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from quickstart.models import Note
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -34,10 +33,8 @@ def getRoutes(request):
 
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def getNotes(request):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JWTAuthentication)
     user = request.user
     notes = user.note_set.all()
     serializer = NoteSerializer(notes, many=True)

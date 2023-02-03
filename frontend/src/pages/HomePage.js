@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import AuthContext from '../context/AuthContext'
-
+// import axios from 'axios';
 
 const HomePage = () => {
     let [notes, setNotes] = useState([])
@@ -11,7 +11,7 @@ const HomePage = () => {
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
-                'Authorization':'Bearer ' + String(authTokens.access),
+                'Authorization':'Bearer ${authTokens.access}',
             }
         })
         console.log(response)
