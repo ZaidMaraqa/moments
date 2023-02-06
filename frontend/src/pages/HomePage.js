@@ -3,42 +3,48 @@ import AuthContext from '../context/AuthContext'
 // import axios from 'axios';
 
 const HomePage = () => {
-    let [notes, setNotes] = useState([])
-    let {authTokens, logoutUser} = useContext(AuthContext)
+    let [notes, setNotes] = useState([]);
+    let {authTokens, logoutUser} = useContext(AuthContext);
 
-    let getNotes = async()=>{
-        let response = await fetch('http://localhost:8000/api/notes/', {
-            method:'GET',
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization':'Bearer ${authTokens.access}',
+    useEffect(() => {
+        getNotes();
+    }, []);
+
+    let getNotes = async () => {
+        try {
+            let response = await fetch('http://localhost:8000/api/notes/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authTokens.access}`,
+                },
+            });
+            
+            let data = await response.json();
+
+            if (response.status === 200) {
+                setNotes(data);
+            } else {
+                throw new Error(response.statusText);
             }
-        })
-        console.log(response)
-        let data = await response.json()
-        console.log(data)
-        if(response.status === 200){
-            setNotes(data)
+        } catch (error) {
+            // logoutUser();
         }
-        else if(response.statusText === 'Unauthorized'){
-            logoutUser()
-        }
-    }
+    };
 
-    useEffect(()=> {
-        getNotes()
-    }, [])
+    
+
     return (
         <div>
-            <p>You are at the home page! </p>
-
+            <h1>Notes</h1>
             <ul>
-                {notes.map(note => (
-                    <li key={note.id} >{note.body}</li>
+                {notes.map((note) => (
+                    <li key={note.id}>{note.text}</li>
                 ))}
             </ul>
         </div>
-    )
-}
+    );
+};
+
 
 export default HomePage
