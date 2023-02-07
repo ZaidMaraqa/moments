@@ -24,7 +24,7 @@ def getRoutes(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-# @authentication_classes([JWTAuthentication])
+@authentication_classes([JWTAuthentication])
 def getNotes(request):
     user = request.user
     serializer = NoteSerializer(user.note_set.all(), many=True)

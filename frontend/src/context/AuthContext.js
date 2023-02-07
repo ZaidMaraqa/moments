@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 let AuthContext = createContext()
 
@@ -55,37 +55,45 @@ export const AuthProvider = ({children}) => {
         logoutUser:logoutUser
     }
 
-    // let updateToken = async ()=> {
-    //     console.log('Update token called')
-    //     let response = await fetch('http://localhost:8000/api/token/refresh/', {
-    //         method:'POST',
-    //         headers:{
-    //             'Content-Type':'application/json'
-    //         },
-    //         body:JSON.stringify({'refresh': authTokens.refresh})
-    //     })
-    //     let data = await response.json()
+    let updateToken = async ()=> {
+        console.log('Update token called')
+        let response = await fetch('http://localhost:8000/api/token/refresh/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                'refresh': authTokens ? authTokens.refresh : ''
+              })
+        })
+        let data = await response.json()
 
-    //     if (response.status === 200){
-    //         setAuthTokens(data)
-    //         setUser(jwt_decode(data.access))
-    //         localStorage.setItem('authTokens', JSON.stringify(data))
-    //     }else{
-    //         logoutUser()
-    //     }
-    // }
+        if (response.status === 200){
+            setAuthTokens(data)
+            setUser(jwt_decode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+        }else{
+            logoutUser()
+        }
+
+        if(loading){
+            setLoading(false)
+        }
+    }
 
     useEffect(() =>{
-        // let fourMinutes = 1000 * 60 * 4
-        // let interval = setInterval(()=>{
-        //     if(authTokens){
-        //         updateToken()
-        //     }
-        // }, fourMinutes)
-        // return ()=> clearInterval(interval)
-        if(authTokens){
-            setUser(jwt_decode(authTokens.access))
+
+        if(loading){
+            updateToken()
         }
+        
+        let fourMinutes = 1000 * 60 * 4
+        let interval = setInterval(()=>{
+            if(authTokens){
+                updateToken()
+            }
+        }, fourMinutes)
+        return ()=> clearInterval(interval)
 
 
     }, [authTokens, loading])
@@ -93,7 +101,7 @@ export const AuthProvider = ({children}) => {
 
     return(
         <AuthContext.Provider value ={contextData}>
-            {children}
+            {loading ? null : children}
         </AuthContext.Provider>
     )
 }
