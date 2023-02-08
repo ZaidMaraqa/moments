@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
-from quickstart.models import Note
+from quickstart.models import Note, Post
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import serializers
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -20,3 +21,13 @@ class NoteSerializer(ModelSerializer):
     class Meta:
         model = Note
         fields = '__all__'
+
+
+
+class PostSerializer(serializers.ModelSerializer):
+    # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
+    creator_id = serializers.ReadOnlyField(source='creator.id')
+    image_url = serializers.ImageField(required=False)
+    class Meta:
+        model = Post
+        fields = ['id', 'text', 'image', 'created_at']

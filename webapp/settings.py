@@ -56,6 +56,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+    
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ]
 }
 
 MIDDLEWARE = [
@@ -187,3 +191,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS=['*']
 CORS_ORIGIN_ALLOW_ALL = True 
+
+
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
+MEDIA_URL = '/media/'
