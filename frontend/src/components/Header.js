@@ -6,7 +6,7 @@ const Header = () => {
     let{user, logoutUser} = useContext(AuthContext)
     return (
         <div>
-            <Link to='/'>Home</Link>
+            <Link to='/signup'>Signup</Link>
             <span> | </span>
             {user ? (
                 <p onClick={logoutUser}>Logout</p>
