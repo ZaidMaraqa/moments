@@ -17,7 +17,7 @@ const SignUpPage = () => {
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h1 className="signup-title">Sign Up</h1>
-
+    
         <div className="input-group">
           <label htmlFor="firstName">First Name:</label>
           <input
