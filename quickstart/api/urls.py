@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.getRoutes),
     path('notes/', views.getNotes),
     path('posts/', views.getPosts),
+    path('signup/', views.signup),
     # path('userInfo/', views.getUserInfo),
     # path('currentUser/', views.getCurrentUser),
     # path('userList/', views.getUserList),

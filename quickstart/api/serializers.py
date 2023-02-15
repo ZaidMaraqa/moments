@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from quickstart.models import Note, Post
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -23,7 +24,26 @@ class NoteSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class SignupSerializer(serializers.ModelSerializer):
+    password1 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
 
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name')
+
+    def validate(self, data):
+        password1 = data.pop('password1')
+        password2 = data.pop('password2')
+
+        if password1 != password2:
+            raise serializers.ValidationError("Passwords do not match.")
+
+        user = User(**data)
+        user.set_password(password1)
+        user.save()
+
+        return user
 class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
     creator_id = serializers.ReadOnlyField(source='creator.id')

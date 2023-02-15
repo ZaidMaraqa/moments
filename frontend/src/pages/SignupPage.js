@@ -1,67 +1,29 @@
-import React, { useState } from 'react';
-import '../css/signUp.css';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 
-const SignUpPage = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const SignupPage = () => {
+  const { signUpUser } = useContext(AuthContext);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // send the sign up data to the server
-    console.log(firstName, lastName, email, password);
-  };
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
 
   return (
     <div className="signup-container">
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <h1 className="signup-title">Sign Up</h1>
-    
-        <div className="input-group">
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Sign Up</button>
-      </form>
+      <h2>Sign Up</h2>
+      <div className="signup-wrapper">
+        <form onSubmit={signUpUser}>
+          <input type="username" name="username" placeholder="Enter Username" />
+          <input type="email" name="email" placeholder="Enter Email" />
+          <input type="password1 " name="password" placeholder="Enter Password" />
+          <input type="password" name="password" placeholder="Enter Password" />
+          <input type="submit" value="Submit" />
+          <h5>Already have an account? Log in <Link to='/login'>here</Link></h5>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default SignUpPage;
+export default SignupPage;

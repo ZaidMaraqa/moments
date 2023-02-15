@@ -34,6 +34,35 @@ export const AuthProvider = ({children}) => {
             alert('Something went wrong here :(')
         }
     }
+ 
+    let signUpUser = async (e ) => {
+      e.preventDefault();
+      const [username, setUsername] = useState('');
+      const [email, setEmail] = useState('');
+      const [password1, setPassword1] = useState('');
+      const [password2, setPassword2] = useState('');
+      const response = await fetch('http://localhost:8000/api/signup/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password1: password1,
+          password2: password2,
+        }),
+      })
+      let data = await response.json();
+      if (response.status === 201) {
+        setAuthTokens(data);
+        localStorage.setItem('authTokens', JSON.stringify(data));
+        navigate('/')
+      } 
+      else {
+        alert('Something went wrong :(');
+      }
+    };
 
     
 
@@ -52,6 +81,7 @@ export const AuthProvider = ({children}) => {
         setAuthTokens:setAuthTokens,
         setUser:setUser,
         loginUser:loginUser,
+        signUpUser:signUpUser,
         logoutUser:logoutUser
     }
 
