@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from quickstart.models import Note, Post, User
+from quickstart.models import Note, Post
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 
@@ -33,8 +33,10 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'image', 'created_at','creator_id', 'image_url']
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'first_name', 'last_name', 'username', 'email', 'bio', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = customUser
+#         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
+#         extra_kwargs = {
+#             'username': {'validators': []}
+#         }

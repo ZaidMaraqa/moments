@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Note, Post, User
+from .models import Note, Post
 
 
 admin.site.register(Note)
 admin.site.register(Post)
-admin.site.register(User)
+# admin.site.register(customUser)
