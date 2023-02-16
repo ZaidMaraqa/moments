@@ -41,9 +41,9 @@ class SignupSerializer(serializers.ModelSerializer):
 
         user = User(**data)
         user.set_password(password1)
-        user.save()
 
-        return user
+        return {'username': user.username, 'email': user.email, 'password': password1,
+            'first_name': user.first_name, 'last_name': user.last_name}
 class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
     creator_id = serializers.ReadOnlyField(source='creator.id')

@@ -19,9 +19,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def signup(request):
     serializer = SignupSerializer(data=request.data)
     if serializer.is_valid():
+        print('darwin nunez')
         user = serializer.save()
         if user:
-            print('yesss')
             return Response({'message': 'User created.'})
         
     return Response(serializer.errors, status=400)    

@@ -14,7 +14,7 @@ import jwt_decode from "jwt-decode";
   let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
   let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
 
-  const signUpUser = async (e ) => {
+  let signUpUser = async (e ) => {
     e.preventDefault();
     const response = await fetch('http://localhost:8000/api/signup/', {
       method: 'POST',
@@ -29,13 +29,15 @@ import jwt_decode from "jwt-decode";
       }),
     })
     let data = await response.json();
-    if (response.status === 201) {
+    console.log(data)
+    if (response.status === 200) {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
       localStorage.setItem('authTokens', JSON.stringify(data));
       navigate('/');
     } 
     else {
+      console.log('so tell me')
       alert('Something went wrong :(');
     }
   };
