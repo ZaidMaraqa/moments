@@ -31,10 +31,10 @@ import jwt_decode from "jwt-decode";
     let data = await response.json();
     console.log(data)
     if (response.status === 200) {
-      setAuthTokens(data);
-      setUser(jwt_decode(data.access));
-      localStorage.setItem('authTokens', JSON.stringify(data));
-      navigate('/');
+      // setAuthTokens(data);
+      // setUser(jwt_decode(data.access));
+      // localStorage.setItem('authTokens', JSON.stringify(data));
+      navigate('/login');
     } 
     else {
       console.log('so tell me')
