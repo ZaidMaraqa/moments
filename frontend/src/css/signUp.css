@@ -1,36 +1,68 @@
-/* .signup-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 form {
-  background-color: rgba(224, 213, 215, 0.925);
-  padding: 40px;
-  box-shadow: 0px 0px 10px 0px rgba(48, 12, 53, 0.1);
-  border-radius: 10px;
-  width: 400px;
-}
-
-.signup-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.input-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-top: 50px;
 }
 
-label {
-  font-weight: 600;
-  margin-bottom: 10px;
+.signup-container {
+  background-image: url("slick.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
 }
 
-input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid rgb(75, 172, 127);
+.login-wrapper { 
+  display:grid;
+  padding: 20px;
+}
+
+/* .login-container h2 {
+  font-family: Arial, Helvetica, sans-serif, sans-serif;
 } */
+
+/* h2 {
+  margin-bottom: 0;
+} */
+
+input[type="username"]{
+  width: 300px;
+  height: 40px;
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+input[type="password"] {
+  width: 300px;
+  height: 40px;
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+  width: 100px;
+  height: 40px;
+  margin-top: 20px;
+  background-color: #0077c2;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #005e9f;
+}

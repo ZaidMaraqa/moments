@@ -3,6 +3,7 @@ import AuthContext from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
+import '../css/signUp.css'; 
 
   const SignupPage = () => {
   // const { signUpUser } = useContext(AuthContext);
@@ -23,14 +24,13 @@ import jwt_decode from "jwt-decode";
       },
       body: JSON.stringify({
           'username': e.target.username.value,
-          'email': e.target.email.value,
           'password1': e.target.password1.value,
           'password2': e.target.password2.value,
       }),
     })
     let data = await response.json();
-    console.log(data)
-    if (response.status === 200) {
+    console.log(response.status)
+    if (response.status === 201) {
       // setAuthTokens(data);
       // setUser(jwt_decode(data.access));
       // localStorage.setItem('authTokens', JSON.stringify(data));
@@ -40,7 +40,7 @@ import jwt_decode from "jwt-decode";
       console.log('so tell me')
       alert('Something went wrong :(');
     }
-  };
+  }
 
   return (
     <div className="signup-container">
@@ -48,7 +48,6 @@ import jwt_decode from "jwt-decode";
       <div className="signup-wrapper">
         <form onSubmit={signUpUser}>
           <input type="username" name="username" placeholder="Enter Username" />
-          <input type="email" name="email" placeholder="Enter Email" />
           <input type="password" name="password1" placeholder="Enter Password" />
           <input type="password" name="password2" placeholder="Enter Password Confirmation" />
           <input type="submit" value="Submit" />

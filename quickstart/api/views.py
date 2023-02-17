@@ -22,7 +22,7 @@ def signup(request):
         print('darwin nunez')
         user = serializer.save()
         if user:
-            return Response({'message': 'User created.'})
+            return Response(status=status.HTTP_201_CREATED)
         
     return Response(serializer.errors, status=400)    
 
