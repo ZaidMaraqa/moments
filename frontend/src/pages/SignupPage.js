@@ -16,31 +16,43 @@ import '../css/signUp.css';
   let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
 
   let signUpUser = async (e ) => {
-    e.preventDefault();
-    const response = await fetch('http://localhost:8000/api/signup/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          'username': e.target.username.value,
-          'password1': e.target.password1.value,
-          'password2': e.target.password2.value,
-      }),
-    })
-    let data = await response.json();
-    console.log(response.status)
-    if (response.status === 201) {
-      // setAuthTokens(data);
-      // setUser(jwt_decode(data.access));
-      // localStorage.setItem('authTokens', JSON.stringify(data));
-      navigate('/login');
-    } 
-    else {
-      console.log('so tell me')
-      alert('Something went wrong :(');
+    try {
+      e.preventDefault();
+      const response = await fetch('http://localhost:8000/api/signup/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'username': e.target.username.value,
+            'first_name': e.target.first_name.value,
+            'last_name': e.target.last_name.value,
+            'email': e.target.email.value,
+            'password1': e.target.password1.value,
+            'password2': e.target.password2.value,
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      }
+  
+      let data = await response.json();
+      console.log(data);
+  
+      if (response.status === 201) {
+        setAuthTokens(data);
+        setUser(jwt_decode(data.access));
+        localStorage.setItem('authTokens', JSON.stringify(data));
+        navigate('/login');
+      } else {
+        alert('Something went wrong :(');
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
+  
 
   return (
     <div className="signup-container">
@@ -48,6 +60,9 @@ import '../css/signUp.css';
       <div className="signup-wrapper">
         <form onSubmit={signUpUser}>
           <input type="username" name="username" placeholder="Enter Username" />
+          <input type="text" name="first_name" placeholder="Enter first name" />
+          <input type="text" name="last_name" placeholder="Enter last name" />
+          <input type="text" name="email" placeholder="Enter email" />
           <input type="password" name="password1" placeholder="Enter Password" />
           <input type="password" name="password2" placeholder="Enter Password Confirmation" />
           <input type="submit" value="Submit" />

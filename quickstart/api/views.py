@@ -4,12 +4,13 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer
+from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, UserSerializer
 from quickstart.models import Note, Post
 from rest_framework import status
 from django.http import HttpResponse
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.contrib.auth.models import User
+from quickstart.models import customUser
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -17,14 +18,13 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(['POST'])
 def signup(request):
-    serializer = SignupSerializer(data=request.data)
+    serializer = SignupSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
-        print('darwin nunez')
         user = serializer.save()
         if user:
             return Response(status=status.HTTP_201_CREATED)
         
-    return Response(serializer.errors, status=400)    
+    return Response(serializer.errors, status=400)   
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -53,26 +53,26 @@ def getPosts(request):
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-# @api_view(['GET'])
-# # @permission_classes([IsAuthenticated])
-# # @authentication_classes([JWTAuthentication])          
-# def getUserInfo(request):
-#     user = request.user
-#     serializer = UserSerializer
-#     return Response(UserSerializer(user), status=status.HTTP_200_OK)
-
-# @api_view(['GET'])
+@api_view(['GET'])
 # @permission_classes([IsAuthenticated])
-# @authentication_classes([JWTAuthentication])
-# def getCurrentUser(request):
-#     user = request.user
-#     serializer = UserSerializer(user)
-#     return Response(serializer.data)
+# @authentication_classes([JWTAuthentication])          
+def getUserInfo(request):
+    user = request.user
+    serializer = UserSerializer
+    return Response(UserSerializer(user), status=status.HTTP_200_OK)
 
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# @authentication_classes([JWTAuthentication])
-# def getUserList(request):
-#     users = User.objects.all()
-#     serializer = UserSerializer(users, many=True)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def getCurrentUser(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def getUserList(request):
+    users = customUser.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

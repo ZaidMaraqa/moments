@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from quickstart.models import Note, Post
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from quickstart.models import customUser
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -29,8 +29,8 @@ class SignupSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name')
+        model = customUser
+        fields = ('username', 'first_name', 'last_name','email', 'password1', 'password2')
 
     def validate(self, data):
         password1 = data.pop('password1')
@@ -39,11 +39,12 @@ class SignupSerializer(serializers.ModelSerializer):
         if password1 != password2:
             raise serializers.ValidationError("Passwords do not match.")
 
-        user = User(**data)
+        user = customUser(**data)
         user.set_password(password1)
 
         return {'username': user.username, 'email': user.email, 'password': password1,
             'first_name': user.first_name, 'last_name': user.last_name}
+    
 class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
     creator_id = serializers.ReadOnlyField(source='creator.id')
@@ -53,10 +54,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'image', 'created_at','creator_id', 'image_url']
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = customUser
-#         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
-#         extra_kwargs = {
-#             'username': {'validators': []}
-#         }
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = customUser
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
