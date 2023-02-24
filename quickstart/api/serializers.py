@@ -30,7 +30,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = customUser
-        fields = ('username', 'first_name', 'last_name','email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def validate(self, data):
         password1 = data.pop('password1')
@@ -39,11 +39,19 @@ class SignupSerializer(serializers.ModelSerializer):
         if password1 != password2:
             raise serializers.ValidationError("Passwords do not match.")
 
-        user = customUser(**data)
+        user = customUser.objects.create(
+            username=data['username'],
+            email=data['email'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+        )
         user.set_password(password1)
+        user.save()
 
-        return {'username': user.username, 'email': user.email, 'password': password1,
-            'first_name': user.first_name, 'last_name': user.last_name}
+        return {'username': user.username, 'email': user.email, 'password': password1, 
+                'first_name': user.first_name, 'last_name': user.last_name}
+
+
     
 class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())

@@ -70,8 +70,8 @@ def getCurrentUser(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JWTAuthentication])
 def getUserList(request):
     users = customUser.objects.all()
     serializer = UserSerializer(users, many=True)
