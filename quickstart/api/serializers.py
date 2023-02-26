@@ -5,6 +5,7 @@ from rest_framework import serializers
 from quickstart.models import customUser
 
 
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -39,17 +40,21 @@ class SignupSerializer(serializers.ModelSerializer):
         if password1 != password2:
             raise serializers.ValidationError("Passwords do not match.")
 
-        user = customUser.objects.create(
+        email = data['email']
+        if customUser.objects.filter(email=email).exists():
+            raise serializers.ValidationError("Email already exists.")
+
+        user = customUser.objects.create_user(
+            email=email,
+            password=password1,
             username=data['username'],
-            email=data['email'],
             first_name=data['first_name'],
             last_name=data['last_name'],
         )
-        user.set_password(password1)
-        user.save()
 
         return {'username': user.username, 'email': user.email, 'password': password1, 
                 'first_name': user.first_name, 'last_name': user.last_name}
+
 
 
     
