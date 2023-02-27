@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignupPage';
 import React from 'react';
 import Header from './components/Header'
+import FeedPage from './pages/feed';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                   <Route path="/" element={<HomePage/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/feed" element={<FeedPage/>} />
               </Route>
               {/* <Route path="/" element={<HomePage/>} exact/> */}
               <Route path="/login" element={<LoginPage/>}/>

@@ -1,26 +1,26 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 // import '../css/home.css'
 
 const HomePage = () => {
-    let [notes, setNotes] = useState([]);
+    let [posts, setPosts] = useState([]);
     let {authTokens, logoutUser} = useContext(AuthContext);
     
 
     
-    let getNotes = async () => {
+    let getPosts = async () => {
         try {
             let response = await fetch('http://localhost:8000/api/posts/', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authTokens.access}`,
                 },
             });
             
             let data = await response.json();
             if (response.status === 200) {
-                setNotes(data);
+                setPosts(data);
             } else {
                 throw new Error(response.statusText);
             }
@@ -30,7 +30,7 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        getNotes();
+        getPosts();
     }, []);
 
 
@@ -38,12 +38,17 @@ const HomePage = () => {
 
     return (
         <div className='homePage'>
-            <h1>Notes</h1>
             <ul>
-                {notes.map((note) => (
-                    <li key={note.id}>{note.body}</li>
+            {posts.map((post) => (
+                <li key={post.id}>
+                    <img src={post.image_url} alt={post.post} />
+                    <p>{post.caption}</p>
+                </li>
                 ))}
             </ul>
+            <Link to='/feed'>
+                <button>Create Post</button>
+            </Link>
         </div>
     );
 };

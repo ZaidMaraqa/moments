@@ -6,15 +6,15 @@ const Header = () => {
     let{user, logoutUser} = useContext(AuthContext)
     return (
         <div>
-            <Link to='/signup'>Signup</Link>
-            <span> | </span>
+            {/* <Link to='/signup'>Signup</Link> */}
+            {/* <span> | </span> */}
             {user ? (
                 <p onClick={logoutUser}>Logout</p>
             ):(
                 <Link to='/login'>Login</Link>
             )}
             
-            {user && <p>Hello {user.username}</p>}
+            {/* {user && <p>Hello {user.username}</p>} */}
         </div>
     )
 }

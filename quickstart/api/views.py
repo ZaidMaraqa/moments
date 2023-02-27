@@ -10,7 +10,8 @@ from rest_framework import status
 from django.http import HttpResponse
 from rest_framework.parsers import MultiPartParser, FormParser
 from quickstart.models import customUser
-
+from rest_framework.decorators import parser_classes
+from rest_framework.views import APIView
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -43,15 +44,46 @@ def getNotes(request):
     serializer = NoteSerializer(user.note_set.all(), many=True)
     return Response(serializer.data)
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
-def getPosts(request):
-    posts = Post.objects.all().order_by('-created_at')
+class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-    serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+
+    def get(self, request, *args, **kwargs):
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        posts_serializer = PostSerializer(data=request.data)
+        if posts_serializer.is_valid():
+            posts_serializer.save(user=request.user)
+            return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print('error', posts_serializer.errors)
+            return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['GET'])
+# # @permission_classes([IsAuthenticated])
+# # @authentication_classes([JWTAuthentication])
+# @parser_classes([MultiPartParser, FormParser])
+# def getPosts(request):
+#     posts = Post.objects.all().order_by('-created_at')
+#     serializer = PostSerializer(posts, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+
+# @api_view(['POST'])
+# # @permission_classes([IsAuthenticated])
+# # @authentication_classes([JWTAuthentication])
+# @parser_classes([MultiPartParser, FormParser])
+# def addPosts(request, *args, **kwargs):
+#     posts_serializer = PostSerializer(data=request.data)
+#     if posts_serializer.is_valid():
+#         posts_serializer.save()
+#         return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
+#     else:
+#         print("Error:", posts_serializer.errors)
+#         return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
