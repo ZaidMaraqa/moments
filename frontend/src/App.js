@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignupPage';
 import React from 'react';
 import Header from './components/Header'
-import FeedPage from './pages/feed';
+import PostUpload from './pages/PostUploadPage';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
                   <Route path="/" element={<HomePage/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
-                  <Route path="/feed" element={<FeedPage/>} />
+                  <Route path="/postupload" element={<PostUpload/>} />
               </Route>
               {/* <Route path="/" element={<HomePage/>} exact/> */}
               <Route path="/login" element={<LoginPage/>}/>

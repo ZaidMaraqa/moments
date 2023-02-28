@@ -33,24 +33,25 @@ const HomePage = () => {
         getPosts();
     }, []);
 
-
     
-
+    
     return (
         <div className='homePage'>
-            <ul>
+          <ul>
             {posts.map((post) => (
-                <li key={post.id}>
-                    <img src={post.image_url} alt={post.post} />
-                    <p>{post.caption}</p>
-                </li>
-                ))}
-            </ul>
-            <Link to='/feed'>
-                <button>Create Post</button>
-            </Link>
+              <li key={post.id}>
+                <img src={post.image ? post.image : 'background.jpeg'} alt={post.post} />
+                {post.text ? <p>{post.text}</p> : <p>No caption available</p>}
+              </li>
+            ))}
+          </ul>
+          <Link to='/postupload'>
+            <button>Create Post</button>
+          </Link>
         </div>
-    );
+      );
+      
+      
 };
 
 

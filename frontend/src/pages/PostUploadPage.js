@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 
-function postUpload() {
+function PostUpload() {
     const [image, setImage] = useState(null);
     const [text, setText] = useState('');  
     let {authTokens, logoutUser} = useContext(AuthContext);  
@@ -32,6 +32,7 @@ function postUpload() {
         })
         let data = await response.json()
         if(response.status === 201){
+            console.log("it said okau")
             setImage(data)
             navigate('/')
         }else{
@@ -50,4 +51,4 @@ function postUpload() {
     );
 }
 
-export default postUpload;
+export default PostUpload;

@@ -46,8 +46,8 @@ def getNotes(request):
 
 class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def get(self, request, *args, **kwargs):
         posts = Post.objects.all()
