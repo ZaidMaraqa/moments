@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-// import '../css/home.css'
+import '../css/home.css'
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
@@ -29,7 +29,7 @@ const HomePage = () => {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { 
         getPosts();
     }, []);
 
@@ -40,7 +40,8 @@ const HomePage = () => {
           <ul>
             {posts.map((post) => (
               <li key={post.id}>
-                <img src={post.image ? post.image : 'background.jpeg'} alt={post.post} />
+                <p>{post.id.username}</p>
+                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '300px'}} />
                 {post.text ? <p>{post.text}</p> : <p>No caption available</p>}
               </li>
             ))}

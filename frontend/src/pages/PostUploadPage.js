@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import '../css/postUpload.css'
 
 
 function PostUpload() {
@@ -32,7 +33,6 @@ function PostUpload() {
         })
         let data = await response.json()
         if(response.status === 201){
-            console.log("it said okau")
             setImage(data)
             navigate('/')
         }else{
@@ -41,7 +41,7 @@ function PostUpload() {
     }
 
     return (
-        <form onSubmit={uploadPost}>
+        <form className="uploadForm" onSubmit={uploadPost}>
             <input type="file"
                     id="image"
                     accept="image/png, image/jpeg, image/jpg" name="image" onChange={handleImageChange} />
