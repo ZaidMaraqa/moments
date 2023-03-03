@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from quickstart.models import Note, Post
+from quickstart.models import Note, Post, Comment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from quickstart.models import customUser
@@ -54,6 +54,12 @@ class SignupSerializer(serializers.ModelSerializer):
 
         return {'username': user.username, 'email': user.email, 'password': password1, 
                 'first_name': user.first_name, 'last_name': user.last_name}
+    
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'user', 'post', 'comment_text', 'created_at', 'updated_at')
 
 
 
@@ -62,9 +68,10 @@ class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
     creator_id = serializers.ReadOnlyField(source='creator.id')
     image_url = serializers.ImageField(required=False)
+    comments = CommentSerializer(many=True, read_only=True)
     class Meta:
         model = Post
-        fields = ['id', 'text', 'image', 'created_at','creator_id', 'image_url']
+        fields = ['id', 'text', 'image', 'created_at','creator_id', 'image_url', 'likes', 'comments']
 
 
 class UserSerializer(serializers.ModelSerializer):

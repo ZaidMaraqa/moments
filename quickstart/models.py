@@ -16,6 +16,18 @@ class Post(models.Model):
     text = models.CharField(max_length=280, blank=False)
     image = models.FileField(upload_to=upload_to, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['-created_at']
+
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    comment_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 
     class Meta:
         ordering = ['-created_at']

@@ -4,14 +4,16 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, UserSerializer
-from quickstart.models import Note, Post
+from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, UserSerializer, CommentSerializer
+from quickstart.models import Note, Post, Comment
 from rest_framework import status
 from django.http import HttpResponse
 from rest_framework.parsers import MultiPartParser, FormParser
 from quickstart.models import customUser
 from rest_framework.decorators import parser_classes
 from rest_framework.views import APIView
+from rest_framework import viewsets
+from rest_framework import generics, status
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -108,3 +110,26 @@ def getUserList(request):
     users = customUser.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CommentView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request, post_id):
+        comments = Comment.objects.filter(post=post_id)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, post=post)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

@@ -10,6 +10,8 @@ urlpatterns = [
     path('', views.getRoutes),
     path('notes/', views.getNotes),
     path('posts/', views.PostView.as_view(), name= 'posts_list'),
+    # path('api/posts/<int:pk>/like/', views.PostLike.as_view(), name='post_like'),
+    path('posts/<int:post_id>/comment/', views.CommentView.as_view(), name='post_comment'),
     path('signup/', views.signup),
     path('userInfo/', views.getUserInfo),
     path('currentUser/', views.getCurrentUser),
