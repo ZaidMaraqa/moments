@@ -7,6 +7,30 @@ const HomePage = () => {
     let [posts, setPosts] = useState([]);
     let {authTokens, logoutUser} = useContext(AuthContext);
     let [comment, setComment] = useState('');
+    let [data, setData] = useState([]);
+    let [searchUser, setSearchUser] = useState('')
+    let {user} = useContext(AuthContext)
+
+    let searchUsers = async () => {
+      try {
+          let response = await fetch(`http://localhost:8000/api/userList?username=${searchUser}/`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${authTokens.access}`,
+              },
+          });
+          
+          let data = await response.json();
+          if (response.status === 200) {
+              setData(data)
+          } else {
+              throw new Error(response.statusText);
+          }
+      } catch (error) {
+          // logoutUser();
+      }
+  };
     
     let getPosts = async () => {
         try {
@@ -38,15 +62,16 @@ const HomePage = () => {
             },
             body: JSON.stringify({
               post: postId,
-              comment_text: commentText
+              comment_text: commentText,
+              user: user.id
             })
           });
           const data = await response.json();
-          console.log(data)
           if (response.status === 201) {
             // refresh posts
             getPosts();
-            setComment(data);
+            setComment("");
+            console.log(comment)
           } 
           else {
             throw new Error(response.statusText);
@@ -55,43 +80,50 @@ const HomePage = () => {
           console.log(error);
         //   logoutUser();
         }
-    }
+    };
 
     let handleLike = async (postId) => {
-        try {
-            let response = await fetch(`http://localhost:8000/api/posts/`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${authTokens.access}`,
-                },
-            });
-            
-            let data = await response.json();
-            if (response.status === 200) {
-                // Update the posts array with the new like
-                let updatedPosts = posts.map(post => {
-                    if (post.id === postId) {
-                        post.likes.push(data);
-                    }
-                    return post;
-                });
-                setPosts(updatedPosts);
-            } else {
-                throw new Error(response.statusText);
+      try {
+        let response = await fetch(`http://localhost:8000/api/posts/${postId}/like/`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authTokens.access}`,
+          },
+        });
+        console.log(response)
+        let data = await response.json();
+        if (response.status === 200) {
+          let updatedPosts = posts.map(post => {
+            if (post.id === postId) {
+              post.likes.push(data);
             }
-        } catch (error) {
-            console.log(error);
-            logoutUser();
+            return post;
+          });
+          setPosts(updatedPosts);
+        } else {
+            throw new Error(response.statusText);
         }
+      } catch (error) {
+        console.log(error);
+        // logoutUser();
+      }
     };
+    
 
     useEffect(() => { 
         getPosts();
+        searchUsers();
     }, []);
 
     return (
         <div className='homePage'>
+          <input type="search" 
+          placeholder='Search...' 
+          value={searchUser} onChange={e => {setSearchUser(e.target.value);
+          }}
+          />
           <ul>
+            {data && data.map(srch => <li key={srch.id}> {srch.username}</li>)}
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>
@@ -107,8 +139,9 @@ const HomePage = () => {
                   <ul>
                     {post.comments.map((comment) => (
                       <li key={comment.id}>
-                        <p>{comment.user.username}</p>
-                        <p>{comment.text}</p>
+                        <p>{user.username}</p>
+                        <span> || </span>
+                        <p>{comment.comment_text}</p>
                       </li>
                     ))}
                   </ul>

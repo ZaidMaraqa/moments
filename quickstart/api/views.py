@@ -93,7 +93,7 @@ class PostView(APIView):
 def getUserInfo(request):
     user = request.user
     serializer = UserSerializer
-    return Response(UserSerializer(user), status=status.HTTP_200_OK)
+    return Response(serializer(user), status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -103,13 +103,42 @@ def getCurrentUser(request):
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
-@api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# @authentication_classes([JWTAuthentication])
-def getUserList(request):
-    users = customUser.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    queryset = customUser.objects.all()
+    serializer = UserSerializer
+
+    def get_queryset(self):
+        qs = customUser.objects.all()
+        username = self.request.query_params.get('username')
+        if username is not None:
+            qs = qs.filter(username__icontains=username)
+        return qs
+
+
+
+    def get(self, post_id):
+        users = customUser.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+class LikeView(APIView):
+    
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        post.likes.add(request.user)
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CommentView(APIView):

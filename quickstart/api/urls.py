@@ -12,10 +12,11 @@ urlpatterns = [
     path('posts/', views.PostView.as_view(), name= 'posts_list'),
     # path('api/posts/<int:pk>/like/', views.PostLike.as_view(), name='post_like'),
     path('posts/<int:post_id>/comment/', views.CommentView.as_view(), name='post_comment'),
+    path('posts/<int:post_id>/like/', views.LikeView.as_view(), name='post_like'),
     path('signup/', views.signup),
     path('userInfo/', views.getUserInfo),
     path('currentUser/', views.getCurrentUser),
-    path('userList/', views.getUserList),
+    path('userList/', views.UserListView.as_view(), name='user_list'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
