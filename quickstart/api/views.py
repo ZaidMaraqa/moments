@@ -59,7 +59,8 @@ class PostView(APIView):
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
         if posts_serializer.is_valid():
-            posts_serializer.save(user=request.user)
+            posts_serializer.validated_data['creator_username'] = request.user.username
+            posts_serializer.save()
             return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
         else:
             print('error', posts_serializer.errors)
@@ -104,12 +105,13 @@ def getCurrentUser(request):
     return Response(serializer.data)
 
 
-class UserListView(APIView):
+class UserListView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    
 
     queryset = customUser.objects.all()
-    serializer = UserSerializer
+    serializer_class = UserSerializer
 
     def get_queryset(self):
         qs = customUser.objects.all()
@@ -120,10 +122,10 @@ class UserListView(APIView):
 
 
 
-    def get(self, post_id):
-        users = customUser.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+    # def get(self, post_id):
+    #     users = customUser.objects.all()
+    #     serializer = UserSerializer(users, many=True)
+    #     return Response(serializer.data)
 
 class LikeView(APIView):
     

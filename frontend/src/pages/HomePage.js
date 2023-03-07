@@ -2,6 +2,9 @@ import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import '../css/home.css'
+import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
@@ -93,7 +96,7 @@ const HomePage = () => {
         console.log(response)
         let data = await response.json();
         if (response.status === 200) {
-          let updatedPosts = posts.map(post => {
+            let updatedPosts = posts.map(post => {
             if (post.id === postId) {
               post.likes.push(data);
             }
@@ -104,16 +107,15 @@ const HomePage = () => {
             throw new Error(response.statusText);
         }
       } catch (error) {
-        console.log(error);
-        // logoutUser();
+          console.log(error);
+        // logout
       }
-    };
-    
+    }
 
     useEffect(() => { 
         getPosts();
         searchUsers();
-    }, []);
+    }, [searchUser]);
 
     return (
         <div className='homePage'>
@@ -123,28 +125,33 @@ const HomePage = () => {
           }}
           />
           <ul>
-            {data && data.map(srch => <li key={srch.id}> {srch.username}</li>)}
+            {data.map(srch => <li key={srch.id}> {srch.username}</li>)}
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>
                 <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '300px'}} />
-                {post.text ? <p>{post.text}</p> : <p>No caption available</p>}
+                <span>{post.creator_username}</span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
                 <div>
-                  <button onClick={() => handleLike(post.id)}>Like</button>
+                <button onClick={() => handleLike(post.id)}>
+                  <FontAwesomeIcon icon={faThumbsUp} />
                   <span>{post.likes.length}</span>
+                </button>
                 </div>
                 <div>
                   <input type="text" placeholder="Add a comment" onChange={(e) => setComment(e.target.value)} />
-                  <button onClick={() => handleComment(post.id, comment)}>Comment</button>
-                  <ul>
+                  <button onClick={() => handleComment(post.id, comment)}>
+                    <FontAwesomeIcon icon={faComment} className="comment-icon" />
+                    <span>Comment</span>
+                  </button>
+                  {/* <ul>
                     {post.comments.map((comment) => (
                       <li key={comment.id}>
-                        <p>{user.username}</p>
+                        <p>{comment.id.username}</p>
                         <span> || </span>
                         <p>{comment.comment_text}</p>
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
                 </div>
               </li>
             ))}

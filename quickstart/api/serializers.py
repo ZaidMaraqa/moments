@@ -67,12 +67,12 @@ class CommentSerializer(serializers.ModelSerializer):
     
 class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
-    creator_id = serializers.ReadOnlyField(source='creator.id')
+    creator_username = serializers.ReadOnlyField(source='creator.username')
     image_url = serializers.ImageField(required=False)
     comments = CommentSerializer(many=True, read_only=True)
     class Meta:
         model = Post
-        fields = ['id', 'text', 'image', 'created_at','creator_id', 'image_url', 'likes', 'comments']
+        fields = ['id', 'text', 'image', 'created_at','creator_username', 'image_url', 'likes', 'comments']
 
 
 class UserSerializer(serializers.ModelSerializer):

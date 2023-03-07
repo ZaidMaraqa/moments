@@ -16,7 +16,7 @@ urlpatterns = [
     path('signup/', views.signup),
     path('userInfo/', views.getUserInfo),
     path('currentUser/', views.getCurrentUser),
-    path('userList/', views.UserListView.as_view(), name='user_list'),
+    path('userList/', views.UserListView.as_view({'get': 'list'}), name='user_list'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
