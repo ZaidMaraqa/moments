@@ -10,30 +10,32 @@ const HomePage = () => {
     let [posts, setPosts] = useState([]);
     let {authTokens, logoutUser} = useContext(AuthContext);
     let [comment, setComment] = useState('');
-    let [data, setData] = useState([]);
+    let [data, setData] = useState({ results: [] });
     let [searchUser, setSearchUser] = useState('')
     let {user} = useContext(AuthContext)
 
     let searchUsers = async () => {
       try {
-          let response = await fetch(`http://localhost:8000/api/userList?username=${searchUser}/`, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${authTokens.access}`,
-              },
-          });
-          
-          let data = await response.json();
-          if (response.status === 200) {
-              setData(data)
-          } else {
-              throw new Error(response.statusText);
-          }
+        let response = await fetch(`http://localhost:8000/api/userList?username=${encodeURIComponent(searchUser)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authTokens.access}`,
+          },
+        });
+        
+        let data = await response.json();
+        if (response.status === 200) {
+          setData(data);
+        } else {
+          throw new Error(response.statusText);
+        }
       } catch (error) {
-          // logoutUser();
+        console.log(error);
+        // logoutUser();
       }
-  };
+    };
+    
     
     let getPosts = async () => {
         try {
@@ -74,7 +76,7 @@ const HomePage = () => {
             // refresh posts
             getPosts();
             setComment("");
-            console.log(comment)
+            console.log(commentText)
           } 
           else {
             throw new Error(response.statusText);
@@ -87,35 +89,48 @@ const HomePage = () => {
 
     let handleLike = async (postId) => {
       try {
+        let alreadyLiked = JSON.parse(localStorage.getItem('likedPosts')) || [];
+        if (alreadyLiked.includes(postId)) {
+          // User has already liked this post
+          return;
+        }
+    
         let response = await fetch(`http://localhost:8000/api/posts/${postId}/like/`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${authTokens.access}`,
           },
         });
+    
         console.log(response)
         let data = await response.json();
         if (response.status === 200) {
-            let updatedPosts = posts.map(post => {
+          let updatedPosts = posts.map(post => {
             if (post.id === postId) {
               post.likes.push(data);
             }
             return post;
           });
           setPosts(updatedPosts);
+          
+          // Update local storage to reflect that the user has liked this post
+          alreadyLiked.push(postId);
+          localStorage.setItem('likedPosts', JSON.stringify(alreadyLiked));
         } else {
             throw new Error(response.statusText);
         }
       } catch (error) {
-          console.log(error);
+        // console.log(error);
         // logout
       }
     }
-
+    
     useEffect(() => { 
         getPosts();
         searchUsers();
-    }, [searchUser]);
+    }, []);
+
+    console.log(data.results)
 
     return (
         <div className='homePage'>
@@ -125,7 +140,7 @@ const HomePage = () => {
           }}
           />
           <ul>
-            {data.map(srch => <li key={srch.id}> {srch.username}</li>)}
+            {data.results && data.results.map(srch => <li key={srch.id}> {srch.username}</li>)}
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>
@@ -143,7 +158,7 @@ const HomePage = () => {
                     <FontAwesomeIcon icon={faComment} className="comment-icon" />
                     <span>Comment</span>
                   </button>
-                  {/* <ul>
+                  <ul>
                     {post.comments.map((comment) => (
                       <li key={comment.id}>
                         <p>{comment.id.username}</p>
@@ -151,14 +166,14 @@ const HomePage = () => {
                         <p>{comment.comment_text}</p>
                       </li>
                     ))}
-                  </ul> */}
+                  </ul>
                 </div>
               </li>
             ))}
           </ul>
-          <Link to='/postupload'>
+          {/* <Link to='/postupload'>
             <button>Create Post</button>
-          </Link>
+          </Link> */}
         </div>
       );
 

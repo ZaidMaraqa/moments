@@ -16,6 +16,7 @@ class Post(models.Model):
     text = models.CharField(max_length=280, blank=False)
     image = models.FileField(upload_to=upload_to, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    creator_username = models.CharField(max_length=50, default='')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_posts', blank=True)
 
     class Meta:

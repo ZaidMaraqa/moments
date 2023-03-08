@@ -13,7 +13,9 @@ const Header = () => {
             ):(
                 <Link to='/login'>Login</Link>
             )}
-            
+            <Link to='/postupload'>
+            <button>Create Post</button>
+          </Link>
             {/* {user && <p>Hello {user.username}</p>} */}
         </div>
     )
