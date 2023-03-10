@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignupPage';
 import React from 'react';
 import Header from './components/Header'
 import PostUpload from './pages/PostUploadPage';
+import UserProfilePage from './pages/UserProfile';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/postupload" element={<PostUpload/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/userprofile/:userId" element={<UserProfilePage/>} />
               </Route>
               {/* <Route path="/" element={<HomePage/>} exact/> */}
               <Route path="/login" element={<LoginPage/>}/>

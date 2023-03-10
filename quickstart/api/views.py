@@ -90,12 +90,16 @@ class PostView(APIView):
 #         return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# @authentication_classes([JWTAuthentication])          
-def getUserInfo(request):
-    user = request.user
-    serializer = UserSerializer
-    return Response(serializer(user), status=status.HTTP_200_OK)
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])          
+def getUserProfile(request, user_id):
+    try:
+        user = customUser.objects.get(id=user_id)
+    except customUser.DoesNotExist:
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

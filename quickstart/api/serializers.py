@@ -57,25 +57,25 @@ class SignupSerializer(serializers.ModelSerializer):
                 'first_name': user.first_name, 'last_name': user.last_name}
     
 
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ('id', 'user', 'post', 'comment_text', 'created_at', 'updated_at')
-
-
-
-    
-class PostSerializer(serializers.ModelSerializer):
-    # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
-    creator_username = serializers.ReadOnlyField(source='creator.username')
-    image_url = serializers.ImageField(required=False)
-    comments = CommentSerializer(many=True, read_only=True)
-    class Meta:
-        model = Post
-        fields = ['id', 'text', 'image', 'created_at','creator_username', 'image_url', 'likes', 'comments']
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = customUser
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    
+    class Meta:
+        model = Comment
+        fields = ('id', 'user', 'post', 'comment_text', 'created_at', 'updated_at')
+
+class PostSerializer(serializers.ModelSerializer):
+    # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
+    user = UserSerializer()
+    image_url = serializers.ImageField(required=False)
+    comments = CommentSerializer(many=True, read_only=True)
+    class Meta:
+        model = Post
+        fields = ['id', 'text', 'image', 'created_at','user', 'image_url', 'likes', 'comments']

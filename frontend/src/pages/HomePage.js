@@ -72,6 +72,7 @@ const HomePage = () => {
             })
           });
           const data = await response.json();
+          console.log(data)
           if (response.status === 201) {
             // refresh posts
             getPosts();
@@ -128,9 +129,8 @@ const HomePage = () => {
     useEffect(() => { 
         getPosts();
         searchUsers();
-    }, []);
+    }, [searchUser]);
 
-    console.log(data.results)
 
     return (
         <div className='homePage'>
@@ -140,12 +140,12 @@ const HomePage = () => {
           }}
           />
           <ul>
-            {data.results && data.results.map(srch => <li key={srch.id}> {srch.username}</li>)}
+            {data.results && data.results.map(srch => <li key={srch.username}> <Link to={`/userprofile/${srch.user_id}`}>{srch.username}</Link></li>)}
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>
                 <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '300px'}} />
-                <span>{post.creator_username}</span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
+                <span>{post.user.username}: </span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
                 <div>
                 <button onClick={() => handleLike(post.id)}>
                   <FontAwesomeIcon icon={faThumbsUp} />
@@ -161,7 +161,7 @@ const HomePage = () => {
                   <ul>
                     {post.comments.map((comment) => (
                       <li key={comment.id}>
-                        <p>{comment.id.username}</p>
+                        <p>{comment.user.username}</p>
                         <span> || </span>
                         <p>{comment.comment_text}</p>
                       </li>
