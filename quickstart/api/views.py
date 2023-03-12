@@ -14,6 +14,8 @@ from rest_framework.decorators import parser_classes
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import generics, status
+from rest_framework.decorators import action
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -124,6 +126,38 @@ class UserListView(viewsets.ModelViewSet):
         if username is not None:
             qs = qs.filter(username__icontains=username)
         return qs
+    
+class UserFollowView(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+
+
+    queryset = customUser.objects.all()
+    serializer_class = UserSerializer
+
+    @action(detail=True, methods=['post'])
+    def follow(self, request, user_id=None):
+        user = customUser.objects.get(id=user_id)
+        if request.user != user:
+            if not request.user.following.filter(id=user_id).exists():
+                request.user.follow(user)
+                return Response({'status': 'followed'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'status': 'error', 'message': 'You are already following this user.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'status': 'error', 'message': 'Cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    @action(detail=True, methods=['post'])
+    def unfollow(self, request, user_id=None):
+        user = customUser.objects.get(id=user_id)
+        if request.user != user:
+            if request.user.following.filter(id=user_id).exists():
+                request.user.unfollow(user)
+                return Response({'status': 'unfollowed'})
+            else:
+                return Response({'status': 'error', 'message': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'status': 'error', 'message': 'Cannot unfollow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

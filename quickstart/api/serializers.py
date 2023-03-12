@@ -59,9 +59,19 @@ class SignupSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
     class Meta:
         model = customUser
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following')
+
+    def get_followers(self, obj):
+        followers = obj.followers.all()
+        return UserSerializer(followers, many=True).data
+
+    def get_following(self, obj):
+        following = obj.following.all()
+        return UserSerializer(following, many=True).data
 
 
 class CommentSerializer(serializers.ModelSerializer):

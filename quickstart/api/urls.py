@@ -15,6 +15,8 @@ urlpatterns = [
     path('posts/<int:post_id>/like/', views.LikeView.as_view(), name='post_like'),
     path('signup/', views.signup),
     path('user/<int:user_id>/profile/', views.getUserProfile, name='user-profile'),
+    path('users/<int:user_id>/follow/', views.UserFollowView.as_view({'post': 'follow'})),
+    path('users/<int:user_id>/unfollow/', views.UserFollowView.as_view({'post': 'unfollow'})),
     path('currentUser/', views.getCurrentUser),
     path('userList/', views.UserListView.as_view({'get': 'list'}), name='user_list'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -140,7 +140,7 @@ const HomePage = () => {
           }}
           />
           <ul>
-            {data.results && data.results.map(srch => <li key={srch.username}> <Link to={`/userprofile/${srch.user_id}`}>{srch.username}</Link></li>)}
+            {data.results && data.results.map(srch => <li key={srch.username}> <Link to={`/userprofile/${srch.id}`}>{srch.username}</Link></li>)}
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>

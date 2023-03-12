@@ -68,6 +68,8 @@ class customUser(AbstractUser, PermissionsMixin):
     bio = models.CharField(max_length=500, unique=False, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    followers = models.ManyToManyField('self', symmetrical=False, related_name='followed_by', blank=True)
+    following = models.ManyToManyField('self', symmetrical=False, related_name='following_to', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
@@ -76,4 +78,10 @@ class customUser(AbstractUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    def follow(self, user):
+        self.following.add(user)
+
+    def unfollow(self, user):
+        self.following.remove(user)
 
