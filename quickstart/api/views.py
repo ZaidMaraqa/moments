@@ -15,6 +15,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import generics, status
 from rest_framework.decorators import action
+from django.db.models import Q
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -53,8 +54,11 @@ class PostView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.all()
+        following_users = request.user.following.all()  # replace with the queryset of the users that the current user follows
+        following_user_ids = [user.id for user in following_users]
+        posts = Post.objects.filter(Q(user_id__in=following_user_ids) & ~Q(user_id=request.user.id))
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
@@ -106,8 +110,8 @@ def getUserProfile(request, user_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
-def getCurrentUser(request):
-    user = request.user
+def getCurrentUser(request, user_id):
+    user = customUser.objects.get(id=user_id)
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
@@ -128,12 +132,13 @@ class UserListView(viewsets.ModelViewSet):
         return qs
     
 class UserFollowView(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
 
     queryset = customUser.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSerializer()
+    
 
     @action(detail=True, methods=['post'])
     def follow(self, request, user_id=None):

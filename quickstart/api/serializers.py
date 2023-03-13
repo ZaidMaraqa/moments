@@ -56,11 +56,20 @@ class SignupSerializer(serializers.ModelSerializer):
         return {'username': user.username, 'email': user.email, 'password': password1, 
                 'first_name': user.first_name, 'last_name': user.last_name}
     
+class FollowerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = customUser
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
+
+class FollowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = customUser
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
 
 
 class UserSerializer(serializers.ModelSerializer):
-    followers = serializers.SerializerMethodField()
-    following = serializers.SerializerMethodField()
+    followers = FollowerSerializer(many=True, read_only=True)
+    following = FollowingSerializer(many=True, read_only=True)
     class Meta:
         model = customUser
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following')
@@ -72,6 +81,10 @@ class UserSerializer(serializers.ModelSerializer):
     def get_following(self, obj):
         following = obj.following.all()
         return UserSerializer(following, many=True).data
+    
+    # def get_is_following(self, obj):
+    #     user = self.context['request'].user
+    #     return user.following.filter(id=obj.id).exists()
 
 
 class CommentSerializer(serializers.ModelSerializer):

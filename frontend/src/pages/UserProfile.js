@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import FollowButton from './Follow';
 
 const UserProfilePage = () => {
     const { userId } = useParams();
@@ -37,22 +38,17 @@ const UserProfilePage = () => {
         <div>
             {user ? (
                 <div>
-                <h2>{user.username}'s Profile</h2>
-                <p>Name: {user.first_name} {user.last_name}</p>
-                <p>Email: {user.email}</p>
-                <p>Bio: {user.bio}</p>
+                    <h2>{user.username}'s Profile</h2>
+                    <p>Name: {user.first_name} {user.last_name}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Bio: {user.bio}</p>
+                    <FollowButton userId={user.id} following={user.is_following} setFollowing={null} />
                 </div>
-            ) : (
-                <p>Loading...</p>
+                ) : (
+            <p>Loading...</p>
             )}
         </div>
-
-    );
-
-
-
-
-
+);
 };
 
 export default UserProfilePage;

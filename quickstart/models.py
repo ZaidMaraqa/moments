@@ -81,7 +81,9 @@ class customUser(AbstractUser, PermissionsMixin):
     
     def follow(self, user):
         self.following.add(user)
+        user.followers.add(self)
 
     def unfollow(self, user):
         self.following.remove(user)
+        user.followers.remove(self)
 
