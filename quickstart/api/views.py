@@ -65,7 +65,7 @@ class PostView(APIView):
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
         if posts_serializer.is_valid():
-            posts_serializer.validated_data['user_id'] = request.user.id 
+            posts_serializer.validated_data['user'] = request.user 
             posts_serializer.validated_data['creator_username'] = request.user.username
             posts_serializer.save()
             return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
@@ -117,8 +117,8 @@ def getCurrentUser(request, user_id):
 
 
 class UserListView(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
     
 
     queryset = customUser.objects.all()

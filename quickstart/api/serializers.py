@@ -41,21 +41,15 @@ class SignupSerializer(serializers.ModelSerializer):
         if password1 != password2:
             raise serializers.ValidationError("Passwords do not match.")
 
-        email = data['email']
-        if customUser.objects.filter(email=email).exists():
-            raise serializers.ValidationError("Email already exists.")
+        return data
 
-        user = customUser.objects.create_user(
-            email=email,
-            password=password1,
-            username=data['username'],
-            first_name=data['first_name'],
-            last_name=data['last_name'],
-        )
+    def create(self, validated_data):
+        password = validated_data.pop('password1')
+        user = customUser(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
 
-        return {'username': user.username, 'email': user.email, 'password': password1, 
-                'first_name': user.first_name, 'last_name': user.last_name}
-    
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = customUser
@@ -88,7 +82,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
     
     class Meta:
         model = Comment
@@ -96,7 +90,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     # author = serializers.SlugRelatedField(slug_field='username' ,queryset=User.objects.all())
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
     image_url = serializers.ImageField(required=False)
     comments = CommentSerializer(many=True, read_only=True)
     class Meta:
