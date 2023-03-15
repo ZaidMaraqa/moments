@@ -12,8 +12,8 @@ import '../css/signUp.css';
   // const [password1, setPassword1] = useState('');
   // const [password2, setPassword2] = useState('');
   const navigate = useNavigate();
-  let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
-  let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
+  // let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+  // let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
 
   let signUpUser = async (e ) => {
     try {
@@ -32,7 +32,8 @@ import '../css/signUp.css';
             'password2': e.target.password2.value,
         })
       });
-  
+      
+      console.log(response.statusText);
       if (!response.ok) {
         throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
       }
@@ -41,10 +42,13 @@ import '../css/signUp.css';
       console.log(data);
   
       if (response.status === 201) {
-        setAuthTokens(data);
-        setUser(jwt_decode(data.access));
-        localStorage.setItem('authTokens', JSON.stringify(data));
-        navigate('/login');
+        const message = data.message;
+        if (message) {
+          console.log(message);
+          navigate('/login');
+        } else {
+          alert('Something went wrong :(');
+        }
       } else {
         alert('Something went wrong :(');
       }

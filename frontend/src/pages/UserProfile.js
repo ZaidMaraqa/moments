@@ -20,9 +20,11 @@ const UserProfilePage = () => {
       });
 
       const data = await response.json();
+      console.log(data);
       if (response.status === 200) {
         setUser(data);
-        setIsFollowing(data.is_following); // set isFollowing state variable to the value of the 'is_following' property of the user data
+        setIsFollowing(data.is_following);
+
       } else {
         throw new Error(response.statusText);
       }
@@ -35,10 +37,6 @@ const UserProfilePage = () => {
     getUserInfo();
   }, []);
 
-  const handleFollowingChange = (newFollowingValue) => {
-    setIsFollowing(newFollowingValue);
-  };
-
   return (
     <div>
       {user ? (
@@ -47,7 +45,7 @@ const UserProfilePage = () => {
           <p>Name: {user.first_name} {user.last_name}</p>
           <p>Email: {user.email}</p>
           <p>Bio: {user.bio}</p>
-          <FollowButton userId={user.id} following={isFollowing} setFollowing={handleFollowingChange} />
+          <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing}  />
                 </div>
                 ) : (
             <p>Loading...</p>

@@ -21,14 +21,13 @@ from django.db.models import Q
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-
 @api_view(['POST'])
 def signup(request):
     serializer = SignupSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         user = serializer.save()
         if user:
-            return Response(status=status.HTTP_201_CREATED)
+            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
         
     return Response(serializer.errors, status=400)   
 
@@ -104,8 +103,12 @@ def getUserProfile(request, user_id):
     except customUser.DoesNotExist:
         return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
     
+    is_following = request.user.following.filter(id=user_id).exists()
     serializer = UserSerializer(user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    response_data = serializer.data
+    response_data['is_following'] = is_following
+    return Response(response_data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

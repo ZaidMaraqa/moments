@@ -3,7 +3,7 @@ from quickstart.models import Note, Post, Comment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from quickstart.models import customUser
-
+from django.core.exceptions import ValidationError
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -34,21 +34,32 @@ class SignupSerializer(serializers.ModelSerializer):
         model = customUser
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
+    def validate_email(self, value):
+        if customUser.objects.filter(email=value).exists():
+            raise ValidationError("Email already exists.")
+        return value
+
     def validate(self, data):
         password1 = data.pop('password1')
         password2 = data.pop('password2')
 
         if password1 != password2:
             raise serializers.ValidationError("Passwords do not match.")
-
+        
+        data['password'] = password1
         return data
 
     def create(self, validated_data):
-        password = validated_data.pop('password1')
-        user = customUser(**validated_data)
-        user.set_password(password)
-        user.save()
+        user = customUser.objects.create_user(
+            email=validated_data['email'],
+            password=validated_data['password'],
+            username=validated_data['username'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+        )
         return user
+
+     
 
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,75 +1,58 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthContext';
-import { useParams } from 'react-router-dom';
 
+const FollowButton = ({ userId, isFollowing, setFollowing }) => {
+  let { authTokens } = useContext(AuthContext);
 
-const FollowButton = ({ userId, following }) => {
-    let {authTokens} = useContext(AuthContext);
-    // const { userId } = useParams();
-    let [isFollowing, setIsFollowing] = useState(following === 'true');
+  let handleFollow = async () => {
+    if (authTokens && userId) {
+      try {
+        let response = await fetch(`http://localhost:8000/api/users/${userId}/follow/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authTokens.access}`,
+          },
+        });
 
-
-    let handleFollow = async () => {
-        if(authTokens && userId){
-            try{
-                let response = await fetch(`http://localhost:8000/api/users/${userId}/follow/`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authTokens.access}`,
-                    },
-                });
-
-                // let data = await response.json();
-                if(response.status === 200){
-                    setIsFollowing(true);
-                    // isFollowing(true);
-                } else{
-                    throw new Error(response.statusText);
-                }
-            }
-            catch(error){
-                console.log(error);
-            }
+        if (response.status === 200) {
+          setFollowing(true);
+        } else {
+          throw new Error(response.statusText);
         }
+      } catch (error) {
+        console.log(error);
+      }
     }
-    let handleUnFollow = async () => {
-        if(authTokens && userId){
-            try{
-                let response = await fetch(`http://localhost:8000/api/users/${userId}/unfollow/`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authTokens.access}`,
-                    },
-                });
+  };
 
-                // let data = await response.json();
-                if(response.status === 200){
-                    setIsFollowing(false);
-                    // isFollowing(false);
-                } else{
-                    throw new Error(response.statusText);
-                }
-            }
-            catch(error){
-                console.log(error);
-            }
+  let handleUnFollow = async () => {
+    if (authTokens && userId) {
+      try {
+        let response = await fetch(`http://localhost:8000/api/users/${userId}/unfollow/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authTokens.access}`,
+          },
+        });
+
+        if (response.status === 200) {
+          setFollowing(false);
+        } else {
+          throw new Error(response.statusText);
         }
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
 
-    useEffect(() => {
-
-      }, [userId, authTokens]);
-      
-
-
-    return(
-        <button onClick={isFollowing ? handleUnFollow : handleFollow}>
-            {isFollowing ? 'Unfollow' : 'Follow'}
-        </button>
-    )
-
+  return (
+    <button onClick={isFollowing ? handleUnFollow : handleFollow}>
+      {isFollowing ? 'Unfollow' : 'Follow'}
+    </button>
+  );
 };
 
 export default FollowButton;
