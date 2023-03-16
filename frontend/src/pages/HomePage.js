@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import '../css/home.css'
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { Sidebar } from './Sidebar.tsx';
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
@@ -134,13 +134,8 @@ const HomePage = () => {
 
     return (
         <div className='homePage'>
-          <input type="search" 
-          placeholder='Search...' 
-          value={searchUser} onChange={e => {setSearchUser(e.target.value);
-          }}
-          />
+          <Sidebar/>
           <ul>
-            {data.results && data.results.map(srch => <li key={srch.username}> <Link to={`/userprofile/${srch.id}`}>{srch.username}</Link></li>)}
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>
