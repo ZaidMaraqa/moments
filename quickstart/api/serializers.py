@@ -75,9 +75,11 @@ class FollowingSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     followers = FollowerSerializer(many=True, read_only=True)
     following = FollowingSerializer(many=True, read_only=True)
+    followers_count = serializers.ReadOnlyField(source='followers.count')
+    following_count = serializers.ReadOnlyField(source='following.count')
     class Meta:
         model = customUser
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following', 'followers_count', 'following_count')
 
     def get_followers(self, obj):
         followers = obj.followers.all()
@@ -104,6 +106,7 @@ class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     image_url = serializers.ImageField(required=False)
     comments = CommentSerializer(many=True, read_only=True)
+    likes = UserSerializer(many=True, read_only=True)
     class Meta:
         model = Post
         fields = ['id', 'text', 'image', 'created_at','user', 'image_url', 'likes', 'comments']

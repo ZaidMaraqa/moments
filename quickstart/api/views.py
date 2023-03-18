@@ -71,6 +71,20 @@ class PostView(APIView):
         else:
             print('error', posts_serializer.errors)
             return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def getUserPosts(request, user_id):
+    try:
+        posts = Post.objects.filter(user_id=user_id)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 # @api_view(['GET'])
 # # @permission_classes([IsAuthenticated])

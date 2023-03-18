@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignupPage';
 import React, { useContext } from 'react';
-import Header from './components/Header'
 import PostUpload from './pages/PostUploadPage';
 import UserProfilePage from './pages/UserProfile';
 import SearchPage from './pages/Search';

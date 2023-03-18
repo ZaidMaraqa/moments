@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import '../css/search.css'
 
 const SearchPage = () => {
     let {authTokens, logoutUser} = useContext(AuthContext);
@@ -37,14 +38,23 @@ const SearchPage = () => {
 
     return(
         <div className='searchPage'>
-             <input type="search" 
+          <input className='search-input'
+          type="search" 
           placeholder='Search...' 
-          value={searchUser} onChange={e => {setSearchUser(e.target.value);
+          value={searchUser} 
+          onChange={e => {setSearchUser(e.target.value);
           }}
           />
-            {data.results && data.results.map(srch => <li key={srch.username}> <Link to={`/userprofile/${srch.id}`}>{srch.username}</Link></li>)}
+          <ul className='search-results'>
+            {data.results && 
+              data.results.map((srch) =>( 
+              <li key={srch.username}>
+                 <Link to={`/userprofile/${srch.id}`}>{srch.username}</Link>
+                 </li>
+                ))}
+              </ul>
         </div>
-    )
+    );
 
 };
 

@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import FollowButton from './Follow';
+import '../css/userprofile.css'
 
 const UserProfilePage = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false); // state variable to track if the current user is following the user whose profile is being displayed
   let { authTokens } = useContext(AuthContext);
+  const [posts, setPosts] = useState([]);
 
   const getUserInfo = async () => {
     try {
@@ -32,25 +34,60 @@ const UserProfilePage = () => {
     }
   };
 
+  const getUserPosts = async () => {
+    try{
+      const response = await fetch(`http://localhost:8000/api/posts/user/${userId}/`,{
+        method: 'GET',
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authTokens.access}`,
+        },
+      });
+
+      const data = await response.json();
+      if(response.status === 200){
+        console.log(userId)
+        setPosts(data);
+      } else{
+        throw new Error(response.statusText)
+      }
+    } catch(error){
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
+    getUserPosts();
   }, []);
 
   return (
-    <div>
+    <div className="user-profile-container">
       {user ? (
         <div>
           <h2>{user.username}'s Profile</h2>
           <p>Name: {user.first_name} {user.last_name}</p>
           <p>Email: {user.email}</p>
           <p>Bio: {user.bio}</p>
-          <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing}  />
-                </div>
-                ) : (
-            <p>Loading...</p>
-            )}
+          <p>Followers: {user.followers_count}</p>
+          <p>Following: {user.following_count}</p>
+          <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
+          <h3>{user.username}'s Posts</h3>
+          <ul>
+            {posts.map((post) => (
+              <li key={post.id}>
+                <h4>{post.text}</h4>
+                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
+              </li>
+            ))}
+          </ul>
         </div>
-);
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+  
 };
 
 export default UserProfilePage;

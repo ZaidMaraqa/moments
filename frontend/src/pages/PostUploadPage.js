@@ -7,7 +7,7 @@ import '../css/postUpload.css'
 function PostUpload() {
     const [image, setImage] = useState(null);
     const [text, setText] = useState('');  
-    let {authTokens, logoutUser} = useContext(AuthContext);  
+    let {authTokens} = useContext(AuthContext);  
     const navigate = useNavigate();
 
     const handleImageChange = (e) => {

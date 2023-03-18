@@ -8,33 +8,9 @@ import { Sidebar } from './Sidebar.tsx';
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
-    let {authTokens, logoutUser} = useContext(AuthContext);
+    let {authTokens} = useContext(AuthContext);
     let [comment, setComment] = useState('');
-    let [data, setData] = useState({ results: [] });
-    let [searchUser, setSearchUser] = useState('')
     let {user} = useContext(AuthContext)
-
-    let searchUsers = async () => {
-      try {
-        let response = await fetch(`http://localhost:8000/api/userList?username=${encodeURIComponent(searchUser)}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authTokens.access}`,
-          },
-        });
-        
-        let data = await response.json();
-        if (response.status === 200) {
-          setData(data);
-        } else {
-          throw new Error(response.statusText);
-        }
-      } catch (error) {
-        console.log(error);
-        // logoutUser();
-      }
-    };
     
     
     let getPosts = async () => {
@@ -48,12 +24,19 @@ const HomePage = () => {
             
             let data = await response.json();
             if (response.status === 200) {
+                const likedPosts = data.map((post) => {
+                  if(post.likes.some((like) => like.id = user.id)){
+                    return post.id;
+                  }
+                  return null;
+                }).filter(Boolean);
+                localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
                 setPosts(data);
             } else {
                 throw new Error(response.statusText);
             }
         } catch (error) {
-            logoutUser();
+            console.log(error)
         }
     };
 
@@ -72,7 +55,6 @@ const HomePage = () => {
             })
           });
           const data = await response.json();
-          console.log(data)
           if (response.status === 201) {
             // refresh posts
             getPosts();
@@ -88,7 +70,8 @@ const HomePage = () => {
         }
     };
 
-    let handleLike = async (postId) => {
+    let handleLike = async (post) => {
+      const postId = post.id;
       try {
         let alreadyLiked = JSON.parse(localStorage.getItem('likedPosts')) || [];
         if (alreadyLiked.includes(postId)) {
@@ -103,14 +86,13 @@ const HomePage = () => {
           },
         });
     
-        console.log(response)
         let data = await response.json();
         if (response.status === 200) {
-          let updatedPosts = posts.map(post => {
-            if (post.id === postId) {
-              post.likes.push(data);
+          let updatedPosts = posts.map((p) => {
+            if(p.id === postId){
+              p.likes.push(data);
             }
-            return post;
+            return p;
           });
           setPosts(updatedPosts);
           
@@ -128,8 +110,7 @@ const HomePage = () => {
     
     useEffect(() => { 
         getPosts();
-        searchUsers();
-    }, [searchUser]);
+    }, []);
 
 
     return (
@@ -139,10 +120,10 @@ const HomePage = () => {
             {posts.map((post) => (
               <li key={post.id}>
                 <p>{post.id.username}</p>
-                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '300px'}} />
+                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
                 <span>{post.user.username}: </span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
                 <div>
-                <button onClick={() => handleLike(post.id)}>
+                <button onClick={() => handleLike(post)}>
                   <FontAwesomeIcon icon={faThumbsUp} />
                   <span>{post.likes.length}</span>
                 </button>
