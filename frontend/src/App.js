@@ -31,7 +31,6 @@ function App() {
               <Route element={<PrivateRoutes />}>
                   <Route path="/search" element={<SearchPage/>} />
               </Route>
-              {/* <Route path="/" element={<HomePage/>} exact/> */}
               <Route path="/login" element={<LoginPage/>}/>
               <Route path="/signup" element={<SignUpPage/>}/>
             </Routes>

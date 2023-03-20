@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
-import { Link } from 'react-router-dom';
 import '../css/home.css'
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -54,7 +53,7 @@ const HomePage = () => {
               user: user.id
             })
           });
-          const data = await response.json();
+          // const data = await response.json();
           if (response.status === 201) {
             // refresh posts
             getPosts();

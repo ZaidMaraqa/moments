@@ -32,7 +32,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = customUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'bio', 'password1', 'password2')
 
     def validate_email(self, value):
         if customUser.objects.filter(email=value).exists():
@@ -56,6 +56,7 @@ class SignupSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
+            bio=validated_data['bio'],
         )
         return user
 
@@ -88,10 +89,6 @@ class UserSerializer(serializers.ModelSerializer):
     def get_following(self, obj):
         following = obj.following.all()
         return UserSerializer(following, many=True).data
-    
-    # def get_is_following(self, obj):
-    #     user = self.context['request'].user
-    #     return user.following.filter(id=obj.id).exists()
 
 
 class CommentSerializer(serializers.ModelSerializer):

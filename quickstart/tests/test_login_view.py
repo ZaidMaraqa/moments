@@ -1,17 +1,20 @@
-# from quickstart.models import User
+# from quickstart.models import customUser
 # from django.urls import reverse
 # from rest_framework.test import APITestCase
 # from rest_framework import status
-# # from webapp.quickstart.tests.helpers import LogInTester
+# from quickstart.tests.helper import LogInTester
 
-# class LogInViewTestCase(APITestCase):
+# class LogInViewTestCase(APITestCase, LogInTester):
 
 #     """Implement fixtures"""
-#     fixtures = ['webapp/quickstart/tests/fixtures/default_user.json']
+#     fixtures = ['quickstart/tests/default_user.json']
 
 #     def setUp(self):
 #         self.url = reverse('Pending') # Insert here
-#         self.user = User.objects.get('username':'sammy')
+#         self.user = customUser.objects.get(username='sammy')
+#         for user in self.user.objects.all():
+#             user.set_password(user.password)
+#         user.save()
 #         self.user_input = {'username':'sammy', 'password':'Password123'}
 
 #     def test_log_in_url(self):
@@ -32,11 +35,11 @@
 #         self.user_input['password'] = ''
 #         response = self.client.post(self.url, self.user_input)
 #         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-#         self.assertFalse(self._is_logged_in())
+#         # self.assertFalse(self._is_logged_in())
 
 #     def test_unsucessful_log_in(self):
 #         """Test wrong password is unsucessful"""
 #         self.user_input['password'] = 'Wrong1234'
 #         response = self.client.post(self.url, self.user_input)
 #         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-#         self.assertFalse(self._is_logged_in())
+#         # self.assertFalse(self._is_logged_in())

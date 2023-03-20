@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import '../css/search.css'
 
 const SearchPage = () => {
-    let {authTokens, logoutUser} = useContext(AuthContext);
+    let {authTokens} = useContext(AuthContext);
     let [searchUser, setSearchUser] = useState('')
     let [data, setData] = useState({ results: [] });
 
@@ -27,7 +27,6 @@ const SearchPage = () => {
         }
       } catch (error) {
         console.log(error);
-        // logoutUser();
       }
     };
 

@@ -97,7 +97,6 @@ export const Sidebar = () => {
     else{
       navigate('/')
     }
-    // Add more conditions here for other button actions
   };
 
 
@@ -122,24 +121,6 @@ export const Sidebar = () => {
               <NavButton key={item.name} name={item.name} icon={item.icon} onClick={() => handleButtonClick(item.name)}/>
             ))}
           </div>
-          {/* <div>
-            <form>
-              <div className="textbox">
-                <span className="material-symbols-outlined">
-                  account_circle
-                </span>
-                <input placeholder="Name" type="text" required />
-              </div>
-              <div className="textbox">
-                <span className="material-symbols-outlined">lock</span>
-                <input placeholder="Password" type="password" required />
-              </div>
-              <div className="textbox">
-                <span className="material-symbols-outlined">email</span>
-                <input placeholder="Email" type="text" required />
-              </div>
-            </form>
-          </div> */}
           <div>
             <form>
               <div className="row">
