@@ -10,6 +10,7 @@ import PostUpload from './pages/PostUploadPage';
 import UserProfilePage from './pages/UserProfile';
 import SearchPage from './pages/Search';
 import { Sidebar } from './pages/Sidebar';
+import EditProfilePage from './pages/EditProfilePage';
 
 function App() {
 
@@ -30,6 +31,9 @@ function App() {
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/search" element={<SearchPage/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/editprofile/:userId" element={<EditProfilePage/>} />
               </Route>
               <Route path="/login" element={<LoginPage/>}/>
               <Route path="/signup" element={<SignUpPage/>}/>

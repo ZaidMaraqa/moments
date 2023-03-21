@@ -19,6 +19,7 @@ urlpatterns = [
     path('users/<int:user_id>/unfollow/', views.UserFollowView.as_view({'post': 'unfollow'})),
     path('users/<int:user_id>/', views.getCurrentUser),
     path('userList/', views.UserListView.as_view({'get': 'list'}), name='user_list'),
+    path('user/<int:user_id>/edit/', views.editUserProfile.as_view(), name='edit-user-profile'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

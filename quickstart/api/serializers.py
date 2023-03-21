@@ -80,7 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
     following_count = serializers.ReadOnlyField(source='following.count')
     class Meta:
         model = customUser
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following', 'followers_count', 'following_count')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following', 'followers_count', 'following_count', 'profile_picture')
 
     def get_followers(self, obj):
         followers = obj.followers.all()

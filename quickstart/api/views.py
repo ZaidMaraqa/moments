@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, UserSerializer, CommentSerializer
 from quickstart.models import Note, Post, Comment
 from rest_framework import status
-from django.http import HttpResponse
+from django.core.files.storage import FileSystemStorage
 from rest_framework.parsers import MultiPartParser, FormParser
 from quickstart.models import customUser
 from rest_framework.decorators import parser_classes
@@ -124,6 +124,38 @@ def getUserProfile(request, user_id):
     return Response(response_data, status=status.HTTP_200_OK)
 
 
+
+class editUserProfile(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    
+
+    def put(self, request, user_id):
+        try:
+            user = customUser.objects.get(id=user_id)
+        except customUser.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        if request.user.id != user_id:
+            return Response({'error': 'Can not edit another user profile!'}, status=status.HTTP_403_FORBIDDEN)
+
+        # retrieve the uploaded file from the request.FILES dictionary
+        profile_picture = request.FILES.get('profile_picture')
+        if profile_picture:
+            # use FileSystemStorage backend to save the uploaded file to MEDIA_ROOT
+            fs = FileSystemStorage()
+            file_path = fs.save(profile_picture.name, profile_picture)
+            profile_picture_url = fs.url(file_path)
+            user.profile_picture = profile_picture_url
+
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
@@ -134,8 +166,8 @@ def getCurrentUser(request, user_id):
 
 
 class UserListView(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     
 
     queryset = customUser.objects.all()
