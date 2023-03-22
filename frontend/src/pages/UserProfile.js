@@ -9,7 +9,7 @@ const UserProfilePage = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false); // state variable to track if the current user is following the user whose profile is being displayed
-  let { authTokens } = useContext(AuthContext);
+  let { authTokens, user:currentUser } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -72,9 +72,10 @@ const UserProfilePage = () => {
           <p>Bio: {user.bio}</p>
           <p>Followers: {user.followers_count}</p>
           <p>Following: {user.following_count}</p>
-          {authTokens && authTokens.id === userId && (
+          {authTokens && currentUser.id === parseInt(userId) && (
             <button onClick={() => navigate(`/editprofile/${userId}`)}>Edit Profile</button>
           )}
+
           <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
           <h3>{user.username}'s Posts</h3>
           <ul>

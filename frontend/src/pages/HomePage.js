@@ -4,6 +4,7 @@ import '../css/home.css'
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Sidebar } from './Sidebar.tsx';
+import UserRecommendations from './UserRecommendations';
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
@@ -115,6 +116,7 @@ const HomePage = () => {
     return (
         <div className='homePage'>
           <Sidebar/>
+          <div style={{display: "flex", flexGrow: 1}}>
           <ul>
             {posts.map((post) => (
               <li key={post.id}>
@@ -146,9 +148,8 @@ const HomePage = () => {
               </li>
             ))}
           </ul>
-          {/* <Link to='/postupload'>
-            <button>Create Post</button>
-          </Link> */}
+          </div>
+          <UserRecommendations/>
         </div>
       );
 

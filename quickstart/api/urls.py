@@ -17,6 +17,7 @@ urlpatterns = [
     path('user/<int:user_id>/profile/', views.getUserProfile, name='user-profile'),
     path('users/<int:user_id>/follow/', views.UserFollowView.as_view({'post': 'follow'})),
     path('users/<int:user_id>/unfollow/', views.UserFollowView.as_view({'post': 'unfollow'})),
+    path('users/<int:user_id>/recommendations/', views.getUserRecommendations),
     path('users/<int:user_id>/', views.getCurrentUser),
     path('userList/', views.UserListView.as_view({'get': 'list'}), name='user_list'),
     path('user/<int:user_id>/edit/', views.editUserProfile.as_view(), name='edit-user-profile'),

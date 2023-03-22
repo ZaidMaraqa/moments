@@ -2,7 +2,11 @@ import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 
 const FollowButton = ({ userId, isFollowing, setFollowing }) => {
-  let { authTokens } = useContext(AuthContext);
+  let { authTokens, user } = useContext(AuthContext);
+
+  if( user && user.id === parseInt(userId)){
+    return null;
+  }
 
   let handleFollow = async () => {
     if (authTokens && userId) {

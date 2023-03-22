@@ -126,7 +126,6 @@ def getUserProfile(request, user_id):
 
 
 class editUserProfile(APIView):
-    parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
     
@@ -137,7 +136,7 @@ class editUserProfile(APIView):
         except customUser.DoesNotExist:
             return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        if request.user.id != user_id:
+        if request.user.id != int(user_id):
             return Response({'error': 'Can not edit another user profile!'}, status=status.HTTP_403_FORBIDDEN)
 
         # retrieve the uploaded file from the request.FILES dictionary
@@ -163,6 +162,32 @@ def getCurrentUser(request, user_id):
     user = customUser.objects.get(id=user_id)
     serializer = UserSerializer(user)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def getUserRecommendations(request, user_id):
+    try:
+        user = customUser.objects.get(id=user_id)
+    except customUser.DoesNotExist:
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+    followers = user.followers.all()
+    following = user.following.all()
+
+    mutals = following.intersection(followers)
+
+    mutals_follow = set()
+    for mutal in mutals:
+        mutals_follow.update(mutal.followers.all())
+        mutals_follow.update(mutal.following.all())
+
+    recommendations = mutals_follow - set(following) - set(followers) - {user}
+
+
+    serializer = UserSerializer(recommendations, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 class UserListView(viewsets.ModelViewSet):
@@ -213,12 +238,6 @@ class UserFollowView(viewsets.ModelViewSet):
         return Response({'status': 'error', 'message': 'Cannot unfollow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-    # def get(self, post_id):
-    #     users = customUser.objects.all()
-    #     serializer = UserSerializer(users, many=True)
-    #     return Response(serializer.data)
 
 class LikeView(APIView):
     

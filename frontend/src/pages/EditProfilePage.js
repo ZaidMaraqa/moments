@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 
 
 const EditProfilePage = () => {
     let {authTokens} = useContext(AuthContext)
+    const navigate = useNavigate();
     const { userId } = useParams();
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState('');
@@ -20,11 +21,18 @@ const EditProfilePage = () => {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append('username', username);
-        formData.append('first_name', firstName);
-        formData.append('last_name', lastName);
-        formData.append('bio', bio);
-        formData.append('first_name', firstName);
+        if(username){
+            formData.append('username', username);
+        }
+        if(firstName){
+            formData.append('first_name', firstName);
+        }
+        if(lastName){
+            formData.append('last_name', lastName);
+        }
+        if(bio){
+            formData.append('bio', bio);
+        }
         if(profilePicture){
             formData.append('profile_picture', profilePicture);
         }
@@ -34,15 +42,14 @@ const EditProfilePage = () => {
             method:'PUT',
             headers: {
                 'Authorization': `Bearer ${authTokens.access}`,
-                'Content-Type': 'multipart/form-data'
             },
             body:formData,
         });
-        let data = await response.json()
+        let data = await response.json();
+        console.log(data);
         if(response.status === 200){
-            
             setUser(data);
-
+            navigate(`/userprofile/${userId}`)
         }
         else{
             throw new Error(response.statusText);

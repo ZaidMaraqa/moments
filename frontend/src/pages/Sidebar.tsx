@@ -21,6 +21,10 @@ const menuItems = [
     icon: "account_circle",
   },
   {
+    name: "Edit Profile",
+    icon: "edit",
+  },
+  {
     name: "Search",
     icon: "search",
   },
@@ -93,6 +97,9 @@ export const Sidebar = () => {
     }
     else if (name === "Search") {
       navigate('/search')
+    }
+    else if (name === "Edit Profile") {
+      navigate(`/editprofile/${user.id}`)
     }
     else{
       navigate('/')
