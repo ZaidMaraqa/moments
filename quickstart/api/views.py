@@ -109,8 +109,8 @@ def getUserPosts(request, user_id):
 #         return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])          
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([JWTAuthentication])          
 def getUserProfile(request, user_id):
     try:
         user = customUser.objects.get(id=user_id)

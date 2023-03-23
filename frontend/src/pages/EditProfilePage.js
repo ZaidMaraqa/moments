@@ -13,7 +13,8 @@ const EditProfilePage = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [bio, setBio] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
+    const [profilePicture, setProfilePicture] = useState(null);
+    const defaultProfilePicture = '/media/images/default.png'
 
 
 
@@ -80,6 +81,11 @@ const EditProfilePage = () => {
                     Profile Picture:
                     <input type="file" name="profilePicture" onChange={e => setProfilePicture(e.target.files[0])}/>
                 </label>
+                {user && (
+                    <div className="profile-picture-container">
+                        <img src={profilePicture || user.profile_picture || defaultProfilePicture} alt="Profile" />
+                    </div>
+                )}
                 <button type='submit'>Save Changes</button>
             </form>
         </div>

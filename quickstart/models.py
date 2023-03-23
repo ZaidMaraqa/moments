@@ -70,7 +70,7 @@ class customUser(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followed_by', blank=True)
     following = models.ManyToManyField('self', symmetrical=False, related_name='following_to', blank=True)
-    profile_picture = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to=upload_to, blank=True, null=True, default='default.png')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
