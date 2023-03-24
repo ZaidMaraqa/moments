@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, UserSerializer, CommentSerializer
+from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer
 from quickstart.models import Note, Post, Comment
 from rest_framework import status
 from django.core.files.storage import FileSystemStorage
@@ -16,7 +16,7 @@ from rest_framework import viewsets
 from rest_framework import generics, status
 from rest_framework.decorators import action
 from django.db.models import Q
-
+from PIL import Image
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -109,8 +109,8 @@ def getUserPosts(request, user_id):
 #         return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# @authentication_classes([JWTAuthentication])          
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])          
 def getUserProfile(request, user_id):
     try:
         user = customUser.objects.get(id=user_id)
@@ -128,9 +128,10 @@ def getUserProfile(request, user_id):
 class editUserProfile(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    http_method_names = ['patch'] 
     
 
-    def put(self, request, user_id):
+    def patch(self, request, user_id):
         try:
             user = customUser.objects.get(id=user_id)
         except customUser.DoesNotExist:
@@ -141,19 +142,27 @@ class editUserProfile(APIView):
 
         # retrieve the uploaded file from the request.FILES dictionary
         profile_picture = request.FILES.get('profile_picture')
-        if profile_picture:
-            # use FileSystemStorage backend to save the uploaded file to MEDIA_ROOT
-            fs = FileSystemStorage()
-            file_path = fs.save(profile_picture.name, profile_picture)
-            profile_picture_url = fs.url(file_path)
-            user.profile_picture = profile_picture_url
+        print("request.FILES:", request.FILES)
+        print("request.data:", request.data)
 
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        if 'profile_picture' in request.FILES:
+            profile_picture_serializer = ProfilePictureSerializer(user, data=request.data, partial=True)
+            if profile_picture_serializer.is_valid():
+                profile_picture_serializer.save()
+            else:
+                return Response(profile_picture_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Remove the profile_picture from request.data before passing to UserSerializer
+        data = request.data.copy()
+        data.pop('profile_picture', None)
+
+        serializer = UserSerializer(user, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

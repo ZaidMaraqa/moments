@@ -66,7 +66,14 @@ const UserProfilePage = () => {
     <div className="user-profile-container">
       {user ? (
         <div>
-          <h2>{user.username}'s Profile</h2>
+          <div className="profile-header">
+            <img
+              className="profile-picture"
+              src={`http://localhost:8000${user.profile_picture || '/media/images/default.png'}`}
+              alt={`${user.username}'s Profile Picture`}
+            />
+            <h3>{user.username}</h3>
+          </div>
           <p>Name: {user.first_name} {user.last_name}</p>
           <p>Email: {user.email}</p>
           <p>Bio: {user.bio}</p>

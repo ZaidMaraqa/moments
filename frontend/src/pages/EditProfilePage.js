@@ -16,7 +16,19 @@ const EditProfilePage = () => {
     const [profilePicture, setProfilePicture] = useState(null);
     const defaultProfilePicture = '/media/images/default.png'
 
+    let isValidImage = (file) => {
+        const acceptedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
+
+        console.log('File type:', file.type); 
+
+        if(file && acceptedImageTypes.includes(file.type)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    };
 
     let editProfile = async (e ) => {
         e.preventDefault();
@@ -35,12 +47,20 @@ const EditProfilePage = () => {
             formData.append('bio', bio);
         }
         if(profilePicture){
-            formData.append('profile_picture', profilePicture);
+            if(isValidImage(profilePicture)){
+                formData.append('profile_picture', profilePicture);
+            } else{
+                console.error('Invalid image file, please upload a jpg,png,gif');
+            }
         }
+
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
 
         
         let response = await fetch(`http://localhost:8000/api/user/${userId}/edit/`, {
-            method:'PUT',
+            method:'PATCH',
             headers: {
                 'Authorization': `Bearer ${authTokens.access}`,
             },
@@ -55,12 +75,12 @@ const EditProfilePage = () => {
         else{
             throw new Error(response.statusText);
         }
-    }
+    };
 
     return(
         <div className='editprofile-container'>
             <h2>Edit Profile</h2>
-            <form onSubmit={editProfile}>
+            <form onSubmit={editProfile} encType="multipart/form-data">
                 <label>
                     Username:
                     <input type="text" name={username} onChange={e => setUsername(e.target.value)}/>
