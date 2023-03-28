@@ -75,7 +75,6 @@ const UserProfilePage = () => {
             <h3>{user.username}</h3>
           </div>
           <p>Name: {user.first_name} {user.last_name}</p>
-          <p>Email: {user.email}</p>
           <p>Bio: {user.bio}</p>
           <p>Followers: {user.followers_count}</p>
           <p>Following: {user.following_count}</p>
@@ -85,14 +84,14 @@ const UserProfilePage = () => {
 
           <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
           <h3>{user.username}'s Posts</h3>
-          <ul>
+          <div className='posts-grid'>
             {posts.map((post) => (
               <li key={post.id}>
                 <h4>{post.text}</h4>
-                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
+                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px', maxHeight: '200px'}}/>
               </li>
             ))}
-          </ul>
+          </div>
         </div>
       ) : (
         <p>Loading...</p>

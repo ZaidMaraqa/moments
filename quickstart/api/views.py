@@ -128,6 +128,7 @@ def getUserProfile(request, user_id):
 class editUserProfile(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    parser_classes = [MultiPartParser]
     http_method_names = ['patch'] 
     
 
@@ -145,18 +146,18 @@ class editUserProfile(APIView):
         print("request.FILES:", request.FILES)
         print("request.data:", request.data)
 
-        if 'profile_picture' in request.FILES:
-            profile_picture_serializer = ProfilePictureSerializer(user, data=request.data, partial=True)
+        if profile_picture:
+            profile_picture_serializer = ProfilePictureSerializer(user, data=request.data, partial=True) 
             if profile_picture_serializer.is_valid():
                 profile_picture_serializer.save()
             else:
                 return Response(profile_picture_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # Remove the profile_picture from request.data before passing to UserSerializer
-        data = request.data.copy()
+        data = request.data.dict()
         data.pop('profile_picture', None)
 
-        serializer = UserSerializer(user, data=data, partial=True)
+        serializer = UserSerializer(user, data=data, partial=True, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

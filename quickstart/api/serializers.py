@@ -80,7 +80,12 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
         fields = ['profile_picture']
 
     def update(self, instance, validated_data):
-        instance.profile_picture = validated_data.get('profile_picture', instance.profile_picture)
+        profile_picture = validated_data.get('profile_picture')
+        if profile_picture:
+            if instance.profile_picture:
+                instance.profile_picture.delete()
+
+        instance.profile_picture = profile_picture
         instance.save()
         return instance
 
