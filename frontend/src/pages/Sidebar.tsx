@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import '../css/sidebar.css'; 
+// import '../css/sidebar.css'; 
 import { Carousel as ReactCarousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
@@ -125,7 +125,9 @@ export const Sidebar = () => {
         >
           <div className="menu-items">
             {menuItems.map((item) => (
+              <div className="menu-item" key={item.name}>
               <NavButton key={item.name} name={item.name} icon={item.icon} onClick={() => handleButtonClick(item.name)}/>
+              </div>
             ))}
           </div>
           <div>

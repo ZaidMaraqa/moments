@@ -11,6 +11,7 @@ import UserProfilePage from './pages/UserProfile';
 import SearchPage from './pages/Search';
 import { Sidebar } from './pages/Sidebar';
 import EditProfilePage from './pages/EditProfilePage';
+// import '../src/css/sidebar.css'; 
 
 function App() {
 
@@ -18,7 +19,9 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
+          <div className='sidebar-container'>
           <DisplaySideBar />
+            </div>
             <Routes>
               <Route element={<PrivateRoutes />}>
                   <Route path="/" element={<HomePage/>} />

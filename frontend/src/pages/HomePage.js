@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import '../css/home.css'
+import '../css/sidebar.css'
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Sidebar } from './Sidebar.tsx';
 import UserRecommendations from './UserRecommendations';
 
 const HomePage = () => {
@@ -115,41 +115,57 @@ const HomePage = () => {
 
     return (
         <div className='homePage'>
-          <Sidebar/>
-          <div style={{display: "flex", flexGrow: 1}}>
-          <ul>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <p>{post.id.username}</p>
-                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
-                <span>{post.user.username}: </span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
-                <div>
-                <button onClick={() => handleLike(post)}>
-                  <FontAwesomeIcon icon={faThumbsUp} />
-                  <span>{post.likes.length}</span>
-                </button>
+           <div className="content-container">
+            <div className='posts-container'>
+            <div style={{display: "flex", flexGrow: 10,}}>
+              <ul>
+              {posts.map((post) => (
+                <li key={post.id}>
+                  {/* Profile picture and username */}
+                <div className="profile-header">
+                  <img
+                    className="profile-picture"
+                    src={`http://localhost:8000${post.user.profile_picture || '/media/images/default.png'}`}
+                    alt={`${post.user.username}'s Profile Picture`}
+                  />
+                  <span className="username">{post.user.username}</span>
                 </div>
-                <div>
-                  <input type="text" placeholder="Add a comment" onChange={(e) => setComment(e.target.value)} />
-                  <button onClick={() => handleComment(post.id, comment)}>
-                    <FontAwesomeIcon icon={faComment} className="comment-icon" />
-                    <span>Comment</span>
-                  </button>
-                  <ul>
-                    {post.comments.map((comment) => (
-                      <li key={comment.id}>
-                        <p>{comment.user.username}</p>
-                        <span> || </span>
-                        <p>{comment.comment_text}</p>
-                      </li>
-                    ))}
-                  </ul>
+                <div className='post-content'>
+                  <p>{post.id.username}</p>
+                  <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
                 </div>
-              </li>
-            ))}
-          </ul>
+                <div className='caption'>
+                    <span><b>{post.user.username}</b> </span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
+                </div>
+                  <div>
+                  <button onClick={() => handleLike(post)}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                    <span>{post.likes.length}</span>
+                  </button> <button onClick={() => handleComment(post.id, comment)}>
+                      <FontAwesomeIcon icon={faComment} className="comment-icon" />
+                    </button>
+                  </div>
+                  <div>
+                    <input type="text" placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+                    {/* <ul>
+                      {post.comments.map((comment) => (
+                        <li key={comment.id}>
+                          <p>{comment.user.username}</p>
+                          <span> || </span>
+                          <p>{comment.comment_text}</p>
+                        </li>
+                      ))}
+                    </ul> */}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              </div>
+              </div>
+            <div className="recommendations-container">
+              <UserRecommendations/>
+            </div>
           </div>
-          <UserRecommendations/>
         </div>
       );
 

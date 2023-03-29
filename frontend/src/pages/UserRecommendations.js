@@ -33,20 +33,21 @@ const UserRecommendations = () => {
     }, [authTokens])
 
 
-    return(
-        <div>
-            <h3>Suggested Users!</h3>
-            <ul>
-                {recommendedUsers.map(user => (
-                    <li key={user.id}>
-                        <Link to={`/userprofile/${user.id}`}>
-                        {user.username}
-                        </Link> 
-                    </li>
-                ))}
-            </ul>
-        </div>
+    return (
+      <div className='recommendations-wrapper'>
+        <h3>Suggested Users!</h3>
+        <ul>
+          {recommendedUsers.map((user) => (
+            <li key={user.id}>
+              <Link to={`/userprofile/${user.id}`}>
+                <button className="suggested-user-button">{user.username}</button>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
+    
 };
 
 export default UserRecommendations;
