@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import '../css/home.css'
 import '../css/sidebar.css'
+// import '../css/recommendations.css'
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';

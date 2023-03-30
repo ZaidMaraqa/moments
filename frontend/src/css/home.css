@@ -111,12 +111,12 @@
   margin-right: 20px;
 }
 
-.recommendations-container {
+/* .recommendations-container {
   position: absolute;
   right: 250px;
   margin-top: 10px;
   max-width: 180px;
-  background: #fff;
+  background: #271150;
   border: 1px solid #dfdfdf;
   padding: 20px;
   border-radius: 40px;
@@ -126,7 +126,7 @@
 
 .recommendations-container ul li:last-child {
   margin-bottom: 0;
-}
+} */
 
 /* .homePage ul li div button:hover {
   background-color: #0c8de4;

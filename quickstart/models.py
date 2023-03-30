@@ -71,6 +71,7 @@ class customUser(AbstractUser, PermissionsMixin):
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followed_by', blank=True)
     following = models.ManyToManyField('self', symmetrical=False, related_name='following_to', blank=True)
     profile_picture = models.ImageField(upload_to=upload_to, blank=True, null=True, default='/media/images/default.png')
+    blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
@@ -87,4 +88,17 @@ class customUser(AbstractUser, PermissionsMixin):
     def unfollow(self, user):
         self.following.remove(user)
         user.followers.remove(self)
+
+    def block(self, user):
+        self.blocked_users.add(user)
+        if self.following.filter(id=user.id).exists():
+            self.unfollow(user)
+        if user.following.filter(id=self.id).exists():
+            user.unfollow(self)
+    
+    def unblock(self, user):
+        self.blocked_users.remove(user)
+
+    def is_blocked(self, user):
+        return self.blocked_users.filter(id=user.id).exists()
 

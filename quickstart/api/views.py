@@ -1,15 +1,13 @@
-from django.http import HttpResponse, request
+from django.http import HttpResponse, request, Http404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer
-from quickstart.models import Note, Post, Comment
+from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, BlockUserSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer
+from quickstart.models import Note, Post, Comment, customUser
 from rest_framework import status
-from django.core.files.storage import FileSystemStorage
 from rest_framework.parsers import MultiPartParser, FormParser
-from quickstart.models import customUser
 from rest_framework.decorators import parser_classes
 from rest_framework.views import APIView
 from rest_framework import viewsets
@@ -17,6 +15,7 @@ from rest_framework import generics, status
 from rest_framework.decorators import action
 from django.db.models import Q
 from PIL import Image
+from django.shortcuts import get_object_or_404
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -199,10 +198,39 @@ def getUserRecommendations(request, user_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-class UserListView(viewsets.ModelViewSet):
+class BlockView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+
+    queryset = customUser.objects.all()
+    serializer_class = BlockUserSerializer
+
+
+    def post(self, request, *args, **kwargs):
+        action = request.query_params.get('action', None)
+        user_block = self.get_object()
+        if action == 'block':
+            request.user.block(user_block)
+        elif action == 'unblock':
+            request.user.unblock(user_block)
+        else:
+            return Response({"detail": "Invalid action parameter"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+class getBlock(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request, user_id):
+        target_user = get_object_or_404(customUser, id=user_id)
+        blocked = request.user.blocked_users.filter(id=user_id).exists()
+        return Response({'is_blocked': blocked}, status=status.HTTP_200_OK)
+
+
+class UserListView(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
     
 
     queryset = customUser.objects.all()
@@ -227,6 +255,8 @@ class UserFollowView(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def follow(self, request, user_id=None):
         user = customUser.objects.get(id=user_id)
+        if request.user.is_blocked(user):
+            return Response({'status': 'error', 'message': 'Cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
         if request.user != user:
             if not request.user.following.filter(id=user_id).exists():
                 request.user.follow(user)

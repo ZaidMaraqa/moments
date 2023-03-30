@@ -1,44 +1,49 @@
 .recommendations-wrapper {
-    border: 1px solid #dfdfdf;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #f8f9fa;
-  }
-  
-  .recommendations-wrapper h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .recommendations-wrapper ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .recommendations-wrapper ul li {
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .suggested-user-button {
-    background-color: #ffffff;
-    color: #1a1a1a;
-    border: 1px solid #dfdfdf;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .suggested-user-button:hover {
-    background-color: #1da1f2;
-    color: #ffffff;
-    border-color: #1da1f2;
-  }
-  
+  border: none;
+  padding: 15px;
+  background-color: transparent;
+  width: 250px;
+}
+
+.recommendations-wrapper h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.recommendations-wrapper ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendations-wrapper ul li {
+  border: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: transparent;
+}
+
+.recommendations-wrapper ul li img.profile-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px !important; 
+}
+
+.suggested-user-button {
+  background-color: transparent;
+  color: #1a1a1a;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.suggested-user-button:hover {
+  color: #8b50e3;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom'
+import '../css/recommendations.css'
 
 const UserRecommendations = () => {
     let { authTokens, user:currentUser } = useContext(AuthContext);
@@ -16,7 +17,7 @@ const UserRecommendations = () => {
                 'Authorization': `Bearer ${authTokens.access}`,
               },
             });
-      
+            
             const data = await response.json();
             if(response.status === 200){
               setRecommendedUsers(data);
@@ -35,10 +36,15 @@ const UserRecommendations = () => {
 
     return (
       <div className='recommendations-wrapper'>
-        <h3>Suggested Users!</h3>
+        <h4>People you may know?</h4>
         <ul>
           {recommendedUsers.map((user) => (
             <li key={user.id}>
+              <img
+                    className="profile-picture"
+                    src={`http://localhost:8000${user.profile_picture || '/media/images/default.png'}`}
+                    alt={`${user.username}'s Profile Picture`}
+                  />
               <Link to={`/userprofile/${user.id}`}>
                 <button className="suggested-user-button">{user.username}</button>
               </Link>

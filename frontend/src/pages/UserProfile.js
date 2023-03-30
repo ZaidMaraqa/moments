@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import FollowButton from './Follow';
-import '../css/userprofile.css'
+import BlockButton from '../components/BlockButton';
+import '../css/userprofile.css';
 
 const UserProfilePage = () => {
   const { userId } = useParams();
@@ -81,8 +82,13 @@ const UserProfilePage = () => {
           {authTokens && currentUser.id === parseInt(userId) && (
             <button onClick={() => navigate(`/editprofile/${userId}`)}>Edit Profile</button>
           )}
-
-          <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
+          {authTokens && currentUser.id !== parseInt(userId) && (
+            <>
+              <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
+              <span> ||</span>
+              <BlockButton userId={user.id} />
+            </>
+          )}
           <h3>{user.username}'s Posts</h3>
           <div className='posts-grid'>
             {posts.map((post) => (

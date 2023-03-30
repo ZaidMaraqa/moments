@@ -27,6 +27,12 @@ class NoteSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class BlockUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = customUser
+        fields = 'id'
+
+
 class SignupSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
