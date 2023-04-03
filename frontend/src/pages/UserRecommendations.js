@@ -21,6 +21,7 @@ const UserRecommendations = () => {
             const data = await response.json();
             if(response.status === 200){
               setRecommendedUsers(data);
+              console.log(data)
             } else{
               throw new Error(response.statusText)
             }

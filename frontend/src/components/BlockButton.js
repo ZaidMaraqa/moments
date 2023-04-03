@@ -18,7 +18,7 @@ const BlockButton = ({ userId }) => {
             const data = await response.json();
             if(response.status === 200){
                 setIsBlocked(data.is_blocked);
-                console.log("User blocked status:", data.is_blocked);
+                // console.log("User blocked status:", data.is_blocked);
 
             } else{
                 throw new Error(response.statusText)

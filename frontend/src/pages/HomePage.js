@@ -3,20 +3,30 @@ import AuthContext from '../context/AuthContext';
 import '../css/home.css'
 import '../css/sidebar.css'
 // import '../css/recommendations.css'
-import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faComment, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';
+import { Pagination } from 'react-bootstrap';
+
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
     let {authTokens} = useContext(AuthContext);
     let [comment, setComment] = useState('');
-    let {user} = useContext(AuthContext)
+    let {user} = useContext(AuthContext);
+    let [currentPage, setCurrentPage] = useState(1);
+    let [nextPage, setNextPage] = useState(null);
+    let [prevPage, setPrevPage] = useState(null);
+
+    let [reportedPosts, setReportedPosts] = useState(() => {
+      let storedReportedPosts = localStorage.getItem('reportedPosts');
+      return storedReportedPosts ? JSON.parse(storedReportedPosts) : [];
+    });
     
     
-    let getPosts = async () => {
+    let getPosts = async (page) => {
         try {
-            let response = await fetch('http://localhost:8000/api/posts/', {
+          let response = await fetch(`http://localhost:8000/api/posts/?page=${page}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authTokens.access}`,
@@ -25,14 +35,16 @@ const HomePage = () => {
             
             let data = await response.json();
             if (response.status === 200) {
-                const likedPosts = data.map((post) => {
-                  if(post.likes.some((like) => like.id = user.id)){
+                const likedPosts = data.results.map((post) => {
+                  if(post.likes.some((like) => like.id === user.id)){
                     return post.id;
                   }
                   return null;
                 }).filter(Boolean);
                 localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
-                setPosts(data);
+                setPosts(data.results);
+                setNextPage(data.next);
+                setPrevPage(data.previous);
             } else {
                 throw new Error(response.statusText);
             }
@@ -107,65 +119,132 @@ const HomePage = () => {
         // console.log(error);
         // logout
       }
-    }
+    };
+
+    const handleReport = async (post) => {
+      if (reportedPosts.includes(post.id)) {
+        alert('You have already reported this post.');
+        return;
+      }
+
+      try {
+          let response = await fetch(`http://localhost:8000/api/posts/${post.id}/report/`, {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${authTokens.access}`,
+              },
+          });
+
+          let data = await response.json();
+          if (response.status === 200) {
+              console.log('reported')
+              getPosts(); // Refresh posts after reporting
+              alert(data.message);
+              
+              let updatedReportedPosts = [...reportedPosts, post.id];
+              setReportedPosts(updatedReportedPosts);
+              localStorage.setItem('reportedPosts', JSON.stringify(updatedReportedPosts));
+
+          } else {
+              throw new Error(response.statusText);
+          }
+      } catch (error) {
+          console.log(error);
+      }
+    };
+
+    let handlePageChange = async (newPage) => {
+      if (newPage < 1) {
+        console.log("There's no previous page.");
+        return;
+      }
+    
+      if (!nextPage && newPage > currentPage) {
+        console.log("There's no next page.");
+        return;
+      }
+    
+      setCurrentPage(newPage);
+      getPosts(newPage);
+    };
+    
+  
     
     useEffect(() => { 
-        getPosts();
+        getPosts(1);
     }, []);
 
 
     return (
         <div className='homePage'>
            <div className="content-container">
-            <div className='posts-container'>
-            <div style={{display: "flex", flexGrow: 10,}}>
-              <ul>
-              {posts.map((post) => (
-                <li key={post.id}>
-                  {/* Profile picture and username */}
-                <div className="profile-header">
-                  <img
-                    className="profile-picture"
-                    src={`http://localhost:8000${post.user.profile_picture || '/media/images/default.png'}`}
-                    alt={`${post.user.username}'s Profile Picture`}
-                  />
-                  <span className="username">{post.user.username}</span>
-                </div>
-                <div className='post-content'>
-                  <p>{post.id.username}</p>
-                  <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
-                </div>
-                <div className='caption'>
-                    <span><b>{post.user.username}</b> </span>{post.text ? <p>{post.text}</p> : <p>No caption available</p>}
-                </div>
-                  <div>
-                  <button onClick={() => handleLike(post)}>
-                    <FontAwesomeIcon icon={faThumbsUp} />
-                    <span>{post.likes.length}</span>
-                  </button> <button onClick={() => handleComment(post.id, comment)}>
-                      <FontAwesomeIcon icon={faComment} className="comment-icon" />
-                    </button>
-                  </div>
-                  <div>
-                    <input type="text" placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)} />
-                    {/* <ul>
-                      {post.comments.map((comment) => (
-                        <li key={comment.id}>
-                          <p>{comment.user.username}</p>
-                          <span> || </span>
-                          <p>{comment.comment_text}</p>
+              <div className='posts-container'>
+                <div style={{display: "flex", flexGrow: 10,}}>
+                  <ul>
+                    {posts.map((post) => (
+                      <li key={post.id}>
+                        {/* Profile picture and username */}
+                      <div className="profile-header">
+                        <div className="profile-info">
+                          <img
+                            className="profile-picture"
+                            src={`http://localhost:8000${post.user.profile_picture || '/media/images/default.png'}`}
+                            alt={`${post.user.username}'s Profile Picture`}
+                          />
+                          <span className="username">{post.user.username}</span>
+                        </div>
+                            <button className="report-button" onClick={() => handleReport(post)}>
+                              <FontAwesomeIcon icon={faFlag} />
+                            </button>
+                      </div>
+                      <div className='post-content'>
+                        <p>{post.id.username}</p>
+                        <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
+                      </div>
+                      <div className='caption'>
+                        <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>
+                      </div>
+                        <div>
+                        <button onClick={() => handleLike(post)}>
+                          <FontAwesomeIcon icon={faThumbsUp} />
+                          <span>{post.likes.length}</span>
+                        </button> <button onClick={() => handleComment(post.id, comment)}>
+                            <FontAwesomeIcon icon={faComment} className="comment-icon" />
+                          </button>
+                        </div>
+                        <div>
+                          <input type="text" placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+                          {/* <ul>
+                            {post.comments.map((comment) => (
+                              <li key={comment.id}>
+                                <p>{comment.user.username}</p>
+                                <span> || </span>
+                                <p>{comment.comment_text}</p>
+                              </li>
+                            ))}
+                          </ul> */}
+                          </div>
                         </li>
                       ))}
-                    </ul> */}
+                  </ul>
+                  </div>
+                  <div className='pagination-container'>
+                      <Pagination>
+                          <Pagination.Prev
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={!prevPage}
+                          />
+                          <Pagination.Item active>{currentPage}</Pagination.Item>
+                          <Pagination.Next
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={!nextPage}
+                          />
+                      </Pagination>
                     </div>
-                  </li>
-                ))}
-              </ul>
+                </div>
+              <div className="recommendations-container">
+                <UserRecommendations/>
               </div>
-              </div>
-            <div className="recommendations-container">
-              <UserRecommendations/>
-            </div>
           </div>
         </div>
       );

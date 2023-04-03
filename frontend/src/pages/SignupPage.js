@@ -50,23 +50,62 @@ import '../css/signUp.css';
   
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
-      <div className="signup-wrapper">
-        <form onSubmit={signUpUser}>
-          <input type="username" name="username" placeholder="Enter Username" />
-          <input type="text" name="first_name" placeholder="Enter first name" />
-          <input type="text" name="last_name" placeholder="Enter last name" />
-          <input type="text" name="email" placeholder="Enter email" />
-          <input type="text" name="bio" placeholder="Enter bio" />
-          <input type="password" name="password1" placeholder="Enter Password" />
-          <input type="password" name="password2" placeholder="Enter Password Confirmation" />
-          <input type="submit" value="Submit" />
-          <h5>Already have an account? Log in <Link to='/login'>here</Link></h5>
-        </form>
+    <>
+      <div className="signup-bg">
+        <div className="clouds"></div>
+        <div className="signup-container">
+          <h2>Sign Up</h2>
+          <h3>It's quick & simple</h3>
+          <div className="signup-wrapper">
+            <form className="form" onSubmit={signUpUser}>
+              <div className="textbox">
+                <input type="text" name="username" required />
+                <label>Username</label>
+                <span className="material-symbols-outlined">account_circle</span>
+              </div>
+              <div className="textbox">
+                <input type="text" name="first_name" required />
+                <label>First Name</label>
+                <span className="material-symbols-outlined">account_circle</span>
+              </div>
+              <div className="textbox">
+                <input type="text" name="last_name" required />
+                <label>Last Name</label>
+                <span className="material-symbols-outlined">account_circle</span>
+              </div>
+              <div className="textbox">
+                <input type="text" name="email" required />
+                <label>Email</label>
+                <span className="material-symbols-outlined">email</span>
+              </div>
+              <div className="textbox">
+                <input type="text" name="bio" required />
+                <label>Bio</label>
+                <span className="material-symbols-outlined">account_circle</span>
+              </div>
+              <div className="textbox">
+                <input type="password" name="password1" required />
+                <label>Password</label>
+                <span className="material-symbols-outlined">key</span>
+              </div>
+              <div className="textbox">
+                <input type="password" name="password2" required />
+                <label>Password Confirmation</label>
+                <span className="material-symbols-outlined">key</span>
+              </div>
+              <button type="submit">
+                Join Moments
+                <span className="material-symbols-outlined">arrow_forward</span>
+              </button>
+              <p>
+                Already have an account? Log in <Link to="/login">here</Link>
+              </p>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    </>
+  );  
 };
 
 export default SignupPage;

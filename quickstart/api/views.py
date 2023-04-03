@@ -13,9 +13,12 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import generics, status
 from rest_framework.decorators import action
-from django.db.models import Q
+from django.db.models import Q, F
 from PIL import Image
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator
+from rest_framework.pagination import PageNumberPagination
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -47,6 +50,16 @@ def getNotes(request):
     serializer = NoteSerializer(user.note_set.all(), many=True)
     return Response(serializer.data)
 
+
+class CustomPageNumberPagination(PageNumberPagination):
+    def get_paginated_response(self, data):
+        return Response({
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'results': data
+        })
+    
+
 class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAuthenticated]
@@ -57,8 +70,13 @@ class PostView(APIView):
         following_users = request.user.following.all()  # replace with the queryset of the users that the current user follows
         following_user_ids = [user.id for user in following_users]
         posts = Post.objects.filter(Q(user_id__in=following_user_ids) & ~Q(user_id=request.user.id))
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
+
+        # page = request.query_params.get('page', 1)  # Get the 'page' parameter or default to 1
+        paginator = CustomPageNumberPagination()
+        paginated_posts = paginator.paginate_queryset(posts, request) # Create a Paginator instance with 10 items per page
+
+        serializer = PostSerializer(paginated_posts, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
@@ -70,6 +88,34 @@ class PostView(APIView):
         else:
             print('error', posts_serializer.errors)
             return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id, user=request.user)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found or not authorized.'}, status=status.HTTP_404_NOT_FOUND)
+
+        post.delete()
+        return Response({'message': 'Post successfully deleted.'}, status=status.HTTP_200_OK)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def report_post(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    post.reported = F('reported') + 1
+    post.save()
+    post.refresh_from_db()
+
+    if post.reported >= 3:
+        post.delete()
+        return Response({'message': 'Post deleted due to multiple reports.'}, status=status.HTTP_200_OK)
+
+    return Response({'message': 'Post reported.'}, status=status.HTTP_200_OK)
         
 
 @api_view(['GET'])
@@ -191,7 +237,8 @@ def getUserRecommendations(request, user_id):
         mutals_follow.update(mutal.followers.all())
         mutals_follow.update(mutal.following.all())
 
-    recommendations = mutals_follow - set(following) - set(followers) - {user}
+    blocked_users = user.blocked_users.all()
+    recommendations = (mutals_follow - set(following) - set(followers) - set(blocked_users)) - {user}
 
 
     serializer = UserSerializer(recommendations, many=True)

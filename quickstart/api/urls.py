@@ -11,6 +11,7 @@ urlpatterns = [
     path('notes/', views.getNotes),
     path('posts/', views.PostView.as_view(), name= 'posts_list'),
     path('posts/user/<int:user_id>/', views.getUserPosts, name='user-posts'),
+    path('posts/<int:post_id>/report/', views.report_post, name='report_post'),
     path('posts/<int:post_id>/comment/', views.CommentView.as_view(), name='post_comment'),
     path('posts/<int:post_id>/like/', views.LikeView.as_view(), name='post_like'),
     path('signup/', views.signup, name='signup'),
