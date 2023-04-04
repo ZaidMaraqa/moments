@@ -40,15 +40,39 @@ function PostUpload() {
         }
     }
 
+
+    
     return (
-        <form className="uploadForm" onSubmit={uploadPost}>
-            <input type="file"
-                    id="image"
-                    accept="image/png, image/jpeg, image/jpg" name="image" onChange={handleImageChange} />
-            <input type="text" name="text" value={text} onChange={handleTextChange} />
-            <button type="submit">Create Post</button>
-        </form>
+        <div className="upload-container">
+            <form className="uploadForm" onSubmit={uploadPost}>
+                <div className="input-wrapper">
+                    <label htmlFor="image">Moment:</label>
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/png, image/jpeg, image/jpg"
+                        name="image"
+                        onChange={handleImageChange}
+                        className="upload-input"
+                    />
+                </div>
+                <div className="input-wrapper">
+                    <label htmlFor="text">Caption:</label>
+                    <input
+                        type="text"
+                        name="text"
+                        value={text}
+                        onChange={handleTextChange}
+                        className="upload-input"
+                    />
+                </div>
+                <button type="submit" className="upload-button">
+                    Share Moment
+                </button>
+            </form>
+        </div>
     );
-}
+};
+
 
 export default PostUpload;

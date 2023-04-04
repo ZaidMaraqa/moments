@@ -1,0 +1,80 @@
+/* Replace the entire content of editprofile.css with the following code */
+
+.editprofile-container {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 70%;
+    max-width: 460px;
+    padding: 200px 90px;
+    background: #111820;
+    font-family: "Euclid Circular A";
+  }
+  
+  .editprofile-container h2 {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 6px;
+    color: rgb(255 255 255 / 96%);
+  }
+  
+  .form {
+    display: grid;
+    gap: 16px;
+  }
+  
+  .textbox {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  
+  .textbox label {
+    position: absolute;
+    top: 50%;
+    left: 36px;
+    transform: translateY(-50%);
+    color: rgb(255 255 255 / 40%);
+    pointer-events: none;
+    transition: 0.4s;
+  }
+  
+  .textbox input,
+  .textbox textarea {
+    padding: 0 24px 0 36px;
+    border: none;
+    border-bottom: 2px solid #2b3442;
+    color: rgb(255 255 255 / 96%);
+    height: 60px;
+    background: transparent;
+  }
+  
+  .textbox textarea {
+    resize: none;
+  }
+  
+  input:focus,
+  textarea:focus {
+    border-color: #8b50e3;
+  }
+  
+  input:focus ~ label,
+  textarea:focus ~ label {
+    transform: translateY(-40px) scale(0.875);
+    color: #8b50e3;
+  }
+  
+  .form button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 0 24px;
+    border-radius: 6px;
+    background: #8b50e3;
+    color: #f9f9f9;
+    font-family: inherit;
+    font-weight: 600;
+  }
+  

@@ -198,8 +198,7 @@ const HomePage = () => {
                             </button>
                       </div>
                       <div className='post-content'>
-                        <p>{post.id.username}</p>
-                        <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px'}} />
+                        <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
                       </div>
                       <div className='caption'>
                         <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
-
+import '../css/editprofile.css'
 
 
 const EditProfilePage = () => {
@@ -77,39 +77,40 @@ const EditProfilePage = () => {
         }
     };
 
-    return(
-        <div className='editprofile-container'>
+
+    return (
+        <div className="editprofile-container">
             <h2>Edit Profile</h2>
-            <form onSubmit={editProfile} encType="multipart/form-data">
-                <label>
-                    Username:
-                    <input type="text" name={username} onChange={e => setUsername(e.target.value)}/>
-                </label>
-                <label>
-                    First Name:
-                    <input type="text" name={firstName} onChange={e => setFirstName(e.target.value)}/>
-                </label>
-                <label>
-                    Last Name:
-                    <input type="text" name={lastName} onChange={e => setLastName(e.target.value)}/>
-                </label>
-                <label>
-                    Bio:
-                    <textarea name={bio} onChange={e => setBio(e.target.value)}/>
-                </label>
-                <label>
-                    Profile Picture:
-                    <input type="file" name="profilePicture" onChange={e => setProfilePicture(e.target.files[0])}/>
-                </label>
-                {user && (
-                    <div className="profile-picture-container">
-                        <img src={profilePicture || user.profile_picture || defaultProfilePicture} alt="Profile" />
-                    </div>
-                )}
-                <button type='submit'>Save Changes</button>
+                <form className="form" onSubmit={editProfile} encType="multipart/form-data">
+            <div className="textbox">
+                <label htmlFor="username">Username:</label>
+                <input type="text" id="username" name={username} onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <div className="textbox">
+                <label htmlFor="firstName">First Name:</label>
+                <input type="text" id="firstName" name={firstName} onChange={(e) => setFirstName(e.target.value)} />
+            </div>
+            <div className="textbox">
+                <label htmlFor="lastName">Last Name:</label>
+                <input type="text" id="lastName" name={lastName} onChange={(e) => setLastName(e.target.value)} />
+            </div>
+            <div className="textbox">
+                <label htmlFor="bio">Bio:</label>
+                <textarea id="bio" name={bio} onChange={(e) => setBio(e.target.value)} />
+            </div>
+            <div className="textbox">
+                <label htmlFor="profilePicture">Profile Picture:</label>
+                <input type="file" id="profilePicture" name="profilePicture" onChange={(e) => setProfilePicture(e.target.files[0])} />
+            </div>
+            {user && (
+                <div className="profile-picture-container">
+                <img src={profilePicture || user.profile_picture || defaultProfilePicture} alt="Profile" />
+                </div>
+            )}
+            <button type="submit">Save Changes</button>
             </form>
         </div>
-    )
+    );
 
 };
 
