@@ -12,7 +12,7 @@ import { Pagination } from 'react-bootstrap';
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
     let {authTokens} = useContext(AuthContext);
-    let [comment, setComment] = useState('');
+    let [comments, setComments] = useState({});
     let {user} = useContext(AuthContext);
     let [currentPage, setCurrentPage] = useState(1);
     let [nextPage, setNextPage] = useState(null);
@@ -53,7 +53,8 @@ const HomePage = () => {
         }
     };
 
-    let handleComment = async (postId, commentText) => {
+    let handleComment = async (postId) => {
+      const commentText = comments[postId];
         try {
           const response = await fetch(`http://localhost:8000/api/posts/${postId}/comment/`, {
             method: 'POST',
@@ -70,9 +71,8 @@ const HomePage = () => {
           // const data = await response.json();
           if (response.status === 201) {
             // refresh posts
-            getPosts();
-            setComment("");
-            console.log(commentText)
+            getPosts(currentPage);
+            setComments({ ...comments, [postId]: '' });
           } 
           else {
             throw new Error(response.statusText);
@@ -207,12 +207,19 @@ const HomePage = () => {
                         <button onClick={() => handleLike(post)}>
                           <FontAwesomeIcon icon={faThumbsUp} />
                           <span>{post.likes.length}</span>
-                        </button> <button onClick={() => handleComment(post.id, comment)}>
+                        </button> <button onClick={() => handleComment(post.id)}>
                             <FontAwesomeIcon icon={faComment} className="comment-icon" />
                           </button>
                         </div>
                         <div>
-                          <input type="text" placeholder="Add a comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+                          <input 
+                            type="text" 
+                            placeholder="Add a comment" 
+                            value={comments[post.id] || ''} 
+                            onChange={(e) => 
+                              setComments({ ...comments, [post.id]: e.target.value })
+                            } 
+                          />
                           {/* <ul>
                             {post.comments.map((comment) => (
                               <li key={comment.id}>
@@ -250,4 +257,5 @@ const HomePage = () => {
 
 };
 export default HomePage;
+
 

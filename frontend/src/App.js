@@ -11,6 +11,7 @@ import UserProfilePage from './pages/UserProfile';
 import SearchPage from './pages/Search';
 import { Sidebar } from './pages/Sidebar';
 import EditProfilePage from './pages/EditProfilePage';
+import ExplorePage from './pages/ExplorePage';
 // import '../src/css/sidebar.css'; 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/search" element={<SearchPage/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/explore" element={<ExplorePage/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/editprofile/:userId" element={<EditProfilePage/>} />

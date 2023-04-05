@@ -25,6 +25,10 @@ const menuItems = [
     icon: "edit",
   },
   {
+    name: "Explore",
+    icon: "explore",
+  },
+  {
     name: "Search",
     icon: "search",
   },
@@ -38,7 +42,7 @@ const Icon = ({ icon }: { icon: string }) => (
   <span className="material-symbols-outlined">{icon}</span>
 );
 
-const tabs = ["menu", "settings"];
+const tabs = ["menu"];
 
 type NavProps = {
   activeTab: number;
@@ -101,6 +105,9 @@ export const Sidebar = () => {
     else if (name === "Edit Profile") {
       navigate(`/editprofile/${user.id}`)
     }
+    else if (name === "Explore") {
+      navigate(`/explore`)
+    }
     else{
       navigate('/')
     }
@@ -131,29 +138,6 @@ export const Sidebar = () => {
             ))}
           </div>
           <div>
-            <form>
-              <div className="row">
-                <div className="switch-label">Dark Mode</div>
-                <span className="switch">
-                  <input id="switch-round" type="checkbox" />
-                  <label htmlFor="switch-round"></label>
-                </span>
-              </div>
-              <div className="row">
-                <div className="switch-label">Accessibility Mode</div>
-                <span className="switch">
-                  <input id="switch-round" type="checkbox" />
-                  <label htmlFor="switch-round"></label>
-                </span>
-              </div>
-              <div className="row">
-                <div className="switch-label">Quirks Mode</div>
-                <span className="switch">
-                  <input id="switch-round" type="checkbox" />
-                  <label htmlFor="switch-round"></label>
-                </span>
-              </div>
-            </form>
           </div>
         </ReactCarousel>
       </div>

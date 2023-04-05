@@ -6,7 +6,6 @@ from quickstart.models import customUser
 from django.core.exceptions import ValidationError
 from PIL import Image
 
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

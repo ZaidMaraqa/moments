@@ -18,10 +18,12 @@ from PIL import Image
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
+from .recommender import get_recommendations
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    
 
 @api_view(['POST'])
 def signup(request):
@@ -117,6 +119,15 @@ def report_post(request, post_id):
 
     return Response({'message': 'Post reported.'}, status=status.HTTP_200_OK)
         
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def recommended_posts(request):
+    user_id = request.user.id
+    recommended_posts = get_recommendations(request, user_id)
+    serializer = PostSerializer(recommended_posts, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
