@@ -5,12 +5,13 @@
   justify-content: center;
   max-width: 100%;
   margin: 0 auto;
-  background: transparent !important; 
+  background: white !important; 
 }
 
 .homePage .posts-container {
-  max-width: 320px;
+  max-width: 400px;
   margin-right:0 20px;
+  
 }
 
 
@@ -77,8 +78,12 @@
 .profile-info {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 15px;
   height: 60px;
+}
+
+.report-button{
+  margin-left: 200px;
 }
 
 .profile-picture {
@@ -102,9 +107,23 @@
   padding: 10px;
   font-size: 1px;
 }
+.actions {
+  margin-top: -20px;
+  margin-left: -10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50px;
+}
+.likes {
+  font-size: small;
+  font-weight:  4000;
+  color: grey;
+}
+
 
 .homePage ul li div input[type="text"] {
-  width: 50%;
+  width: 100%;
   margin-right: 10px;
   padding: 5px;
   border-bottom: 1px solid #ddd;
@@ -113,8 +132,8 @@
 
 .homePage ul li div input[type="text"]:focus {
   outline: none;
-  border-color: #1da1f2;
-  box-shadow: 0 0 5px #1da1f2;
+  /* border-color: #1da1f2;
+  box-shadow: 0 0 5px #1da1f2; */
 }
 
 .homePage ul li div button {

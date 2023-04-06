@@ -3,7 +3,7 @@ import AuthContext from '../context/AuthContext';
 import '../css/home.css'
 import '../css/sidebar.css'
 // import '../css/recommendations.css'
-import { faThumbsUp, faComment, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faComment, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';
 import { Pagination } from 'react-bootstrap';
@@ -116,8 +116,7 @@ const HomePage = () => {
             throw new Error(response.statusText);
         }
       } catch (error) {
-        // console.log(error);
-        // logout
+          alert(error.message)
       }
     };
 
@@ -138,7 +137,7 @@ const HomePage = () => {
           let data = await response.json();
           if (response.status === 200) {
               console.log('reported')
-              getPosts(); // Refresh posts after reporting
+              getPosts(currentPage); // Refresh posts after reporting
               alert(data.message);
               
               let updatedReportedPosts = [...reportedPosts, post.id];
@@ -203,13 +202,16 @@ const HomePage = () => {
                       <div className='caption'>
                         <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>
                       </div>
-                        <div>
+                        <div className='actions'>
                         <button onClick={() => handleLike(post)}>
-                          <FontAwesomeIcon icon={faThumbsUp} />
-                          <span>{post.likes.length}</span>
+                          <FontAwesomeIcon icon={faHeart} />
+                          {/* <span>{post.likes.length}</span> */}
                         </button> <button onClick={() => handleComment(post.id)}>
                             <FontAwesomeIcon icon={faComment} className="comment-icon" />
                           </button>
+                        </div>
+                        <div className='likes'>
+                          <span>Liked by {post.likes.length}</span>
                         </div>
                         <div>
                           <input 

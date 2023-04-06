@@ -249,7 +249,7 @@ def getUserRecommendations(request, user_id):
         mutals_follow.update(mutal.following.all())
 
     blocked_users = user.blocked_users.all()
-    recommendations = (mutals_follow - set(following) - set(followers) - set(blocked_users)) - {user}
+    recommendations = (mutals_follow - set(following) - set(blocked_users)) - {user}
 
 
     serializer = UserSerializer(recommendations, many=True)
