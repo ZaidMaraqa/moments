@@ -17,6 +17,7 @@ def get_user_post_data():
                 'rating': 1,  # User has liked the post, so the rating is 1
             })
 
+    print(pd.DataFrame(user_post_data))
     return pd.DataFrame(user_post_data)
 
 
