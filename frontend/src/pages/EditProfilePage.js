@@ -83,23 +83,23 @@ const EditProfilePage = () => {
             <h2>Edit Profile</h2>
                 <form className="form" onSubmit={editProfile} encType="multipart/form-data">
             <div className="textbox">
-                <label htmlFor="username">Username:</label>
+                <label className="input-label" htmlFor="username">Username</label>
                 <input type="text" id="username" name={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div className="textbox">
-                <label htmlFor="firstName">First Name:</label>
+                <label className="input-label"  htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" name={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </div>
             <div className="textbox">
-                <label htmlFor="lastName">Last Name:</label>
+                <label className="input-label" htmlFor="lastName">Last Name</label>
                 <input type="text" id="lastName" name={lastName} onChange={(e) => setLastName(e.target.value)} />
             </div>
             <div className="textbox">
-                <label htmlFor="bio">Bio:</label>
+                <label className="input-label"  htmlFor="bio">Bio</label>
                 <textarea id="bio" name={bio} onChange={(e) => setBio(e.target.value)} />
             </div>
             <div className="textbox">
-                <label htmlFor="profilePicture">Profile Picture:</label>
+                <label className="input-label"  htmlFor="profilePicture">Profile Picture</label>
                 <input type="file" id="profilePicture" name="profilePicture" onChange={(e) => setProfilePicture(e.target.files[0])} />
             </div>
             {user && (
