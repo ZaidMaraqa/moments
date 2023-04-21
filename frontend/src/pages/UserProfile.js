@@ -39,15 +39,19 @@ const UserProfilePage = () => {
 
   const deletePost = async (postId) => {
     try {
-      const response = await fetch(`/api/posts/${postId}/delete/`, {
+      const response = await fetch(`http://localhost:8000/api/posts/${postId}/delete/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authTokens.access}`,
         },
       });
-  
+      
+      if(response.status === 200){
+        getUserPosts()
+      }
       if (!response.ok) {
+        console.log(response.status)
         throw new Error('Error deleting the post');
       }
   
@@ -123,11 +127,13 @@ const UserProfilePage = () => {
                     style={{ maxWidth: '200px', maxHeight: '200px' }}
                   />
                   {authTokens && currentUser.id === parseInt(userId) && (
-                    <i
+                    <button
                       className="fas fa-trash"
                       style={{ cursor: 'pointer' }}
                       onClick={() => deletePost(post.id)}
-                    ></i>
+                    >
+                    <span className="material-symbols-outlined">delete</span> 
+                    </button>
                     )}
                 </li>
               ))}

@@ -95,11 +95,26 @@ class PostView(APIView):
         try:
             post = Post.objects.get(id=post_id, user=request.user)
         except Post.DoesNotExist:
+            print('noooo')
             return Response({'error': 'Post not found or not authorized.'}, status=status.HTTP_404_NOT_FOUND)
 
         post.delete()
         return Response({'message': 'Post successfully deleted.'}, status=status.HTTP_200_OK)
     
+
+
+class PostDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def delete(self, request, post_id):
+        try:
+            post = Post.objects.get(id=post_id, user=request.user)
+        except Post.DoesNotExist:
+            return Response({'error': 'Post not found or not authorized.'}, status=status.HTTP_404_NOT_FOUND)
+
+        post.delete()
+        return Response({'message': 'Post successfully deleted.'}, status=status.HTTP_200_OK)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
@@ -313,7 +328,7 @@ class UserFollowView(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def follow(self, request, user_id=None):
         user = customUser.objects.get(id=user_id)
-        if request.user.is_blocked(user):
+        if request.user.is_blocked(user) or user.is_blocked(request.user):
             return Response({'status': 'error', 'message': 'Cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
         if request.user != user:
             if not request.user.following.filter(id=user_id).exists():

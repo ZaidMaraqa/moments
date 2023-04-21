@@ -4,9 +4,8 @@ import '../css/code.css'
 const CodeOfConduct = () => {
   return (
     <div className='code'>
-      <h1>Community Guidelines for Moments: A Social Media Platform for Children</h1>
+      <h1>Community Guidelines for Moments</h1>
       <ul>
-        <li>Age requirement: Users must be within the specified age range for the platform, which should be clearly stated upon registration.</li>
         <li>Respectful communication: All users must engage in respectful, age-appropriate communication. Bullying, harassment, hate speech, or any form of discriminatory behavior will not be tolerated.</li>
         <li>Privacy protection: Users must not share personal information about themselves or others, such as addresses, phone numbers, or email addresses. Encourage the use of appropriate usernames to protect privacy.</li>
         <li>No adult content: Sharing, posting, or engaging with explicit or inappropriate content is strictly prohibited. This includes nudity, sexually suggestive content, graphic violence, or any content that is not suitable for the target age group.</li>

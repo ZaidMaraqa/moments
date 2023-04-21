@@ -18,10 +18,10 @@ const HomePage = () => {
     let [nextPage, setNextPage] = useState(null);
     let [prevPage, setPrevPage] = useState(null);
 
-    let [reportedPosts, setReportedPosts] = useState(() => {
-      let storedReportedPosts = localStorage.getItem('reportedPosts');
-      return storedReportedPosts ? JSON.parse(storedReportedPosts) : [];
-    });
+    const [reportedPosts, setReportedPosts] = useState(
+      () => JSON.parse(localStorage.getItem(`reportedPosts_${user.id}`)) || []
+  );
+  
     
     
     let getPosts = async (page) => {
@@ -142,7 +142,7 @@ const HomePage = () => {
               
               let updatedReportedPosts = [...reportedPosts, post.id];
               setReportedPosts(updatedReportedPosts);
-              localStorage.setItem('reportedPosts', JSON.stringify(updatedReportedPosts));
+              localStorage.setItem(`reportedPosts_${user.id}`, JSON.stringify(updatedReportedPosts));
 
           } else {
               throw new Error(response.statusText);
@@ -170,7 +170,7 @@ const HomePage = () => {
   
     
     useEffect(() => { 
-        getPosts(1);
+        getPosts(currentPage);
     }, []);
 
 
