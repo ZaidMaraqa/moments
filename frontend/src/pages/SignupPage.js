@@ -55,7 +55,7 @@ import '../css/signUp.css';
         <div className="clouds"></div>
         <div className="signup-container">
           <h2>Sign Up</h2>
-          <h3>It's quick & simple</h3>
+          <h3>If under the age of 13, please do not sign up without parent consent</h3>
           <div className="signup-wrapper">
             <form className="form" onSubmit={signUpUser}>
               <div className="textbox">

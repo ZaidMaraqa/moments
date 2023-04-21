@@ -37,6 +37,29 @@ const UserProfilePage = () => {
     }
   };
 
+  const deletePost = async (postId) => {
+    try {
+      const response = await fetch(`/api/posts/${postId}/delete/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authTokens.access}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error deleting the post');
+      }
+  
+      const data = await response.json();
+      console.log(data.message); // Post successfully deleted.
+      // Perform any necessary updates to your component state or UI here.
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
   const getUserPosts = async () => {
     try{
       const response = await fetch(`http://localhost:8000/api/posts/user/${userId}/`,{
@@ -91,13 +114,24 @@ const UserProfilePage = () => {
           )}
           <h3>{user.username}'s Posts</h3>
           <div className='posts-grid'>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <h4>{post.text}</h4>
-                <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post} style={{maxWidth: '200px', maxHeight: '200px'}}/>
-              </li>
-            ))}
-          </div>
+              {posts.map((post) => (
+                <li key={post.id}>
+                  <h4>{post.text}</h4>
+                  <img
+                    src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`}
+                    alt={post.post}
+                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                  />
+                  {authTokens && currentUser.id === parseInt(userId) && (
+                    <i
+                      className="fas fa-trash"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => deletePost(post.id)}
+                    ></i>
+                    )}
+                </li>
+              ))}
+              </div>
         </div>
       ) : (
         <p>Loading...</p>

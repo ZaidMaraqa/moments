@@ -287,8 +287,8 @@ class getBlock(APIView):
 
 
 class UserListView(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
-    # authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     
 
     queryset = customUser.objects.all()

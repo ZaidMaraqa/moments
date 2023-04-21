@@ -222,15 +222,13 @@ const HomePage = () => {
                               setComments({ ...comments, [post.id]: e.target.value })
                             } 
                           />
-                          {/* <ul>
-                            {post.comments.map((comment) => (
-                              <li key={comment.id}>
-                                <p>{comment.user.username}</p>
-                                <span> || </span>
-                                <p>{comment.comment_text}</p>
-                              </li>
-                            ))}
-                          </ul> */}
+                          <ul>
+                          {post.comments.map((comment) => (
+                            <li key={comment.id}>
+                              <p style={{ color: 'black' }}>{comment.user.username}</p>  <span> : </span> <p style={{ color: 'black' }}>{comment.comment_text}</p>
+                            </li>
+                          ))}
+                        </ul>
                           </div>
                         </li>
                       ))}

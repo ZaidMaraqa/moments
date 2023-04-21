@@ -14,6 +14,7 @@ urlpatterns = [
     path('posts/<int:post_id>/report/', views.report_post, name='report_post'),
     path('posts/<int:post_id>/comment/', views.CommentView.as_view(), name='post_comment'),
     path('posts/<int:post_id>/like/', views.LikeView.as_view(), name='post_like'),
+    path('api/posts/<int:post_id>/delete/', views.PostView.as_view(), name='post_delete'),
     path('recommended_posts/', views.recommended_posts, name='recommended_posts'),
     path('signup/', views.signup, name='signup'),
     path('user/<int:user_id>/profile/', views.getUserProfile, name='user-profile'),

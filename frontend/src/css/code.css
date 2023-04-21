@@ -1,0 +1,28 @@
+.code {
+    justify-content: center;
+    margin-left: 300px;
+    margin-top: 300px;
+}
+
+.code h1{
+    margin-top: 10%;
+    margin-left: 30%;
+}
+.code p{
+    margin-left: 22%;
+    font-style: italic;
+}
+.code ul {
+    margin-top: 100px;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    margin-bottom: 10px;
+    font-style: bold;
+}
+  
+.code ul li {
+    margin-bottom: 10px;
+
+    font-style: bold;
+}

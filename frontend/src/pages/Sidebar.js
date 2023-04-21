@@ -1,11 +1,8 @@
-import { FC, useState } from "react";
-// import '../css/sidebar.css'; 
+import React, { useState, useContext } from 'react';
 import { Carousel as ReactCarousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
-import React, {useContext} from 'react'
-import AuthContext from '../context/AuthContext'
-
+import AuthContext from '../context/AuthContext';
 
 const menuItems = [
   {
@@ -33,23 +30,22 @@ const menuItems = [
     icon: "search",
   },
   {
+    name: "Code",
+    icon: "gavel",
+  },
+  {
     name: "Log Out",
     icon: "exit_to_app",
   },
 ];
 
-const Icon = ({ icon }: { icon: string }) => (
+const Icon = ({ icon }) => (
   <span className="material-symbols-outlined">{icon}</span>
 );
 
 const tabs = ["menu"];
 
-type NavProps = {
-  activeTab: number;
-  onTabClicked: (tab: number) => void;
-};
-
-const Nav: FC<NavProps> = ({ activeTab, onTabClicked }) => (
+const Nav = ({ activeTab, onTabClicked }) => (
   <header className="tabs">
     {tabs.map((tab, index) => (
       <button
@@ -70,12 +66,7 @@ const Nav: FC<NavProps> = ({ activeTab, onTabClicked }) => (
   </header>
 );
 
-type ButtonProps = {
-  name: string;
-  icon?: string;
-};
-
-const NavButton: FC<ButtonProps & { onClick: () => void }> = ({ name, icon, onClick }) => (
+const NavButton = ({ name, icon, onClick }) => (
   <button type="button" onClick={onClick}>
     {icon && <Icon icon={icon} />}
     <span>{name}</span>
@@ -83,13 +74,13 @@ const NavButton: FC<ButtonProps & { onClick: () => void }> = ({ name, icon, onCl
 );
 
 export const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState(0);
   const navigate = useNavigate();
-  let{user, logoutUser} = useContext(AuthContext);
+  let { user, logoutUser } = useContext(AuthContext);
 
-  const handleTabClicked = (index: number) => setActiveTab(index);
+  const handleTabClicked = (index) => setActiveTab(index);
 
-  const handleButtonClick = (name: string) => {
+  const handleButtonClick = (name) => {
     if (name === "Upload Moment") {
       navigate('/postupload')
     }
@@ -108,11 +99,13 @@ export const Sidebar = () => {
     else if (name === "Explore") {
       navigate(`/explore`)
     }
+    else if (name === "Code") {
+      navigate(`/code`)
+    }
     else{
       navigate('/')
     }
   };
-
 
   return (
     <aside className="sidebar">
@@ -133,7 +126,7 @@ export const Sidebar = () => {
           <div className="menu-items">
             {menuItems.map((item) => (
               <div className="menu-item" key={item.name}>
-              <NavButton key={item.name} name={item.name} icon={item.icon} onClick={() => handleButtonClick(item.name)}/>
+                <NavButton key={item.name} name={item.name} icon={item.icon} onClick={() => handleButtonClick(item.name)} />
               </div>
             ))}
           </div>

@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignupPage';
 import React, { useContext } from 'react';
 import PostUpload from './pages/PostUploadPage';
 import UserProfilePage from './pages/UserProfile';
+import CodeOfConduct from './pages/conductpage'
 import SearchPage from './pages/Search';
 import { Sidebar } from './pages/Sidebar';
 import EditProfilePage from './pages/EditProfilePage';
@@ -26,6 +27,9 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                   <Route path="/" element={<HomePage/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/code" element={<CodeOfConduct/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/postupload" element={<PostUpload/>} />
