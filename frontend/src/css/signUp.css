@@ -54,13 +54,13 @@ input {
 
 .signup-container {
   position: fixed;
-  z-index: 2;
+  z-index: 1;
   top: 0;
   left: 0;
   height: 100%;
   width: 70%;
   max-width: 460px;
-  padding: 200px 90px;
+  padding: 10px 90px;
   background: #111820;
 }
 
