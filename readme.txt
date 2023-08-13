@@ -53,7 +53,3 @@ For any inquiries or collaboration, please reach out to Zaid Maraqa:
 
 - **Email**: zaidmaraqa10@gmail.com
 - **LinkedIn**: [linkedin.com/in/zaid-maraqa](https://linkedin.com/in/zaid-maraqa)
-
----
-
-Feel free to modify any part of this template to better suit the specific details of your project! If you have any other specific requirements or details you'd like me to include, please let me know.
