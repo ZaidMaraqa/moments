@@ -1,14 +1,59 @@
-To set up the project the following commands are required.
-Linux is required.
-Two terminals are required.
-the first terminals should be in moments
-the second terminal should be in moments/frontend, before naviagting activate virtual environment
-using this command source ven/bin/activate for both terminals
+Moments is a social media web application that allows users to like, follow, and message other users. It's designed to enhance social interactions, 
+featuring an explore page that recommends user posts based on their activity, including following, likes, and more. The app was built with emphasis
+on user privacy and data protection since the target market was relatively young. 
 
-after both terminals are in the right place. in backend run pip3 install -r requirements.txt.
-in the frontend run npm install 
-if there are no build files, you may need to run npm run build
-aftr everything has been installed, in the backend run python3 manage.py runserver
-in the frontend run npm start
+## Table of Contents
 
-thats it enjoy Moments!
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contribute](#contribute)
+- [License](#license)
+- [Contact](#contact)
+
+## Features
+
+- **User Interaction**: Users can like, follow, comment, and post.
+- **Explore Page**: Recommends posts based on user activity.
+- **User suggestions**: Recommends users to follow.
+
+## Technologies Used
+
+- Django-rest/React.js
+- Python
+- CSS
+- HTML
+- JavaScript
+
+## Installation
+
+1. Clone the repository: `git clone https://github.com/ZaidMaraqa/moments.git`
+2. Navigate to the project directory: `cd moments`
+3. Install dependencies: `npm install` for the frontend and `pip3 install -r requirements.txt` for the backend.
+4. Run migrations: `python manage.py migrate`
+5. Start the server: `python manage.py runserver`
+6. Start the frontend: `npm start`
+
+## Usage
+
+Once the application is running, navigate to `http://localhost:3000` to start exploring Moments. You can create an account, explore posts, follow users, and much more.
+
+## Contribute
+
+If you'd like to contribute, please fork the repository and make changes as you'd like. Pull requests are warmly welcome.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Contact
+
+For any inquiries or collaboration, please reach out to Zaid Maraqa:
+
+- **Email**: zaidmaraqa10@gmail.com
+- **LinkedIn**: [linkedin.com/in/zaid-maraqa](https://linkedin.com/in/zaid-maraqa)
+
+---
+
+Feel free to modify any part of this template to better suit the specific details of your project! If you have any other specific requirements or details you'd like me to include, please let me know.
