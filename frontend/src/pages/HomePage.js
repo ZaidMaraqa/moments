@@ -187,7 +187,7 @@ const HomePage = () => {
                         <div className="profile-info">
                           <img
                             className="profile-picture"
-                            src={`http://localhost:8000${post.user.profile_picture || '/media/images/default.png'}`}
+                            src={`http://localhost:8000${post.user.profile_picture || '/Desktop/default_user.jpg'}`}
                             alt={`${post.user.username}'s Profile Picture`}
                           />
                           <span className="username">{post.user.username}</span>
@@ -222,13 +222,13 @@ const HomePage = () => {
                               setComments({ ...comments, [post.id]: e.target.value })
                             } 
                           />
-                          <ul>
+                          {/* <ul>
                           {post.comments.map((comment) => (
                             <li key={comment.id}>
                               <p style={{ color: 'black' }}>{comment.user.username}</p>  <span> : </span> <p style={{ color: 'black' }}>{comment.comment_text}</p>
                             </li>
                           ))}
-                        </ul>
+                        </ul> */}
                           </div>
                         </li>
                       ))}
@@ -248,11 +248,11 @@ const HomePage = () => {
                       </Pagination>
                     </div>
                 </div>
-              <div className="recommendations-container">
-                <UserRecommendations/>
-              </div>
           </div>
+          <div className="recommendations-container">
+            <UserRecommendations/>
         </div>
+      </div>
       );
 
 };

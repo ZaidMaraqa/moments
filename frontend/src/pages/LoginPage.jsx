@@ -11,7 +11,7 @@ const { loginUser } = useContext(AuthContext);
       <div className='login-background'>
         <div className="login">
           <div className="avatar">
-            <img src={`http://localhost:8000${'/media/images/logo.jpeg' || '/media/images/default.png'}`} alt="logo" />
+            <img src={`http://localhost:8000${'/media/images/logo.jpeg' || '/media/images/default_user.g'}`} alt="logo" />
           </div>
           <h2>Login</h2>
           <h3>Welcome back </h3>

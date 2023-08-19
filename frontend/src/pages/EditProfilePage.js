@@ -14,7 +14,7 @@ const EditProfilePage = () => {
     const [lastName, setLastName] = useState('');
     const [bio, setBio] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
-    const defaultProfilePicture = '/media/images/default.png'
+    const defaultProfilePicture = '/desktop/default_user.jpg'
 
     let isValidImage = (file) => {
         const acceptedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -81,33 +81,33 @@ const EditProfilePage = () => {
     return (
         <div className="editprofile-container">
             <h2>Edit Profile</h2>
-                <form className="form" onSubmit={editProfile} encType="multipart/form-data">
-            <div className="textbox">
-                <label className="input-label" htmlFor="username">Username</label>
+                <form className="form2" onSubmit={editProfile} encType="multipart/form-data">
+            <div className="textbox1">
+                <label className="input-label2" htmlFor="username">Username</label>
                 <input type="text" id="username" name={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
-            <div className="textbox">
-                <label className="input-label"  htmlFor="firstName">First Name</label>
+            <div className="textbox1">
+                <label className="input-label2"  htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" name={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </div>
-            <div className="textbox">
-                <label className="input-label" htmlFor="lastName">Last Name</label>
+            <div className="textbox1">
+                <label className="input-label2" htmlFor="lastName">Last Name</label>
                 <input type="text" id="lastName" name={lastName} onChange={(e) => setLastName(e.target.value)} />
             </div>
-            <div className="textbox">
-                <label className="input-label"  htmlFor="bio">Bio</label>
-                <textarea id="bio" name={bio} onChange={(e) => setBio(e.target.value)} />
+            <div className="textbox1">
+                <label className="input-label2" htmlFor="bio">Bio</label>
+                <input type="text" id="bio" name={lastName} onChange={(e) => setBio(e.target.value)} />
             </div>
-            <div className="textbox">
-                <label className="input-label"  htmlFor="profilePicture">Profile Picture</label>
+            <div className="textbox1">
+                <label className="input-label2"  htmlFor="profilePicture">Profile Picture</label>
                 <input type="file" id="profilePicture" name="profilePicture" onChange={(e) => setProfilePicture(e.target.files[0])} />
             </div>
             {user && (
-                <div className="profile-picture-container">
+                <div className="profile-picture-container3">
                 <img src={profilePicture || user.profile_picture || defaultProfilePicture} alt="Profile" />
                 </div>
             )}
-            <button type="submit">Save Changes</button>
+            <button className='bazinga'type="submit">Save Changes</button>
             </form>
         </div>
     );

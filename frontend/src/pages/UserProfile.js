@@ -91,59 +91,64 @@ const UserProfilePage = () => {
   }, []);
 
   return (
-    <div className="user-profile-container">
+    <div className="user-profile-container1">
       {user ? (
         <div>
-          <div className="profile-header">
+          <div className="profile-header1">
             <img
-              className="profile-picture"
-              src={`http://localhost:8000${user.profile_picture || '/media/images/default.png'}`}
+              className="profile-picture1"
+              src={`http://localhost:8000${user.profile_picture || '/media/images/default_user.jpg'}`}
               alt={`${user.username}'s Profile Picture`}
             />
-            <h3>{user.username}</h3>
+            <div className="profile-info1">
+              <div className='username-actions1'>
+                <h3 className="profile-username1">{user.username}</h3>
+                {authTokens && currentUser.id === parseInt(userId) && (
+                    <button className= 'edit-button'onClick={() => navigate(`/editprofile/${userId}`)}>Edit</button>
+                    )}
+                {authTokens && currentUser.id !== parseInt(userId) && (
+                  <div className="profile-actions1">
+                    <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
+                    <BlockButton userId={user.id} />
+                  </div>
+                )}
+              </div>
+              <p>{user.bio}</p>
+              <div className="profile-stats1">
+                <p>{user.followers_count} <b>Followers</b></p>
+                <p>{user.following_count} <b>following</b></p>
+              </div>
+            </div>
           </div>
-          <p>Name: {user.first_name} {user.last_name}</p>
-          <p>Bio: {user.bio}</p>
-          <p>Followers: {user.followers_count}</p>
-          <p>Following: {user.following_count}</p>
-          {authTokens && currentUser.id === parseInt(userId) && (
-            <button onClick={() => navigate(`/editprofile/${userId}`)}>Edit Profile</button>
-          )}
-          {authTokens && currentUser.id !== parseInt(userId) && (
-            <>
-              <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
-              <span> ||</span>
-              <BlockButton userId={user.id} />
-            </>
-          )}
-          <h3>{user.username}'s Posts</h3>
-          <div className='posts-grid'>
-              {posts.map((post) => (
-                <li key={post.id}>
-                  <h4>{post.text}</h4>
-                  <img
+          <hr className="profile-divider1" />
+          <div className="posts-grid1">
+            {posts.map((post) => (
+              <li key={post.id} className='post-item1'>
+                <div className='post-image-container1'>
+                  <img className='post-image1'
                     src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`}
                     alt={post.post}
-                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                    style={{ maxWidth: '400px', maxHeight: '400px' }}
                   />
-                  {authTokens && currentUser.id === parseInt(userId) && (
-                    <button
-                      className="fas fa-trash"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => deletePost(post.id)}
-                    >
-                    <span className="material-symbols-outlined">delete</span> 
-                    </button>
-                    )}
-                </li>
-              ))}
-              </div>
+                </div>
+                {authTokens && currentUser.id === parseInt(userId) && (
+                  <button
+                    className="fas fa-trash"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => deletePost(post.id)}
+                  >
+                    <span className="material-symbols-outlined">delete</span>
+                  </button>
+                )}
+              </li>
+            ))}
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
       )}
     </div>
-  );
+  );  
   
 };
 

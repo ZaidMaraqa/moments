@@ -77,7 +77,7 @@ class customUser(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followed_by', blank=True)
     following = models.ManyToManyField('self', symmetrical=False, related_name='following_to', blank=True)
-    profile_picture = models.ImageField(upload_to=upload_to, blank=True, null=True, default='images/default.png')
+    profile_picture = models.ImageField(upload_to=upload_to, blank=True, null=True, default='media/images/default.png')
     blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True)
 
     USERNAME_FIELD = 'email'

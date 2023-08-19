@@ -43,7 +43,7 @@ const UserRecommendations = () => {
             <li key={user.id}>
               <img
                     className="profile-picture"
-                    src={`http://localhost:8000${user.profile_picture || '/media/images/default.png'}`}
+                    src={`http://localhost:8000${user.profile_picture || '/Desktop/default_user.jpg'}`}
                     alt={`${user.username}'s Profile Picture`}
                   />
               <Link to={`/userprofile/${user.id}`}>

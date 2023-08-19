@@ -252,23 +252,23 @@ def getUserRecommendations(request, user_id):
         user = customUser.objects.get(id=user_id)
     except customUser.DoesNotExist:
         return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-    
-    followers = user.followers.all()
-    following = user.following.all()
 
-    mutals = following.intersection(followers)
+    # Get the followers of the current user
+    user_followers = set(user.followers.all())
 
-    mutals_follow = set()
-    for mutal in mutals:
-        mutals_follow.update(mutal.followers.all())
-        mutals_follow.update(mutal.following.all())
+    # Collect users who have similar followers
+    similar_users = set()
+    for follower in user_followers:
+        similar_users.update(follower.following.all())
 
-    blocked_users = user.blocked_users.all()
-    recommendations = (mutals_follow - set(following) - set(blocked_users)) - {user}
-
+    # Exclude the current user, users already being followed, and blocked users
+    following = set(user.following.all())
+    blocked_users = set(user.blocked_users.all())
+    recommendations = (similar_users - following - blocked_users) - {user}
 
     serializer = UserSerializer(recommendations, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 class BlockView(generics.GenericAPIView):
