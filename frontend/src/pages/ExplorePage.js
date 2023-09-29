@@ -62,10 +62,10 @@ const ExplorePage = () => {
                         </li>
                       ))}
                   </ul>
-                  <div className="recommendations-container">
-                    <UserRecommendations/>
-                </div>
             </div>
+          <div className="recommendations-container">
+              <UserRecommendations/>
+          </div>
         </div>
     )
 }

@@ -28,4 +28,6 @@ urlpatterns = [
     path('user/<int:user_id>/edit/', views.editUserProfile.as_view(), name='edit-user-profile'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('stories/', views.StoryView.as_view(), name='stories'),
+    path('stories/<int:story_id>/', views.StoryView.as_view(), name='story-detail'),
 ]

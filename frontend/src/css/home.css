@@ -42,7 +42,7 @@
 }
 
 .profile-header {
-  height: 30px;
+  height: 500px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,7 +70,7 @@
 
 .post-content img {
   width: 100%;
-  height: 100%;
+  height: 20%;
   object-fit: cover;
 }
 
@@ -83,12 +83,12 @@
 }
 
 .report-button{
-  margin-left: 200px;
+  margin-left: 500px;
 }
 
 .profile-picture {
-  width: 30px !important;
-  height: 30px !important;
+  width: 50px !important;
+  height: 60px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
   margin-right: 10px !important;
@@ -117,7 +117,7 @@
 }
 .likes {
   font-size: small;
-  font-weight:  4000;
+  font-weight:  000;
   color: grey;
 }
 

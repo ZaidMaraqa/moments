@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.core.validators import RegexValidator
 from webapp import settings
+from django.db.models import F
+from django.utils import timezone
+from datetime import timedelta
 
 class Note(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
@@ -108,4 +111,19 @@ class customUser(AbstractUser, PermissionsMixin):
 
     def is_blocked(self, user):
         return self.blocked_users.filter(id=user.id).exists()
+
+
+class Story(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='stories')
+    content = models.FileField(upload_to=upload_to, blank=False, null=True) # Image or video content
+    caption = models.CharField(max_length=280, blank=True, null=True) # Optional caption
+    created_at = models.DateTimeField(auto_now_add=True) # Timestamp when the story was created
+    def twenty_four_hours_hence():
+        return timezone.now() + timedelta(hours=24)
+
+    expires_at = models.DateTimeField(default=twenty_four_hours_hence)
+
+    class Meta:
+        ordering = ['-created_at']
+
 

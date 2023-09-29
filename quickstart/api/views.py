@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, BlockUserSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer
-from quickstart.models import Note, Post, Comment, customUser
+from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, BlockUserSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer, StorySerializer
+from quickstart.models import Note, Post, Comment, customUser, Story
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import parser_classes
@@ -19,6 +19,9 @@ from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
 from .recommender import get_recommendations
+from datetime import timedelta
+from django.utils import timezone
+
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -388,4 +391,41 @@ class CommentView(APIView):
             serializer.save(user=request.user, post=post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StoryView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get(self, request, *args, **kwargs):
+          # Get the users that the current user follows
+        following_users = request.user.following.all()
+
+        # Before fetching the stories, delete any that have expired
+        expired_stories = Story.objects.filter(expires_at__lt=timezone.now())
+        expired_stories.delete()
+
+        # Fetch stories from the current user and the users they follow
+        stories = Story.objects.filter(Q(user__in=following_users) | Q(user=request.user))
+        
+        serializer = StorySerializer(stories, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = StorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['user'] = request.user
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, story_id):
+        try:
+            story = Story.objects.get(id=story_id, user=request.user)
+        except Story.DoesNotExist:
+            return Response({'error': 'Story not found or not authorized.'}, status=status.HTTP_404_NOT_FOUND)
+
+        story.delete()
+        return Response({'message': 'Story successfully deleted.'}, status=status.HTTP_200_OK)
+
 

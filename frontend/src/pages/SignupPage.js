@@ -2,9 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import '../css/signUp.css'; 
+import useBodyClass from '../utils/BodyClass';
 
   const SignupPage = () => {
+
+
   const navigate = useNavigate();
+  useBodyClass('signup-bg')
 
   let signUpUser = async (e ) => {
     try {
@@ -55,7 +59,6 @@ import '../css/signUp.css';
         <div className="clouds"></div>
         <div className="signup-container">
           <h2>Sign Up</h2>
-          <h3>If under the age of 13, please do not sign up without parent consent</h3>
           <div className="signup-wrapper">
             <form className="form" onSubmit={signUpUser}>
               <div className="textbox">

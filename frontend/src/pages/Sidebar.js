@@ -14,6 +14,10 @@ const menuItems = [
     icon: "add_box",
   },
   {
+    name: "Upload Story",
+    icon: "add_box",
+  },
+  {
     name: "Profile",
     icon: "account_circle",
   },
@@ -84,6 +88,9 @@ export const Sidebar = () => {
     if (name === "Upload Moment") {
       navigate('/postupload')
     }
+    else if(name === "Upload Story"){
+      navigate('/storyupload')
+    }
     else if (name === "Log Out") {
       logoutUser();
     }
@@ -134,6 +141,9 @@ export const Sidebar = () => {
           </div>
         </ReactCarousel>
       </div>
+    <div className="logo-container"> {/* Add this div */}
+      <img src={`http://localhost:8000${'/media/images/logo.jpeg' || '/media/images/default_user.g'}`} alt="logo" className="logo" />
+    </div>
     </aside>
   );
 };

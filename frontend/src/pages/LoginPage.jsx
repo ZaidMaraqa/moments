@@ -2,9 +2,14 @@ import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import '../css/login.css';
 import { Link } from 'react-router-dom'
+import useBodyClass from '../utils/BodyClass';
 
 const LoginPage = () => {
 const { loginUser } = useContext(AuthContext);
+
+useBodyClass('login-background')
+
+
 
   return (
     <div className='login-container'>

@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from quickstart.models import Note, Post, Comment
+from quickstart.models import Note, Post, Comment, Story
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from quickstart.models import customUser
@@ -18,8 +18,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
 
         return token
-
-
 class NoteSerializer(ModelSerializer):
     class Meta:
         model = Note
@@ -141,3 +139,10 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'text', 'image', 'created_at','user', 'image_url', 'likes', 'comments']
+
+class StorySerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True) # Use the UserSerializer to include both username and profile picture
+
+    class Meta:
+        model = Story
+        fields = ['id', 'user', 'content', 'caption', 'created_at', 'expires_at']

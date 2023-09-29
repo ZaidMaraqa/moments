@@ -222,3 +222,18 @@
   .switch.square label::after {
     border-radius: 0;
   }
+
+  .logo-container {
+    position: absolute; /* Absolute positioning for the logo container */
+    bottom: 100px; /* Align to the bottom, with a 10px gap */
+    left: 60px; /* Align to the left, with a 10px gap */
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    align-items: center;
+  }
+  
+  .logo {
+    width: 100px; /* Adjust the size as needed */
+  }
+  
+  

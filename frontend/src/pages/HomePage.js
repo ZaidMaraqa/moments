@@ -2,11 +2,11 @@ import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import '../css/home.css'
 import '../css/sidebar.css'
-// import '../css/recommendations.css'
 import { faHeart, faComment, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';
 import { Pagination } from 'react-bootstrap';
+import StoriesComponent from './StoriesComponent';
 
 
 const HomePage = () => {
@@ -178,6 +178,7 @@ const HomePage = () => {
         <div className='homePage'>
            <div className="content-container">
               <div className='posts-container'>
+                <StoriesComponent />
                 <div style={{display: "flex", flexGrow: 10,}}>
                   <ul>
                     {posts.map((post) => (
@@ -249,7 +250,7 @@ const HomePage = () => {
                     </div>
                 </div>
           </div>
-          <div className="recommendations-container">
+          <div className="recommendations-container1">
             <UserRecommendations/>
         </div>
       </div>
