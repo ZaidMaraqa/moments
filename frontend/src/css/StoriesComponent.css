@@ -190,8 +190,6 @@
   padding: 10px;
   z-index: 10;
   }
-
-
-  .viewed-story {
-    box-shadow: gray;
-}
+  .story-profile.viewed-story {
+    box-shadow: 0 0 0 2px gray; 
+  }
