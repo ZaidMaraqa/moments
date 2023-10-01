@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthContext';
-import '../css/StoriesComponent.css'; // Import your CSS file
+import '../css/StoriesComponent.css';
 
 const StoriesComponent = () => {
   let [stories, setStories] = useState([]);
@@ -8,8 +8,7 @@ const StoriesComponent = () => {
   const [currentStory, setCurrentStory] = useState(null);
   const [isStoryModalActive, setIsStoryModalActive] = useState(false);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
-
+  const [progress, setProgress] = useState(new Array(stories.length).fill(0)); // Initialize with zeros
   
   const getStories = async () => {
     try {
@@ -33,9 +32,7 @@ const StoriesComponent = () => {
 
   useEffect(() => {
     getStories();
-}, []); // Empty dependency array to ensure it only runs once
-
-
+  }, []);
 
   const nextStory = () => {
     if (currentStoryIndex < stories.length - 1) {
@@ -43,7 +40,7 @@ const StoriesComponent = () => {
       setCurrentStory(stories[currentStoryIndex + 1]);
     }
   };
-  
+
   const prevStory = () => {
     if (currentStoryIndex > 0) {
       setCurrentStoryIndex(currentStoryIndex - 1);
@@ -56,7 +53,6 @@ const StoriesComponent = () => {
     setCurrentStory(story);
     setIsStoryModalActive(true);
   };
-  
 
   const closeStory = () => {
     setIsStoryModalActive(false);
@@ -64,12 +60,17 @@ const StoriesComponent = () => {
 
   useEffect(() => {
     if (isStoryModalActive && currentStoryIndex !== null) {
-        let timer = setTimeout(nextStory, 5000); // progresses after 5 seconds
+        let timer = setTimeout(nextStory, 5000);
+        const increment = 100 / (5000 / 50); 
         let progressInterval = setInterval(() => {
-            setProgress((prevProgress) => {
-                if (prevProgress < 100) return prevProgress + 1;
-                clearInterval(progressInterval);
-                return prevProgress;
+            setProgress((prevProgresses) => {
+                let newProgresses = [...prevProgresses];
+                if (newProgresses[currentStoryIndex] < 100) {
+                    newProgresses[currentStoryIndex] += increment;
+                } else {
+                    clearInterval(progressInterval);
+                }
+                return newProgresses;
             });
         }, 50);
 
@@ -78,19 +79,26 @@ const StoriesComponent = () => {
             clearInterval(progressInterval);
         };
     }
-}, [isStoryModalActive, currentStoryIndex]);
+  }, [isStoryModalActive, currentStoryIndex]);
 
   if (!stories || stories.length === 0) {
-    console.log(stories)
-    return <div>No stories available.</div>; // Placeholder for no stories
+    return <div>No stories available.</div>;
   }
 
+  const uniqueStories = stories.reduce((acc, current) => {
+    const isExist = acc.find(story => story.user.id === current.user.id);
+    if (!isExist) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
 
   return (
     <div>
         <div className="stories-container">
-            {stories.map((story, index) => (
-                <div key={story.id} className="story-profile" onClick={() => openStory(story, index)}>
+            {uniqueStories.map((story, index) => (
+                <div key={story.id} className={`story-profile ${index <= currentStoryIndex ? "viewed-story" : ""}`} onClick={() => openStory(story, index)}>
                     <img src={`http://localhost:8000${story.user.profile_picture}`} alt="Profile" />
                     <div className="story-username">{story.user.username}</div>
                 </div>
@@ -98,18 +106,18 @@ const StoriesComponent = () => {
         </div>
         {isStoryModalActive && (
             <div className="story-modal">
-                <div className="progress-bars-container">
-                    {stories.map((_, index) => (
-                        <div
-                            key={index}
-                            className={`progress-bar ${index <= currentStoryIndex ? 'active' : ''}`}
-                            style={index === currentStoryIndex ? { width: `${progress}%` } : {}}
-                        />
-                    ))}
-                </div>
                 <div className="story-carousel">
                     {stories.map((story, index) => (
-                        <div className="story-content" style={index === currentStoryIndex ? { display: 'flex' } : { display: 'none' }}>
+                        <div key={story.id} className="story-content" style={index === currentStoryIndex ? { display: 'flex' } : { display: 'none' }}>
+                            <div className="progress-bars-container">
+                                {stories.map((story, index) => (
+                                    <div 
+                                        key={story.id}
+                                        className={`progress-bar ${index <= currentStoryIndex ? "viewed" : ""}`}
+                                        style={{ width: `${progress[index]}%` }} 
+                                    ></div>
+                                ))}
+                            </div>
                             <div className="story-header">
                                 <img src={`http://localhost:8000${story.user.profile_picture}`} alt="Profile" />
                                 <div className="username4">{story.user.username}</div>
@@ -124,8 +132,8 @@ const StoriesComponent = () => {
             </div>
         )}
     </div>
-);
-
+  );
 };
 
 export default StoriesComponent;
+

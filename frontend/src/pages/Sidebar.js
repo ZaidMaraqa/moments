@@ -14,10 +14,6 @@ const menuItems = [
     icon: "add_box",
   },
   {
-    name: "Upload Story",
-    icon: "add_box",
-  },
-  {
     name: "Profile",
     icon: "account_circle",
   },
@@ -87,9 +83,6 @@ export const Sidebar = () => {
   const handleButtonClick = (name) => {
     if (name === "Upload Moment") {
       navigate('/postupload')
-    }
-    else if(name === "Upload Story"){
-      navigate('/storyupload')
     }
     else if (name === "Log Out") {
       logoutUser();

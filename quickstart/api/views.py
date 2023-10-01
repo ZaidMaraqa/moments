@@ -118,6 +118,8 @@ class PostDeleteView(APIView):
 
         post.delete()
         return Response({'message': 'Post successfully deleted.'}, status=status.HTTP_200_OK)
+        
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
@@ -160,27 +162,6 @@ def getUserPosts(request, user_id):
 
 
 
-# @api_view(['GET'])
-# # @permission_classes([IsAuthenticated])
-# # @authentication_classes([JWTAuthentication])
-# @parser_classes([MultiPartParser, FormParser])
-# def getPosts(request):
-#     posts = Post.objects.all().order_by('-created_at')
-#     serializer = PostSerializer(posts, many=True)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
-
-# @api_view(['POST'])
-# # @permission_classes([IsAuthenticated])
-# # @authentication_classes([JWTAuthentication])
-# @parser_classes([MultiPartParser, FormParser])
-# def addPosts(request, *args, **kwargs):
-#     posts_serializer = PostSerializer(data=request.data)
-#     if posts_serializer.is_valid():
-#         posts_serializer.save()
-#         return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
-#     else:
-#         print("Error:", posts_serializer.errors)
-#         return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -217,8 +198,6 @@ class editUserProfile(APIView):
 
         # retrieve the uploaded file from the request.FILES dictionary
         profile_picture = request.FILES.get('profile_picture')
-        print("request.FILES:", request.FILES)
-        print("request.data:", request.data)
 
         if profile_picture:
             profile_picture_serializer = ProfilePictureSerializer(user, data=request.data, partial=True) 

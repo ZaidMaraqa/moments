@@ -13,7 +13,6 @@ import SearchPage from './pages/Search';
 import { Sidebar } from './pages/Sidebar';
 import EditProfilePage from './pages/EditProfilePage';
 import ExplorePage from './pages/ExplorePage';
-import UploadStory from './pages/UploadStory';
 // import '../src/css/sidebar.css'; 
 
 function App() {
@@ -34,9 +33,6 @@ function App() {
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/postupload" element={<PostUpload/>} />
-              </Route>
-              <Route element={<PrivateRoutes />}>
-                  <Route path="/storyupload" element={<UploadStory/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/userprofile/:userId" element={<UserProfilePage/>} />
