@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';
 import { Pagination } from 'react-bootstrap';
 import StoriesComponent from './StoriesComponent';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
@@ -70,6 +71,7 @@ const HomePage = () => {
           });
           // const data = await response.json();
           if (response.status === 201) {
+            toast.success('Comment posted!')
             // refresh posts
             getPosts(currentPage);
             setComments({ ...comments, [postId]: '' });
@@ -122,7 +124,7 @@ const HomePage = () => {
 
     const handleReport = async (post) => {
       if (reportedPosts.includes(post.id)) {
-        alert('You have already reported this post.');
+        toast.error('You have already reported this post.');
         return;
       }
 
@@ -136,9 +138,8 @@ const HomePage = () => {
 
           let data = await response.json();
           if (response.status === 200) {
-              console.log('reported')
+              toast.success('Post reported')
               getPosts(currentPage); // Refresh posts after reporting
-              alert(data.message);
               
               let updatedReportedPosts = [...reportedPosts, post.id];
               setReportedPosts(updatedReportedPosts);
@@ -176,6 +177,7 @@ const HomePage = () => {
 
     return (
         <div className='homePage'>
+          <ToastContainer />
            <div className="content-container">
               <div className='posts-container'>
                 <StoriesComponent />

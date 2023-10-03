@@ -231,3 +231,11 @@
 }
 
 
+/* Example */
+.homepage .toastify {
+  /* adjust properties that are causing the overlap, such as: */
+  line-height: small !important;
+  padding: 1000000px !important;
+}
+
+

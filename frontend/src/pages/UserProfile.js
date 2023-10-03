@@ -51,7 +51,6 @@ const UserProfilePage = () => {
         getUserPosts()
       }
       if (!response.ok) {
-        console.log(response.status)
         throw new Error('Error deleting the post');
       }
   

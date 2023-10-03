@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FollowButton = ({ userId, isFollowing, setFollowing }) => {
   let { authTokens, user } = useContext(AuthContext);
@@ -20,8 +22,10 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
         });
 
         if (response.status === 200) {
+          toast.success('User followed')
           setFollowing(true);
         } else {
+          toast.error('User could not be followed')
           throw new Error(response.statusText);
         }
       } catch (error) {
@@ -42,8 +46,10 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
         });
 
         if (response.status === 200) {
+          toast.success('User unfollowed')
           setFollowing(false);
         } else {
+          toast.error('User could not be unfollowed')
           throw new Error(response.statusText);
         }
       } catch (error) {
@@ -54,6 +60,7 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
 
   return (
     <button onClick={isFollowing ? handleUnFollow : handleFollow}>
+      <ToastContainer />
       {isFollowing ? 'Unfollow' : 'Follow'}
     </button>
   );

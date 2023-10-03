@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import '../css/editprofile.css'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditProfilePage = () => {
     let {authTokens} = useContext(AuthContext)
@@ -73,6 +74,7 @@ const EditProfilePage = () => {
             navigate(`/userprofile/${userId}`)
         }
         else{
+            toast.error('Failed to edit profile due to:' + data.error)
             throw new Error(response.statusText);
         }
     };
@@ -80,6 +82,7 @@ const EditProfilePage = () => {
 
     return (
         <div className="editprofile-container">
+            <ToastContainer />
             <h2>Edit Profile</h2>
                 <form className="form2" onSubmit={editProfile} encType="multipart/form-data">
             <div className="textbox1">

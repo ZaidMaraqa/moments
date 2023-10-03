@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BlockButton = ({ userId }) => {
     const { authTokens } = useContext(AuthContext);
@@ -43,6 +45,7 @@ const BlockButton = ({ userId }) => {
             })
 
             if(response.status === 204){
+                toast.success(`User ${action}ed`)
                 setIsBlocked(!isBlocked);
             } else{
                 throw new Error(response.statusText)
@@ -59,6 +62,7 @@ const BlockButton = ({ userId }) => {
 
     return (
         <button onClick={handleBlock}>
+            <ToastContainer />
             {isBlocked ? 'Unblock' : 'Block'}
         </button>
     )

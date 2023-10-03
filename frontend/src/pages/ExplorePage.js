@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
-import UserRecommendations from './UserRecommendations';
 import '../css/explore.css'
 
 const ExplorePage = () => {
