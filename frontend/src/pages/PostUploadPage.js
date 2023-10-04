@@ -38,6 +38,21 @@ function CombinedUpload() {
     const isContentAppropriate = (text) => {
         return !filter.isProfane(text);
     }
+
+    const convertToBase64 = file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                // Split the result on the comma and return the part after it
+                const base64Data = reader.result.split(',')[1];
+                resolve(base64Data);
+            };
+            reader.onerror = error => reject(error);
+        });
+    };
+    
+    
     
 
     const handleUpload = async (e) => {
@@ -48,24 +63,29 @@ function CombinedUpload() {
             toast.error('Your content has inappropriate text. Please modify and try again.');
             return; // Stop the function execution here
         }
+
+        const base64Data = await convertToBase64(file);
     
         try {
-            // Detecting inappropriate content in images using Clarifai
-            // const clarifaiResponse = await clarifaiApp.models.predict(Clarifai.MODERATION_MODEL, [file]);
-            // console.log(clarifaiResponse)
+            const clarifaiResponse = await clarifaiApp.models.predict(Clarifai.MODERATION_MODEL, {base64: base64Data});
+            console.log("Sending image data:");
+
+
+            console.log(clarifaiResponse)
     
-            // // Extracting the concepts from the Clarifai response
-            // const concepts = clarifaiResponse.outputs[0].data.concepts;
-            // const explicitContent = concepts.find(concept => concept.name === "explicit");
+            // Extracting the concepts from the Clarifai response
+            const concepts = clarifaiResponse.outputs[0].data.concepts;
+            const explicitContent = concepts.find(concept => concept.name === "safe");
+            console.log(explicitContent.value)
     
-            // if (explicitContent && explicitContent.value > 0.90) {
-            //     // If explicit content is detected with high confidence, reject the upload
-            //     toast.error('Your image contains inappropriate content. Please upload a different image.');
-            //     return;
-            // }
-            // else{
-            //     toast.success('good')
-            // }
+            if (explicitContent && explicitContent.value < 0.95) {
+                // If explicit content is detected with high confidence, reject the upload
+                toast.error('Your image contains inappropriate content. Please upload a different image.');
+                return;
+            }
+            else{
+                toast.success('good')
+            }
     
             // If no inappropriate content is detected, proceed with the upload
             const formData = new FormData();
@@ -88,6 +108,9 @@ function CombinedUpload() {
                 setFile(data);
                 navigate('/');
             } else {
+                console.log('claras response' + clarifaiResponse);
+
+                console.log(response.status)
                 toast.error('Error encountered:' + data.error);
             }
         } catch (error) {
