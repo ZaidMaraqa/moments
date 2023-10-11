@@ -38,7 +38,7 @@ class UserSerializerTest(APITestCase):
         self.assertEqual(
             set(data.keys()),
             set(['id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following', 
-                 'followers_count', 'following_count', 'profile_picture'])
+                 'followers_count', 'following_count', 'profile_picture', 'inappropriate_post_count'])
         )
 
     def test_valid_user_serializer(self):

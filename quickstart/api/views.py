@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import NoteSerializer, MyTokenObtainPairSerializer, PostSerializer, SignupSerializer, BlockUserSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer, StorySerializer
+from .serializers import NoteSerializer, MyTokenObtainPairSerializer, VerifyDetailsSerializer, PostSerializer, SignupSerializer, BlockUserSerializer, ProfilePictureSerializer, UserSerializer, CommentSerializer, StorySerializer
 from quickstart.models import Note, Post, Comment, customUser, Story
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -21,6 +21,8 @@ from rest_framework.pagination import PageNumberPagination
 from .recommender import get_recommendations
 from datetime import timedelta
 from django.utils import timezone
+from django.contrib.auth import authenticate
+
 
 
 
@@ -138,7 +140,25 @@ def report_post(request, post_id):
         return Response({'message': 'Post deleted due to multiple reports.'}, status=status.HTTP_200_OK)
 
     return Response({'message': 'Post reported.'}, status=status.HTTP_200_OK)
-        
+
+class VerifyDetailsView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    http_method_names = ['post'] 
+    
+    def post(self, request):
+        serializer = VerifyDetailsSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+            
+            # Using Django's authentication system to verify
+            user = authenticate(username=name, password=password)
+            if user:
+                return Response({'success': True})
+            return Response({'success': False}, status=400)
+        return Response(serializer.errors, status=400)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -216,6 +236,8 @@ class editUserProfile(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 @api_view(['GET'])
@@ -310,15 +332,19 @@ class UserFollowView(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def follow(self, request, user_id=None):
         user = customUser.objects.get(id=user_id)
-        if request.user.is_blocked(user) or user.is_blocked(request.user):
-            return Response({'status': 'error', 'message': 'Cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
-        if request.user != user:
-            if not request.user.following.filter(id=user_id).exists():
-                request.user.follow(user)
-                return Response({'status': 'followed'}, status=status.HTTP_200_OK)
-            else:
-                return Response({'status': 'error', 'message': 'You are already following this user.'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'status': 'error', 'message': 'Cannot follow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check for blocked status or if the user tries to follow themselves.
+        if request.user.is_blocked(user) or user.is_blocked(request.user) or request.user == user:
+            return Response({'status': 'error', 'message': 'Action not allowed.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not request.user.following.filter(id=user_id).exists():
+            request.user.follow(user)
+            if user.is_private:
+                return Response({'status': 'follow request sent'}, status=status.HTTP_200_OK)
+            return Response({'status': 'followed'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'status': 'error', 'message': 'You are already following or have sent a follow request to this user.'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
     @action(detail=True, methods=['post'])
@@ -332,6 +358,21 @@ class UserFollowView(viewsets.ModelViewSet):
                 return Response({'status': 'error', 'message': 'You are not following this user.'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'status': 'error', 'message': 'Cannot unfollow yourself.'}, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['post'])
+    def accept_follow_request(self, request, user_id=None):
+        user_to_accept = customUser.objects.get(id=user_id)
+        if request.user.follow_requests.filter(id=user_to_accept.id).exists():
+            request.user.accept_follow_request(user_to_accept)
+            return Response({'status': 'follow request accepted'}, status=status.HTTP_200_OK)
+        return Response({'status': 'error', 'message': 'No follow request from this user.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'])
+    def reject_follow_request(self, request, user_id=None):
+        user_to_reject = customUser.objects.get(id=user_id)
+        if request.user.follow_requests.filter(id=user_to_reject.id).exists():
+            request.user.reject_follow_request(user_to_reject)
+            return Response({'status': 'follow request rejected'}, status=status.HTTP_200_OK)
+        return Response({'status': 'error', 'message': 'No follow request from this user.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LikeView(APIView):

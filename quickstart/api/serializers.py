@@ -6,6 +6,12 @@ from quickstart.models import customUser
 from django.core.exceptions import ValidationError
 from PIL import Image
 
+
+
+class VerifyDetailsSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True)
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -76,6 +82,11 @@ class FollowingSerializer(serializers.ModelSerializer):
         model = customUser
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
 
+class FollowRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = customUser
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
+
 
 class ProfilePictureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -100,9 +111,13 @@ class UserSerializer(serializers.ModelSerializer):
     followers_count = serializers.ReadOnlyField(source='followers.count')
     following_count = serializers.ReadOnlyField(source='following.count')
     profile_picture = serializers.ImageField(required=False)
+    is_private = serializers.BooleanField()
+    inappropriate_post_count = serializers.IntegerField(read_only=True)
+    follow_requests = FollowRequestSerializer(many=True, read_only=True)
+
     class Meta:
         model = customUser
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following', 'followers_count', 'following_count', 'profile_picture')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio', 'followers', 'following', 'followers_count', 'following_count', 'profile_picture', 'inappropriate_post_count', 'is_private', 'follow_requests')
 
     def get_followers(self, obj):
         followers = obj.followers.all()

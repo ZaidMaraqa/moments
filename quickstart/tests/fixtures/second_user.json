@@ -1,0 +1,14 @@
+[
+    {
+      "model": "quickstart.customUser",
+      "pk": 2,
+      "fields": {
+        "username": "abd",
+        "first_name": "amro",
+        "last_name": "maraqa",
+        "email": "amr@example.org",
+        "bio": "Liverpool!",
+        "password": "pbkdf2_sha256$260000$0uzDlLZ0dSZG$OGEukvB8Lu0Q0yJF+YKj9Xa5R5RkZIj5ZuhQ2qjj4g4="
+      }
+    }
+  ]

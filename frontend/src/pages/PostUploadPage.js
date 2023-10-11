@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import '../css/postUpload.css'
-import FuzzySet from 'fuzzyset.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,10 +11,6 @@ function CombinedUpload() {
     const [text, setText] = useState('');  
     const [uploadType, setUploadType] = useState('post'); // By default, set it to 'post'
     const Filter = require('bad-words');
-
-    const filter = new Filter();
-    const bannedWords = filter.list
-    const bannedWordsSet = FuzzySet(bannedWords);
 
     const Clarifai = require('clarifai');
     const clarifaiApp = new Clarifai.App({ apiKey: '239d424aa1fe4a7bbbf65d8d7a88e9a5' });
@@ -33,10 +28,10 @@ function CombinedUpload() {
 
     const handleUploadTypeChange = (e) => {
         setUploadType(e.target.value);
-    }
+    } 
 
     const isContentAppropriate = (text) => {
-        return !filter.isProfane(text);
+        return !Filter.isProfane(text);
     }
 
     const convertToBase64 = file => {
@@ -59,7 +54,6 @@ function CombinedUpload() {
         e.preventDefault();
     
         if (!isContentAppropriate(text)) {
-            console.error("Inappropriate content detected.");
             toast.error('Your content has inappropriate text. Please modify and try again.');
             return; // Stop the function execution here
         }

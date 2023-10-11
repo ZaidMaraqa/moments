@@ -82,6 +82,9 @@ class customUser(AbstractUser, PermissionsMixin):
     following = models.ManyToManyField('self', symmetrical=False, related_name='following_to', blank=True)
     profile_picture = models.ImageField(upload_to=upload_to, blank=True, null=True, default='media/images/default.png')
     blocked_users = models.ManyToManyField('self', symmetrical=False, related_name='blocked_by', blank=True)
+    inappropriate_post_count = models.PositiveIntegerField(default=0)
+    is_private = models.BooleanField(default=False)
+    follow_requests = models.ManyToManyField('self', symmetrical=False, related_name='requested_to_follow', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
@@ -90,14 +93,32 @@ class customUser(AbstractUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
+
+    def toggle_privacy(self):
+        self.is_private = not self.is_private
+        self.save()
+
     def follow(self, user):
+        if user.is_private:
+            user.follow_requests.add(self)
+        else:
+            self._add_follower(user)
+
+    def _add_follower(self, user):
         self.following.add(user)
         user.followers.add(self)
 
     def unfollow(self, user):
         self.following.remove(user)
         user.followers.remove(self)
+
+    def accept_follow_request(self, user):
+        self._add_follower(user)
+        self.follow_requests.remove(user)
+
+    def reject_follow_request(self, user):
+        self.follow_requests.remove(user)
+
 
     def block(self, user):
         self.blocked_users.add(user)

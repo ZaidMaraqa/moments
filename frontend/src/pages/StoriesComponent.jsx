@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import '../css/StoriesComponent.css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 
 const StoriesComponent = () => {
   let [stories, setStories] = useState([]);
@@ -9,6 +13,14 @@ const StoriesComponent = () => {
   const [isStoryModalActive, setIsStoryModalActive] = useState(false);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [progress, setProgress] = useState(new Array(stories.length).fill(0)); // Initialize with zeros
+
+  const settings = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,  // Number of images you want to show
+    slidesToScroll: 1,
+    arrows: true,
+  };
   
   const getStories = async () => {
     try {
@@ -96,14 +108,14 @@ const StoriesComponent = () => {
 
   return (
     <div>
-        <div className="stories-container">
-            {uniqueStories.map((story, index) => (
-                <div key={story.id} className={`story-profile ${index <= currentStoryIndex ? "viewed-story" : ""}`} onClick={() => openStory(story, index)}>
-                    <img src={`http://localhost:8000${story.user.profile_picture}`} alt="Profile" />
-                    <div className="story-username">{story.user.username}</div>
-                </div>
-            ))}
-        </div>
+      <Slider {...settings}>
+          {uniqueStories.map((story, index) => (
+              <div key={story.id} className={`story-profile ${index <= currentStoryIndex ? "viewed-story" : ""}`} onClick={() => openStory(story, index)}>
+                  <img src={`http://localhost:8000${story.user.profile_picture}`} alt="Profile" />
+                  <div className="story-username">{story.user.username}</div>
+              </div>
+          ))}
+      </Slider>
         {isStoryModalActive && (
             <div className="story-modal">
                 <div className="story-carousel">
