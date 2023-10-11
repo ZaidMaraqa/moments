@@ -24,6 +24,7 @@ urlpatterns = [
     path('users/<int:user_id>/reject_follow_request/', views.UserFollowView.as_view({'post': 'reject_follow_request'})),
     path('user/<int:pk>/toggle_block/', views.BlockView.as_view(), name='toggle_block_user'),
     path('user/<int:user_id>/block_status/', views.getBlock.as_view(), name='get_blocked'),
+    path('delete-user/', views.deleteUser, name='delete-user'),
     path('users/<int:user_id>/recommendations/', views.getUserRecommendations),
     path('verify-details/', views.VerifyDetailsView.as_view(), name='verify-details'),
     path('users/<int:user_id>/', views.getCurrentUser, name='current_user'),

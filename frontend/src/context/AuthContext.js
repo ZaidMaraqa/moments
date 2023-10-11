@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 let AuthContext = createContext()
 
@@ -31,7 +32,8 @@ export const AuthProvider = ({children}) => {
           localStorage.setItem('authTokens', JSON.stringify(data))
           navigate('/')
         }else{
-            alert('Something went wrong here :(')
+            console.log('test')
+            toast.error('Please enter the correct credientals :(')
         }
     }
 

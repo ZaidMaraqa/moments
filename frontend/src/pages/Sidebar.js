@@ -109,11 +109,29 @@ export const Sidebar = () => {
     const data = await response.json();
     console.log(data)
     if (response.status === 200) {
-        toast.success("Visibility toggled. Current state:", data.is_private ? "Private" : "Public");
+      toast.success(`Current state: ${data.is_private ? "Private" : "Public"}`);
     } else {
         toast.error("Failed to toggle visibility. Please try again later.");
     }
 };
+
+const deleteUser = async () => {
+  const response = await fetch('http://localhost:8000/api/delete-user/', {
+    method: 'DELETE',
+    headers:{
+      'Authorization': `Bearer ${authTokens.access}`,
+    }
+  });
+
+  const data = await response.json()
+
+  if(response.status === 204){
+    logoutUser();
+    toast.success("User deleted");
+  } else{
+    toast.error("Something went wrong :(")
+  }
+}
 
 
 
@@ -218,7 +236,7 @@ export const Sidebar = () => {
                 <span className="material-symbols-outlined">lock</span>
                 <input placeholder="Password"  type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
               </div>
-              <div>
+              <div className='textbox'>
                 <button onClick={(e) => verifyDetails(e, email, password)}>Verify</button>
               </div>
             </form>
@@ -226,8 +244,14 @@ export const Sidebar = () => {
             {
                 isVerified &&
                 <>
-                    <NavButton className= 'test' name={'Switch Visibility'} icon={"lock"} onClick={() => toggleVisibility()} />
-                    <button className='test'>Delete Account</button>
+                    <div className="test">
+                      <span className='material-symbols-outlined'>{user.is_private ? "visibility_off" : "visibility"}</span>
+                      <button onClick={() => toggleVisibility()}>Switch to {user.is_private ? "Private" : "Public"}</button>
+                    </div>
+                    <div className="test">
+                        <span className="material-symbols-outlined">delete</span>
+                        <button onClick={() => deleteUser()}>Delete Account</button>
+                    </div>
                 </>
             }
           </div>

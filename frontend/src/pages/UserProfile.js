@@ -96,15 +96,15 @@ const UserProfilePage = () => {
           <div className="profile-header1">
             <img
               className="profile-picture1"
-              src={`http://localhost:8000${user.profile_picture || '/media/images/default_user.jpg'}`}
+              src={`http://localhost:8000${user.profile_picture || 'media/images/default_user.png'}`}
               alt={`${user.username}'s Profile Picture`}
             />
             <div className="profile-info1">
               <div className='username-actions1'>
                 <h3 className="profile-username1">{user.username}</h3>
                 {authTokens && currentUser.id === parseInt(userId) && (
-                    <button className= 'edit-button'onClick={() => navigate(`/editprofile/${userId}`)}>Edit</button>
-                    )}
+                  <button className= 'edit-button' onClick={() => navigate(`/editprofile/${userId}`)}>Edit</button>
+                )}
                 {authTokens && currentUser.id !== parseInt(userId) && (
                   <div className="profile-actions1">
                     <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
@@ -115,39 +115,47 @@ const UserProfilePage = () => {
               <p>{user.bio}</p>
               <div className="profile-stats1">
                 <p>{user.followers_count} <b>Followers</b></p>
-                <p>{user.following_count} <b>following</b></p>
+                <p>{user.following_count} <b>Following</b></p>
               </div>
             </div>
           </div>
           <hr className="profile-divider1" />
           <div className="posts-grid1">
-            {posts.map((post) => (
-              <li key={post.id} className='post-item1'>
-                <div className='post-image-container1'>
-                  <img className='post-image1'
-                    src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`}
-                    alt={post.post}
-                    style={{ maxWidth: '400px', maxHeight: '400px' }}
-                  />
-                </div>
-                {authTokens && currentUser.id === parseInt(userId) && (
-                  <button
-                    className="fas fa-trash"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => deletePost(post.id)}
-                  >
-                    <span className="material-symbols-outlined">delete</span>
-                  </button>
-                )}
-              </li>
-            ))}
+            {user.is_private && !isFollowing ? (
+              <div>
+                <p>This profile is private.</p>
+                <p>Follow the user to see their posts.</p>
+              </div>
+            ) : (
+              posts.map((post) => (
+                <li key={post.id} className='post-item1'>
+                  <div className='post-image-container1'>
+                    <img className='post-image1'
+                      src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`}
+                      alt={post.post}
+                      style={{ maxWidth: '400px', maxHeight: '400px' }}
+                    />
+                  </div>
+                  {authTokens && currentUser.id === parseInt(userId) && (
+                    <button
+                      className="fas fa-trash"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => deletePost(post.id)}
+                    >
+                      <span className="material-symbols-outlined">delete</span>
+                    </button>
+                  )}
+                </li>
+              ))
+            )}
           </div>
         </div>
       ) : (
         <p>Loading...</p>
       )}
     </div>
-  );  
+  );
+  
   
 };
 

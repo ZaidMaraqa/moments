@@ -22,6 +22,8 @@ from .recommender import get_recommendations
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import authenticate
+from django.db import transaction
+
 
 
 
@@ -47,6 +49,34 @@ def getRoutes(request):
         '/api/token/refresh',
     ]
     return Response(routes)
+
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def deleteUser(request):
+    try:
+        with transaction.atomic():  # Ensures database consistency
+            # Fetch user to be deleted
+            user_to_delete = request.user
+
+            # Remove from any followers/following lists of other users
+            for user in customUser.objects.all():
+                user.followers.remove(user_to_delete)
+                user.following.remove(user_to_delete)
+                user.follow_requests.remove(user_to_delete)
+                user.blocked_users.remove(user_to_delete)
+                user.save()
+
+            # Once all references are removed, delete the user
+            user_to_delete.delete()
+
+        return Response({"detail": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 @api_view(['GET'])
@@ -151,12 +181,9 @@ class VerifyDetailsView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']
-            print(email)
-            print(password)
             
             # Using Django's authentication system to verify
             user = authenticate(email=email, password=password)
-            print(user)
             if user:
                 return Response({'success': True})
             return Response({'success': False}, status=400)

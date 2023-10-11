@@ -17,7 +17,7 @@ const StoriesComponent = () => {
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: 5,  // Number of images you want to show
+    slidesToShow: 4,  // Number of images you want to show
     slidesToScroll: 1,
     arrows: true,
   };
