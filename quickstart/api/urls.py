@@ -28,6 +28,7 @@ urlpatterns = [
     path('verify-details/', views.VerifyDetailsView.as_view(), name='verify-details'),
     path('users/<int:user_id>/', views.getCurrentUser, name='current_user'),
     path('userList/', views.UserListView.as_view({'get': 'list'}), name='user_list'),
+    path('toggle-visibility/', views.toggle_visibility, name='toggle-visibility'),
     path('user/<int:user_id>/edit/', views.editUserProfile.as_view(), name='edit-user-profile'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

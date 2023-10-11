@@ -4,6 +4,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
 import AuthContext from '../context/AuthContext';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { Visibility } from '@mui/icons-material';
+
+
 
 const menuItems = [
   {
@@ -74,33 +78,7 @@ const NavButton = ({ name, icon, onClick }) => (
   </button>
 );
 
-const [isVerified, setIsVerified] = useState(false);
 
-
-const verifyDetails = async (name, password) => {
-  const response = await fetch('http://localhost:8000/api/verify-details/', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          // Add your authorization header here if required.
-      },
-      body: JSON.stringify({ name, password })
-  });
-
-  if (response.status === 200) {
-      const data = await response.json();
-      if (data.is_verified) {
-          setIsVerified(true);
-      } else {
-          // Handle verification failure
-          console.log("Verification failed");
-          setIsVerified(false);
-      }
-  } else {
-      // Handle other errors (like network or server errors)
-      console.error("Failed to verify details. Please try again later.");
-  }
-};
 
 
 
@@ -109,7 +87,64 @@ const verifyDetails = async (name, password) => {
 export const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(-1000);
   const navigate = useNavigate();
-  let { user, logoutUser } = useContext(AuthContext);
+  let { authTokens, user, logoutUser } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isFormVisible, setIsFormVisible] = useState(true)
+
+
+  const [isVerified, setIsVerified] = useState(false);
+
+
+  const toggleVisibility = async () => {
+    const response = await fetch('http://localhost:8000/api/toggle-visibility/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authTokens.access}`,
+        }
+    });
+
+
+    const data = await response.json();
+    console.log(data)
+    if (response.status === 200) {
+        toast.success("Visibility toggled. Current state:", data.is_private ? "Private" : "Public");
+    } else {
+        toast.error("Failed to toggle visibility. Please try again later.");
+    }
+};
+
+
+
+  const verifyDetails = async (e, email, password) => {
+    e.preventDefault();
+
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+    const response = await fetch('http://localhost:8000/api/verify-details/', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${authTokens.access}`,
+        },
+        body: formData
+    });
+
+
+    const data = await response.json();
+    console.log(data)
+    if (response.status === 200) {
+        setIsFormVisible(false);
+        setIsVerified(true);
+        toast.success("Verifed!");
+
+    } else {
+        // Handle other errors (like network or server errors)
+        toast.error("Failed to verify details. Please enter the correct credientals.");
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -173,19 +208,28 @@ export const Sidebar = () => {
           ))}
         </div>
           <div>
+          {isFormVisible && (
           <form className='settingsForm'>
               <div className="textbox">
                 <span className="material-symbols-outlined">email</span>
-                <input placeholder="Email" type="text" required />
+                <input placeholder="Email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
               <div className="textbox">
                 <span className="material-symbols-outlined">lock</span>
-                <input placeholder="Password" type="password" required />
+                <input placeholder="Password"  type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
               </div>
               <div>
-                <Button onClick={handleButtonClick}>Submit</Button>
+                <button onClick={(e) => verifyDetails(e, email, password)}>Verify</button>
               </div>
             </form>
+          )}
+            {
+                isVerified &&
+                <>
+                    <NavButton className= 'test' name={'Switch Visibility'} icon={"lock"} onClick={() => toggleVisibility()} />
+                    <button className='test'>Delete Account</button>
+                </>
+            }
           </div>
           <div>
           <form className='settingsForm'>

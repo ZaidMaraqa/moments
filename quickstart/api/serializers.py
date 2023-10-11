@@ -8,9 +8,13 @@ from PIL import Image
 
 
 
-class VerifyDetailsSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
+class VerifyDetailsSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+
+    class Meta:
+        model = customUser
+        fields = ('email', 'password')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

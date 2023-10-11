@@ -151,12 +151,16 @@ class VerifyDetailsView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']
+            print(email)
+            print(password)
             
             # Using Django's authentication system to verify
-            user = authenticate(username=name, password=password)
+            user = authenticate(email=email, password=password)
+            print(user)
             if user:
                 return Response({'success': True})
             return Response({'success': False}, status=400)
+        print(serializer.errors)
         return Response(serializer.errors, status=400)
 
 
@@ -168,6 +172,17 @@ def recommended_posts(request):
     recommended_posts = get_recommendations(request, user_id)
     serializer = PostSerializer(recommended_posts, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def toggle_visibility(request):
+    user = request.user
+    user.toggle_privacy()
+    return Response({'is_private': user.is_private})
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
