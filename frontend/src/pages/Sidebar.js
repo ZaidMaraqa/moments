@@ -109,6 +109,7 @@ export const Sidebar = () => {
     const data = await response.json();
     console.log(data)
     if (response.status === 200) {
+      user.is_private = data.is_private;
       toast.success(`Current state: ${data.is_private ? "Private" : "Public"}`);
     } else {
         toast.error("Failed to toggle visibility. Please try again later.");

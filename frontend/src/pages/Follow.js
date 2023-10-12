@@ -20,19 +20,29 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
             'Authorization': `Bearer ${authTokens.access}`,
           },
         });
-
+  
+        let responseData = await response.json();
+  
         if (response.status === 200) {
-          toast.success('User followed')
-          setFollowing(true);
+          if (responseData.status === "follow request sent") {
+            toast.info('Follow request sent');
+          } else if (responseData.status === "followed") {
+            toast.success('User followed');
+            setFollowing(true);
+          }
+        } else if (response.status === 400 && responseData.status === "error") {
+          toast.error(responseData.message);
         } else {
-          toast.error('User could not be followed')
+          toast.error('User could not be followed');
           throw new Error(response.statusText);
         }
       } catch (error) {
-        console.log(error);
+        toast.error('Something went wrong. Please make sure you are connected to the internet.');
       }
     }
   };
+  
+  
 
   let handleUnFollow = async () => {
     if (authTokens && userId) {

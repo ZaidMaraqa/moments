@@ -10,7 +10,9 @@ function CombinedUpload() {
     const [file, setFile] = useState(null);
     const [text, setText] = useState('');  
     const [uploadType, setUploadType] = useState('post'); // By default, set it to 'post'
-    const Filter = require('bad-words');
+    const BadWords = require('bad-words');
+    const filter = new BadWords();
+
 
     const Clarifai = require('clarifai');
     const clarifaiApp = new Clarifai.App({ apiKey: '239d424aa1fe4a7bbbf65d8d7a88e9a5' });
@@ -31,7 +33,7 @@ function CombinedUpload() {
     } 
 
     const isContentAppropriate = (text) => {
-        return !Filter.isProfane(text);
+        return !filter.isProfane(text);
     }
 
     const convertToBase64 = file => {
