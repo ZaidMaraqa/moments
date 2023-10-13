@@ -2,10 +2,13 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom'
 import '../css/recommendations.css'
+import FollowButton from './Follow';
 
 const UserRecommendations = () => {
     let { authTokens, user:currentUser } = useContext(AuthContext);
     let [recommendedUsers, setRecommendedUsers] = useState([]);
+
+    const [isFollowing, setIsFollowing] = useState(false); 
 
 
     const getRecommendations = async () => {
@@ -36,7 +39,7 @@ const UserRecommendations = () => {
 
     return (
       <div className='recommendations-wrapper'>
-        <h4>People you may know?</h4>
+        <h4>Suggested Users</h4>
         <ul>
           {recommendedUsers.map((user) => (
             <li key={user.id}>
@@ -48,6 +51,7 @@ const UserRecommendations = () => {
               <Link to={`/userprofile/${user.id}`}>
                 <button className="suggested-user-button">{user.username}</button>
               </Link>
+              <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
             </li>
           ))}
         </ul>

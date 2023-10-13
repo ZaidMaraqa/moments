@@ -1,9 +1,6 @@
   .stories-container {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding-left: 10px; /* Add space to the left */
+    flex-direction: row;/* Add space to the left */
     padding-bottom: 55px; /* Add space under the profile pictures */
   }
   
@@ -34,7 +31,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     width: 120%;
-    padding-left: 0px; /* Add space to the left */
+    margin-left: -55px;
     padding-bottom: 55px; /* Add space under the profile pictures */
   }
 

@@ -181,6 +181,10 @@ const HomePage = () => {
            <div className="content-container">
               <div className='posts-container'>
                 <StoriesComponent />
+
+                <div className="recommendations-container1">
+                      <UserRecommendations/>
+                  </div>
                 <div style={{display: "flex", flexGrow: 10,}}>
                   <ul>
                     {posts.map((post) => (
@@ -252,9 +256,6 @@ const HomePage = () => {
                     </div>
                 </div>
           </div>
-          <div className="recommendations-container1">
-            <UserRecommendations/>
-        </div>
       </div>
       );
 
