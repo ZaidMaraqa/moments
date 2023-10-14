@@ -48,10 +48,14 @@ const UserRecommendations = () => {
                     src={`http://localhost:8000${user.profile_picture || '/Desktop/default_user.jpg'}`}
                     alt={`${user.username}'s Profile Picture`}
                   />
+              <div className='darko'>
               <Link to={`/userprofile/${user.id}`}>
                 <button className="suggested-user-button">{user.username}</button>
               </Link>
+              <div className='follow'>
               <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
+              </div>
+              </div>
             </li>
           ))}
         </ul>

@@ -122,7 +122,7 @@ const UserProfilePage = () => {
           </div>
           <hr className="profile-divider1" />
           <div className="posts-grid1">
-            {user.is_private && !isFollowing ? (
+            {currentUser.id !== parseInt(userId) && user.is_private && !isFollowing ? (
               <div>
                 <p>This profile is private.</p>
                 <p>Follow the user to see their posts.</p>
