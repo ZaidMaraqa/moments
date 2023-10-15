@@ -118,7 +118,6 @@ function CombinedUpload() {
     
     return (
         <div className="upload-container">
-            <ToastContainer />
             <form className="uploadForm" onSubmit={handleUpload}>
                 <div className="input-wrapper">
                     <label htmlFor="uploadType">Upload Type:</label>

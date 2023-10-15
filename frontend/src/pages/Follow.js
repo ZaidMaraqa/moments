@@ -70,7 +70,6 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
 
   return (
     <button onClick={isFollowing ? handleUnFollow : handleFollow}>
-      <ToastContainer />
       {isFollowing ? 'Unfollow' : 'Follow'}
     </button>
   );

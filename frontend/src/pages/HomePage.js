@@ -177,7 +177,6 @@ const HomePage = () => {
 
     return (
         <div className='homePage'>
-          <ToastContainer />
            <div className="content-container">
               <div className='posts-container'>
                 <StoriesComponent />

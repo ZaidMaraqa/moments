@@ -62,7 +62,6 @@ const BlockButton = ({ userId }) => {
 
     return (
         <button onClick={handleBlock}>
-            <ToastContainer />
             {isBlocked ? 'Unblock' : 'Block'}
         </button>
     )

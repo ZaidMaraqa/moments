@@ -228,6 +228,8 @@
 }
 .recommendations-container1{
   border: none;
+  height: fit-content;
+  width: fit-content;
 }
 
 

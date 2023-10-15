@@ -23,13 +23,14 @@
   display: flex;
   align-items: center;
   font-weight: 600;
-  margin-bottom: 10px;
 }
 .darko{
   justify-content: space-between;
   flex-direction: row;
+  margin-left: -10px;
   display: flex;
   width: 180px;
+  color: #8b50e3;
 }
 
 .recommendations-wrapper ul li:last-child {
@@ -55,20 +56,20 @@
   flex-grow: 1;
 }
 
-.follow{
-  color: #ffffff;
+.recommendations-wrapper .follow button{
+  color: #8b50e3 ;
   border: none;
   cursor: pointer;
   width: fit-content;
   height: 70px;
   border-radius: 15px;
   text-align: center;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: bold;
 }
 
-.follow:hover{
-  color:#8b50e3;
+.follow button:hover{
+  color: #402074;
 }
 
 .suggested-user-button:hover {

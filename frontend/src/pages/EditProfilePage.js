@@ -82,7 +82,6 @@ const EditProfilePage = () => {
 
     return (
         <div className="editprofile-container">
-            <ToastContainer />
             <h2>Edit Profile</h2>
                 <form className="form2" onSubmit={editProfile} encType="multipart/form-data">
             <div className="textbox1">
