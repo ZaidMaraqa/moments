@@ -1,0 +1,24 @@
+.Toastify {
+    background-color: #e8e8e8;  /* Lighter Background */
+    border-radius: 20px;        /* Larger Border Radius */
+    color: white;               /* Text Color */
+    font-weight: bold;          /* Bolder Text */
+    display: flex;              /* Flexbox for alignment */
+    align-items: center;        /* Align items vertically center */         /* Padding */
+}
+  
+  
+.Toastify button {
+  background-color: #8b50e3;
+  color: #ffffff;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  border-radius: 15px;
+  font-size: 1rem;
+  width: 85px;
+  height: auto;
+  text-align: center;
+  font-weight: bold;           
+}
+  
