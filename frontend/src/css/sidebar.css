@@ -19,7 +19,7 @@
   
   
   :root {
-    --tab-width: 260px;
+    --tab-width: 220px;
   }
   
   body {
@@ -65,7 +65,7 @@
     border-bottom: 1px solid rgb(0 0 0 / 10%);
     margin-bottom: 16px;
   }
-  
+
   .tabs button {
     flex: 1 1 auto;
     display: grid;
@@ -126,7 +126,7 @@
     font-size: 22px;
   }
   
-  .settingsForm input {
+  /* .settingsForm input {
     border: 0;
     padding: 12px 0;
     height: 60px;
@@ -134,7 +134,7 @@
     font-family: inherit;
     font-size: 14px;
     outline: none;
-  }
+  } */
   .test {
     display: flex;
     align-items: center; /* vertically center items if they have different heights */
@@ -170,6 +170,8 @@
   .sidebar .textbox {
     position: relative;
   }
+
+  
   
   .sidebar .textbox span {
     position: absolute;
@@ -254,13 +256,10 @@
     z-index: 10;
   }
 
-  .carousel .slide {
-    width: 100%;
-    overflow: visible; 
+  .sidebar .carousel .slider-wrapper {
+    overflow: visible !important;
   }
-  .carousel {
-      overflow: visible; 
-  }
+
 
 
 
@@ -278,4 +277,10 @@
     width: 100px; /* Adjust the size as needed */
   }
   
+
+  @media (max-height: 999px) {
+    .logo {
+        display: none;
+    }
+}
   

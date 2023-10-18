@@ -3,9 +3,8 @@ import { Carousel as ReactCarousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
 import AuthContext from '../context/AuthContext';
-import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { Visibility } from '@mui/icons-material';
+import useBodyClass from '../utils/BodyClass';
 
 
 
@@ -85,15 +84,17 @@ const NavButton = ({ name, icon, onClick }) => (
 
 
 export const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState(-1000);
+  const [activeTab, setActiveTab] = useState(0);
   const navigate = useNavigate();
   let { authTokens, user, logoutUser } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isFormVisible, setIsFormVisible] = useState(true)
+  const [isFormVisible, setIsFormVisible] = useState(false)
+
+  useBodyClass('sidebar-body')
 
 
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(true);
 
 
   const toggleVisibility = async () => {
@@ -153,7 +154,6 @@ const deleteUser = async () => {
 
 
     const data = await response.json();
-    console.log(data)
     if (response.status === 200) {
         setIsFormVisible(false);
         setIsVerified(true);
@@ -166,10 +166,6 @@ const deleteUser = async () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setActiveTab(0);
-    }, 1); // Adjust timing as necessary
-    return () => clearTimeout(timer); // Cleanup
   }, []);
   
 
@@ -209,6 +205,8 @@ const deleteUser = async () => {
         <Nav activeTab={activeTab} onTabClicked={handleTabClicked} />
 
         <ReactCarousel
+          selectedItem={activeTab}
+          onChange={handleTabClicked}
           className="react-carousel"
           showArrows={false}
           showStatus={false}
@@ -216,8 +214,6 @@ const deleteUser = async () => {
           showIndicators={false}
           swipeable={true}
           emulateTouch={true}
-          selectedItem={activeTab}
-          onChange={handleTabClicked}
         >
         <div className="menu-items">
           {menuItems.map((item) => (
@@ -226,8 +222,8 @@ const deleteUser = async () => {
             </div>
           ))}
         </div>
-          <div>
-          {isFormVisible && (
+         <div>
+          { isFormVisible && (
           <form className='settingsForm'>
               <div className="textbox">
                 <span className="material-symbols-outlined">email</span>

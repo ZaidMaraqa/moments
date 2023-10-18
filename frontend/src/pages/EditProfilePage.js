@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import '../css/editprofile.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditProfilePage = () => {
