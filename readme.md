@@ -9,7 +9,6 @@ on user privacy and data protection since the target market was relatively young
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contribute](#contribute)
-- [License](#license)
 - [Contact](#contact)
 
 ## Features
@@ -43,9 +42,6 @@ Once the application is running, navigate to `http://localhost:3000` to start ex
 
 If you'd like to contribute, please fork the repository and make changes as you'd like. Pull requests are warmly welcome.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Contact
 
