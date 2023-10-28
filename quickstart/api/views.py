@@ -410,6 +410,21 @@ class UserListView(viewsets.ModelViewSet):
             qs = qs.filter(username__icontains=username)
         return qs
     
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def get_user_follow_requests(request, user_id):
+    # Ensure the requesting user has permission (e.g., is the user themselves or an admin)
+    if request.user.pk != user_id and not request.user.is_staff:
+        return Response({'detail': 'Not authorized to access these follow requests.'}, status=status.HTTP_403_FORBIDDEN)
+
+    user = get_object_or_404(customUser, pk=user_id)  # Get the specific user
+    follow_requests = user.follow_requests.all()  # Retrieve all follow requests for that user
+
+    serializer = UserSerializer(follow_requests, many=True)  # Serialize the data
+    return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class UserFollowView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]

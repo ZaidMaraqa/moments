@@ -35,5 +35,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('stories/', views.StoryView.as_view(), name='stories'),
     path('stories/<int:story_id>/', views.StoryView.as_view(), name='story-detail'),
-    path('check_content_safety/', views.check_content_safety)
+    path('check_content_safety/', views.check_content_safety),
+    path('users/<int:user_id>/follow_requests/', views.get_user_follow_requests, name='user_follow_requests'),
+
 ]

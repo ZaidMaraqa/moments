@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import FollowButton from './Follow';
 import BlockButton from '../components/BlockButton';
 import '../css/userprofile.css';
+import FollowRequests from './Requests'; 
+
 
 const UserProfilePage = () => {
   const { userId } = useParams();
@@ -150,6 +152,11 @@ const UserProfilePage = () => {
               ))
             )}
           </div>
+          {user && authTokens && currentUser.id === parseInt(userId) && (
+        <div>
+          <FollowRequests userId={userId} />
+        </div>
+      )}
         </div>
       ) : (
         <p>Loading...</p>
