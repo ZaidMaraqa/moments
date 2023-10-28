@@ -23,8 +23,56 @@ from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.db import transaction
+from django.http import JsonResponse
+from django.conf import settings
+from clarifai_grpc.grpc.api import service_pb2_grpc
+from clarifai_grpc.grpc.api import service_pb2
+from clarifai_grpc.grpc.api.status import status_code_pb2
+from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
+from clarifai_grpc.grpc.api import resources_pb2 as resources
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
+import base64
+
+@api_view(['POST'])
+def check_content_safety(request):
+    # Your Clarifai API key
+    api_key = settings.CLARIFAI_API_KEY
+
+    # Establish a connection with the Clarifai API
+    channel = ClarifaiChannel.get_grpc_channel()
+    stub = service_pb2_grpc.V2Stub(channel)
+
+    # The image data in base64 format
+    base64_data = request.data.get('base64')
+
+    # Create a request to the Clarifai API for content moderation
+    request = service_pb2.PostModelOutputsRequest(
+        model_id="d16f390eb32cad478c7ae150069bd2c6",  # This is the model ID for Clarifai's Moderation model
+        inputs=[
+            resources.Input(data=resources.Data(image=resources.Image(base64=base64.b64decode(base64_data))))
+        ]
+    )
+
+    # Add your API key to the request metadata
+    metadata = (('authorization', f'Key {api_key}'),)
+
+    # Send the request to Clarifai
+    response = stub.PostModelOutputs(request, metadata=metadata)
+
+    if response.status.code != status_code_pb2.SUCCESS:
+        return Response({'error': 'Error during content moderation.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # Process the response to check for explicit content
+    for output in response.outputs:
+        for concept in output.data.concepts:
+            if concept.name == "safe" and concept.value >= 0.95:
+                return Response({'safe': True}, status=status.HTTP_200_OK)
+
+    return Response({'safe': False, 'error': 'Inappropriate content detected.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

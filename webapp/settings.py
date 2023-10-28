@@ -22,7 +22,8 @@ from datetime import timedelta
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*)4!ljeqn%4cjn1+5ivw5y)ddpk@a%6ezapzh_jza$=i-@+d5)'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+CLARIFAI_API_KEY = os.environ.get('CLARIFAI_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

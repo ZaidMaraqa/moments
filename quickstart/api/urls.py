@@ -35,4 +35,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('stories/', views.StoryView.as_view(), name='stories'),
     path('stories/<int:story_id>/', views.StoryView.as_view(), name='story-detail'),
+    path('check_content_safety/', views.check_content_safety)
 ]

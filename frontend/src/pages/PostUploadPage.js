@@ -12,10 +12,6 @@ function CombinedUpload() {
     const [uploadType, setUploadType] = useState('post'); // By default, set it to 'post'
     const BadWords = require('bad-words');
     const filter = new BadWords();
-
-
-    const Clarifai = require('clarifai');
-    const clarifaiApp = new Clarifai.App({ apiKey: '239d424aa1fe4a7bbbf65d8d7a88e9a5' });
     
     let { authTokens } = useContext(AuthContext);  
     const navigate = useNavigate();
@@ -57,40 +53,37 @@ function CombinedUpload() {
     
         if (!isContentAppropriate(text)) {
             toast.error('Your content has inappropriate text. Please modify and try again.');
-            return; // Stop the function execution here
+            return;
         }
-
+    
         const base64Data = await convertToBase64(file);
     
         try {
-            const clarifaiResponse = await clarifaiApp.models.predict(Clarifai.MODERATION_MODEL, {base64: base64Data});
-            console.log("Sending image data:");
-
-
-            console.log(clarifaiResponse)
+            // First, check content safety
+            let safetyResponse = await fetch('http://localhost:8000/api/check_content_safety/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authTokens.access}`,
+                },
+                body: JSON.stringify({ base64: base64Data })
+            });
     
-            // Extracting the concepts from the Clarifai response
-            const concepts = clarifaiResponse.outputs[0].data.concepts;
-            const explicitContent = concepts.find(concept => concept.name === "safe");
-            console.log(explicitContent.value)
+            safetyResponse = await safetyResponse.json();
     
-            if (explicitContent && explicitContent.value < 0.95) {
-                // If explicit content is detected with high confidence, reject the upload
+            if (!safetyResponse.safe) {
                 toast.error('Your image contains inappropriate content. Please upload a different image.');
                 return;
             }
-            else{
-                toast.success('good')
-            }
     
-            // If no inappropriate content is detected, proceed with the upload
+            // If the content is safe, proceed with the upload
             const formData = new FormData();
             formData.append(uploadType === 'post' ? 'image' : 'content', file);
             formData.append(uploadType === 'post' ? 'text' : 'caption', text);
     
             const url = uploadType === 'post' ? 'http://localhost:8000/api/posts/' : 'http://localhost:8000/api/stories/';
     
-            let response = await fetch(url, {
+            let uploadResponse = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${authTokens.access}`,
@@ -98,22 +91,20 @@ function CombinedUpload() {
                 body: formData
             });
     
-            let data = await response.json();
-            if (response.status === 201) {
-                toast.success('Moment uploaded succesfully');
-                setFile(data);
+            let data = await uploadResponse.json();
+            if (uploadResponse.status === 201) {
+                toast.success('Moment uploaded successfully');
                 navigate('/');
             } else {
-                console.log('claras response' + clarifaiResponse);
-
-                console.log(response.status)
-                toast.error('Error encountered:' + data.error);
+                toast.error('Error encountered during upload: ' + data.error);
             }
+    
         } catch (error) {
-            console.error('Error during content moderation or upload:', error);
+            console.error('Error during content safety check or upload:', error);
             toast.error('An error occurred. Please try again later.');
         }
     };
+    
     
     
     return (
