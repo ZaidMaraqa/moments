@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/request.css'
 
-// Assuming you have a service to fetch follow requests and handle accept/decline
 
 const FollowRequests = ({ userId }) => {
     let { authTokens, user } = useContext(AuthContext);
@@ -12,10 +11,10 @@ const FollowRequests = ({ userId }) => {
 
 
 
-    let handleAccept = async () => {
-        if(authTokens && userId){
+    let handleAccept = async (requesterId) => {
+        if(authTokens && requesterId){
             try{
-                let response = await fetch(`http://localhost:8000/api/users/${userId}/accept_follow_request/`, {
+                let response = await fetch(`http://localhost:8000/api/users/${requesterId}/accept_follow_request/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -30,6 +29,7 @@ const FollowRequests = ({ userId }) => {
                     toast.success('Follower added!')
                 } else{
                     toast.error('Something went wrong')
+                    console.log(responseData)
                 }
             }catch(error){
                 toast.error('Something went wrong')
@@ -37,10 +37,10 @@ const FollowRequests = ({ userId }) => {
         }
     }
 
-    let handleDecline = async () => {
-        if(authTokens && userId){
+    let handleDecline = async (requesterId) => {
+        if(authTokens && requesterId){
             try{
-                let response = await fetch(`http://localhost:8000/api/users/${userId}/reject_follow_request/`, {
+                let response = await fetch(`http://localhost:8000/api/users/${requesterId}/reject_follow_request/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -55,6 +55,7 @@ const FollowRequests = ({ userId }) => {
                     toast.info('Follow request rejected')
                 } else{
                     toast.error('Something went wrong...')
+                    console.log(responseData)
                 }
             }catch(error){
                 toast.error('Something went wrong')
@@ -93,12 +94,14 @@ const FollowRequests = ({ userId }) => {
         <div className="follow-requests">
             <h2>Follow Requests</h2>
             <ul>
-                {requests.map(request => (
-                    <li key={userId} className="request-item">
-                        <img src={user.profile_picture} alt={user.username} />
-                        <span>{user.username}</span>
-                        <button onClick={() => handleAccept(request.user.id)}>Accept</button>
-                        <button onClick={() => handleDecline(request.user.id)}>Decline</button>
+                {requests.map((request) => (
+                    <li key={request.id} className="request-item">
+                        <img src={`http://localhost:8000${request.profile_picture}` || '/Desktop/default_user.jpg'} alt={user.username} />
+                        <span>{request.username}</span>
+                        <div className='mateen'>
+                            <button onClick={() => handleAccept(request.id)}>Accept</button>
+                            <button onClick={() => handleDecline(request.id)}>Decline</button>
+                        </div>
                     </li>
                 ))}
             </ul>

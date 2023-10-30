@@ -1,11 +1,32 @@
 .follow-requests {
-    margin: 20px;
+    padding: 20px;
+    border-radius: 20%;
+    width: auto;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+
 }
+
+.follow-requests h2 {
+    opacity: 0.9;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
 
 .request-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+}
+.request-item .mateen {
+    justify-content: space-between;
+    flex-direction: row;
+    display: flex;
+    width: 180px;
+    margin-left:30px ;
 }
 
 .request-item img {
@@ -16,5 +37,18 @@
 }
 
 .request-item button {
-    margin-left: 10px;
+    color: #8b50e3 ;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+    height: 70px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
 }
+
+.request-item button:hover {
+    color: #402074;
+}
+

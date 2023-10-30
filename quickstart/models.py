@@ -102,11 +102,15 @@ class customUser(AbstractUser, PermissionsMixin):
         if user.is_private:
             user.follow_requests.add(self)
         else:
-            self._add_follower(user)
+            self._add_following(user)
+
+    def _add_following(self, user):
+        self.following.add(user)
+        user.followers.add(self)        
 
     def _add_follower(self, user):
-        self.following.add(user)
-        user.followers.add(self)
+        self.followers.add(user)
+        user.following.add(self)
 
     def unfollow(self, user):
         self.following.remove(user)
