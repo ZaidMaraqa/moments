@@ -29,20 +29,6 @@
   border: 1px solid #ccc;
 }
 
-.upload-button {
-  padding: 10px;
-  background-color: #8b50e3;
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-}
-
-.upload-button:hover {
-  background-color: #8b50e3;
-}
 /* ... existing styles ... */
 
 .input-wrapper {

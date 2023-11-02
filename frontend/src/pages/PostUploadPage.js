@@ -4,12 +4,14 @@ import AuthContext from '../context/AuthContext';
 import '../css/postUpload.css'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UplaodButton, UploadButton } from '../components/UploadButton'
 
 
 function CombinedUpload() {
     const [file, setFile] = useState(null);
     const [text, setText] = useState('');  
     const [uploadType, setUploadType] = useState('post'); // By default, set it to 'post'
+    const [isLoading, setIsLoading] = useState(false);
     const BadWords = require('bad-words');
     const filter = new BadWords();
     
@@ -50,9 +52,11 @@ function CombinedUpload() {
 
     const handleUpload = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
     
         if (!isContentAppropriate(text)) {
             toast.error('Your content has inappropriate text. Please modify and try again.');
+            setIsLoading(false)
             return;
         }
     
@@ -73,6 +77,7 @@ function CombinedUpload() {
     
             if (!safetyResponse.safe) {
                 toast.error('Your image contains inappropriate content. Please upload a different image.');
+                setIsLoading(false)
                 return;
             }
     
@@ -93,13 +98,16 @@ function CombinedUpload() {
     
             let data = await uploadResponse.json();
             if (uploadResponse.status === 201) {
+                setIsLoading(false)
                 toast.success('Moment uploaded successfully');
                 navigate('/');
             } else {
+                setIsLoading(false)
                 toast.error('Error encountered during upload: ' + data.error);
             }
     
         } catch (error) {
+            setIsLoading(false)
             console.error('Error during content safety check or upload:', error);
             toast.error('An error occurred. Please try again later.');
         }
@@ -138,9 +146,7 @@ function CombinedUpload() {
                         className="upload-input"
                     />
                 </div>
-                <button type="submit" className="upload-button">
-                    {uploadType === 'post' ? 'Share Moment' : 'Share Story!'}
-                </button>
+                <UploadButton isLoading={isLoading} handleClick={handleUpload} />
             </form>
         </div>
     );
