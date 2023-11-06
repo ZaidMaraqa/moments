@@ -29,7 +29,6 @@ const UserProfilePage = () => {
       const data = await response.json();
       if (response.status === 200) {
         setUser(data);
-        console.log("setting user data to:", data);
         setIsFollowing(data.is_following);
 
       } else {

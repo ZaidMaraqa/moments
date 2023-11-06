@@ -56,6 +56,7 @@ const StoriesComponent = () => {
 
   const prevStory = () => {
     if (currentStoryIndex > 0) {
+      console.log(currentStory)
       setCurrentStoryIndex(currentStoryIndex - 1);
       setCurrentStory(stories[currentStoryIndex - 1]);
     }
