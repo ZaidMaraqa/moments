@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext';
 import '../css/postUpload.css'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { UplaodButton, UploadButton } from '../components/UploadButton'
+import { UploadButton } from '../components/UploadButton'
 
 
 function CombinedUpload() {

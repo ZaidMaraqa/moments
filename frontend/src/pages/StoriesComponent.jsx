@@ -4,6 +4,7 @@ import '../css/StoriesComponent.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+// import Carousel from '../components/Carousel'; 
 
 
 const StoriesComponent = () => {
@@ -106,6 +107,8 @@ const StoriesComponent = () => {
     }
   }, []);
 
+  
+
   return (
     <div>
       <Slider {...settings}>
@@ -117,6 +120,7 @@ const StoriesComponent = () => {
           ))}
       </Slider>
         {isStoryModalActive && (
+              // <Carousel slides={carouselSlides} />
             <div className="story-modal">
                 <div className="story-carousel">
                     {stories.map((story, index) => (

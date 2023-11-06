@@ -124,9 +124,6 @@ const deleteUser = async () => {
       'Authorization': `Bearer ${authTokens.access}`,
     }
   });
-
-  const data = await response.json()
-
   if(response.status === 204){
     logoutUser();
     toast.success("User deleted");
@@ -153,7 +150,6 @@ const deleteUser = async () => {
     });
 
 
-    const data = await response.json();
     if (response.status === 200) {
         setIsFormVisible(false);
         setIsVerified(true);

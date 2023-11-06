@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';
 import { Pagination } from 'react-bootstrap';
 import StoriesComponent from './StoriesComponent';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage = () => {
@@ -136,7 +136,6 @@ const HomePage = () => {
               },
           });
 
-          let data = await response.json();
           if (response.status === 200) {
               toast.success('Post reported')
               getPosts(currentPage); // Refresh posts after reporting
@@ -190,7 +189,7 @@ const HomePage = () => {
                           <img
                             className="profile-picture"
                             src={`http://localhost:8000${post.user.profile_picture || '/Desktop/default_user.jpg'}`}
-                            alt={`${post.user.username}'s Profile Picture`}
+                            alt={`${post.user.username}'s Profile`}
                           />
                           <span className="username">{post.user.username}</span>
                         </div>

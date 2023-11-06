@@ -1,14 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom'
-import '../css/recommendations.css'
-import FollowButton from './Follow';
+import '../css/recommendations.css';
 
 const UserRecommendations = () => {
     let { authTokens, user:currentUser } = useContext(AuthContext);
     let [recommendedUsers, setRecommendedUsers] = useState([]);
 
-    const [isFollowing, setIsFollowing] = useState(false); 
 
 
     const getRecommendations = async () => {
@@ -46,15 +44,12 @@ const UserRecommendations = () => {
               <img
                     className="profile-picture"
                     src={`http://localhost:8000${user.profile_picture || '/Desktop/default_user.jpg'}`}
-                    alt={`${user.username}'s Profile Picture`}
+                    alt={`${user.username}'s Profile`}
                   />
               <div className='darko'>
               <Link to={`/userprofile/${user.id}`}>
                 <button className="suggested-user-button">{user.username}</button>
               </Link>
-              <div className='follow'>
-              <FollowButton userId={user.id} isFollowing={isFollowing} setFollowing={setIsFollowing} />
-              </div>
               </div>
             </li>
           ))}

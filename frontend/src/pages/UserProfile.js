@@ -100,7 +100,7 @@ const UserProfilePage = () => {
             <img
               className="profile-picture1"
               src={`http://localhost:8000${user.profile_picture || 'media/images/default_user.png'}`}
-              alt={`${user.username}'s Profile Picture`}
+              alt={`${user.username}'s Profile`}
             />
             <div className="profile-info1">
               <div className='username-actions1'>

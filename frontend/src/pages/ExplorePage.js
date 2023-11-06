@@ -48,7 +48,7 @@ const ExplorePage = () => {
                           <img
                             className="profile-picture"
                             src={`http://localhost:8000${post.user.profile_picture || '/desktop/default_user.jpg'}`}
-                            alt={`${post.user.username}'s Profile Picture`}
+                            alt={`${post.user.username}'s Profile`}
                           />
                           <span className="username">{post.user.username}</span>
                         </div>
