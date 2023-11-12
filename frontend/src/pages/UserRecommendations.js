@@ -9,6 +9,7 @@ const UserRecommendations = () => {
 
 
 
+
     const getRecommendations = async () => {
         try{
             let response = await fetch(`http://localhost:8000/api/users/${currentUser.id}/recommendations/`,{
@@ -32,11 +33,28 @@ const UserRecommendations = () => {
 
     useEffect(() => {
         getRecommendations();
+        console.log('c')
+        console.log(currentUser.profile_picture)
     }, [authTokens])
 
 
     return (
       <div className='recommendations-wrapper'>
+        <ul>
+          <li>
+          <img
+              className="profile-picture"
+              src={`http://localhost:8000${currentUser.profile_picture}`}
+              alt={`${currentUser.username}'s Profile`}
+            />
+              <div className='darko'>
+              <Link to={`/userprofile/${currentUser.id}`}>
+                <button className="suggested-user-button">{currentUser.username}</button>
+              </Link>
+              </div>
+          </li>
+        </ul>
+
         <h4>Suggested Users</h4>
         <ul>
           {recommendedUsers.map((user) => (

@@ -57,7 +57,6 @@ def check_content_safety(request):
         ]
     )
 
-    # Add your API key to the request metadata
     metadata = (('authorization', f'Key {api_key}'),)
 
     # Send the request to Clarifai
@@ -143,6 +142,19 @@ class CustomPageNumberPagination(PageNumberPagination):
             'previous': self.get_previous_link(),
             'results': data
         })
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def getPosts(request):
+    following_users = request.user.following.all()
+    following_user_ids = [user.id for user in following_users]
+    posts = Post.objects.filter(Q(user_id__in=following_user_ids) & ~Q(user_id=request.user.id))
+
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
     
 
 class PostView(APIView):

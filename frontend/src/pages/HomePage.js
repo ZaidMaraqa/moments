@@ -5,24 +5,46 @@ import '../css/sidebar.css'
 import { faHeart, faComment, faFlag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UserRecommendations from './UserRecommendations';
-import { Pagination } from 'react-bootstrap';
+// import { Pagination } from 'react-bootstrap';
 import StoriesComponent from './StoriesComponent';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PaginationPosts from '../components/Pagination';
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
+    let [totalPosts, setTotalPosts] = useState([])
     let {authTokens} = useContext(AuthContext);
     let [comments, setComments] = useState({});
     let {user} = useContext(AuthContext);
-    let [currentPage, setCurrentPage] = useState(1);
+    let [activePage, setActivePage] = useState(1);
     let [nextPage, setNextPage] = useState(null);
     let [prevPage, setPrevPage] = useState(null);
+    let [pageCount, setPageCount] = useState();
+
+
 
     const [reportedPosts, setReportedPosts] = useState(
       () => JSON.parse(localStorage.getItem(`reportedPosts_${user.id}`)) || []
-  );
-  
+    );
+
+    // Gets the total number of non-paginated posts for pagination purposes.
+    let getTotalPosts = async () => {
+        try {
+          let response = await fetch(`http://localhost:8000/api/post`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authTokens.access}`,
+                },
+            });
+            
+            let data = await response.json();
+            setPageCount(Math.ceil(data.length / 10)); 
+            console.log("page count is" + pageCount)
+        } catch (error) {
+            console.log(error)
+        }
+    };
     
     
     let getPosts = async (page) => {
@@ -73,7 +95,7 @@ const HomePage = () => {
           if (response.status === 201) {
             toast.success('Comment posted!')
             // refresh posts
-            getPosts(currentPage);
+            getPosts(activePage);
             setComments({ ...comments, [postId]: '' });
           } 
           else {
@@ -138,7 +160,7 @@ const HomePage = () => {
 
           if (response.status === 200) {
               toast.success('Post reported')
-              getPosts(currentPage); // Refresh posts after reporting
+              getPosts(activePage); // Refresh posts after reporting
               
               let updatedReportedPosts = [...reportedPosts, post.id];
               setReportedPosts(updatedReportedPosts);
@@ -153,24 +175,27 @@ const HomePage = () => {
     };
 
     let handlePageChange = async (newPage) => {
+      console.log('Changing to page: ', newPage);
+
       if (newPage < 1) {
         console.log("There's no previous page.");
         return;
       }
     
-      if (!nextPage && newPage > currentPage) {
+      if (!nextPage && newPage > activePage) {
         console.log("There's no next page.");
         return;
       }
-    
-      setCurrentPage(newPage);
+      setActivePage(newPage);
       getPosts(newPage);
     };
     
   
     
     useEffect(() => { 
-        getPosts(currentPage);
+        console.log(activePage)
+        getTotalPosts();
+        getPosts(activePage);
     }, []);
 
 
@@ -205,7 +230,7 @@ const HomePage = () => {
                       </div>
                         <div className='actions'>
                         <button onClick={() => handleLike(post)}>
-                          <FontAwesomeIcon icon={faHeart} />
+                        <FontAwesomeIcon icon={faHeart} />
                           {/* <span>{post.likes.length}</span> */}
                         </button> <button onClick={() => handleComment(post.id)}>
                             <FontAwesomeIcon icon={faComment} className="comment-icon" />
@@ -236,22 +261,12 @@ const HomePage = () => {
                   </ul>
                   </div>
                   <div className='pagination-container'>
-                      <Pagination>
-                          <Pagination.Prev
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={!prevPage}
-                          />
-                          <Pagination.Item active>{currentPage}</Pagination.Item>
-                          <Pagination.Next
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={!nextPage}
-                          />
-                      </Pagination>
+                    <PaginationPosts activePage={activePage} pagecount={pageCount} onChange={handlePageChange} />
                     </div>
                 </div>
           </div>
           <div className="recommendations-container1">
-                      <UserRecommendations/>
+            <UserRecommendations/>
           </div>
       </div>
       );

@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import FollowButton from './Follow';
+import FollowButton from '../components/FollowButton';
 import BlockButton from '../components/BlockButton';
 import '../css/userprofile.css';
 import FollowRequests from './Requests'; 
+import DeleteButton from '../components/DeleteButton';
 
 
 const UserProfilePage = () => {
@@ -36,31 +37,6 @@ const UserProfilePage = () => {
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const deletePost = async (postId) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/posts/${postId}/delete/`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authTokens.access}`,
-        },
-      });
-      
-      if(response.status === 200){
-        getUserPosts()
-      }
-      if (!response.ok) {
-        throw new Error('Error deleting the post');
-      }
-  
-      const data = await response.json();
-      console.log(data.message); // Post successfully deleted.
-      // Perform any necessary updates to your component state or UI here.
-    } catch (error) {
-      console.error('Error:', error);
     }
   };
   
@@ -116,8 +92,9 @@ const UserProfilePage = () => {
               </div>
               <p>{user.bio}</p>
               <div className="profile-stats1">
-                <p>{user.followers_count} <b>Followers</b></p>
-                <p>{user.following_count} <b>Following</b></p>
+                <p><b>Followers</b> {user.followers_count} </p>
+                <p><b>Following</b> {user.following_count}</p>
+                <p><b>Moments</b> {posts.length}</p>
               </div>
             </div>
           </div>
@@ -139,22 +116,16 @@ const UserProfilePage = () => {
                     />
                   </div>
                   {authTokens && currentUser.id === parseInt(userId) && (
-                    <button
-                      className="fas fa-trash"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => deletePost(post.id)}
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </button>
+                    <DeleteButton postId={post.id} authTokens={authTokens}  />
                   )}
                 </li>
               ))
             )}
           </div>
           {user && authTokens && currentUser.id === parseInt(userId) && (
-        <div>
-          <FollowRequests userId={userId} />
-        </div>
+          <div>
+            <FollowRequests userId={userId} />
+          </div>
       )}
         </div>
       ) : (

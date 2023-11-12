@@ -15,7 +15,6 @@ import EditProfilePage from './pages/EditProfilePage';
 import ExplorePage from './pages/ExplorePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import '../src/css/sidebar.css'; 
 
 function App() {
 

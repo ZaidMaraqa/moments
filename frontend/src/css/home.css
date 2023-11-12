@@ -6,6 +6,7 @@
   max-width: 100%;
   margin: 0 auto;
   background: white; 
+  font-family: "Euclid Circular A";
 }
 
 .homePage .posts-container {
@@ -37,7 +38,7 @@
   margin: 1px;
   padding-left: 1px;
   font-size: 14px;
-  font-family: Arial, sans-serif;
+  font-family: inherit;
 }
 
 .profile-header {

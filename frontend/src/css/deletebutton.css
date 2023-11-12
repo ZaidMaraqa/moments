@@ -1,0 +1,96 @@
+.delete-button {
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 20px;
+    width: 250px;
+    border: 0;
+    border-radius: 10px;
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    background: #ef4169;
+    color: #f9f9f9;
+    cursor: pointer;
+  }
+
+  .delete-button:hover {
+    background: #f90e45;
+  }
+  
+  @keyframes loading {
+    0% {
+      transform: translateX(25px);
+    }
+    100% {
+      transform: translateX(-20px);
+    }
+  }
+  
+  @keyframes spin {
+    100% {
+      rotate: 1turn;
+    }
+  }
+  
+  .delete-button > :is(span, img) {
+    position: relative;
+    z-index: 3;
+  }
+  
+  .delete-button > span:last-child {
+    width: 136px;
+  }
+  
+  .delete-button img {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .delete-button::before,
+  .delete-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 300%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  
+  .delete-button::before {
+    z-index: 1;
+    background: #8b50e3
+      repeating-linear-gradient(
+        60deg,
+        transparent,
+        transparent 10px,
+        rgb(157, 6, 187) 10px,
+        rgb(130, 5, 155) 10px,
+      );
+  }
+  
+  .delete-button::after {
+    z-index: 2;
+    background: linear-gradient(transparent, #8b50e3 90%);
+  }
+  
+  .delete-button.loading::before,
+  .delete-button.loading::after {
+    opacity: 1;
+  }
+  
+  .delete-button.loading::before {
+    animation: loading 0.7s infinite linear;
+  }
+  
+  .delete-button.loading img {
+    animation: spin 1s infinite linear;
+  }
+  

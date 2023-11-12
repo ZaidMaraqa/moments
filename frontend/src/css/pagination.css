@@ -1,0 +1,59 @@
+.pagination-container .pagination-body {
+  display: grid; /* Changed from grid to flex to align items in a row */
+  justify-content: center; /* This will center the pagination horizontally */
+  align-items: center; /* This will center the pagination vertically */
+  height: fit-content;
+  background: #18202a;
+  font-family: "Euclid Circular A";
+}
+
+  
+  .pagination-container  button {
+    font-family: inherit;
+  }
+  
+  .pagination-container .pagination {
+    list-style: none;
+    padding: 0;
+    display: flex; /* Flex is used for horizontal alignment */
+    gap: 2px;
+    justify-content: center; /* Center the pagination items */
+}
+  
+  .pagination-container .pagination > :is(button, span) {
+    display: flex; /* Flex here ensures that the items align well */
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none; /* Changed from 0 to none for clarity */
+    background: #283445;
+    color: #f9f9f9;
+    font-size: 12px;
+    cursor: pointer; /* Changed default to pointer */
+}
+  
+  .pagination-container  .pagination > button:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .pagination-container  .pagination > button:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .pagination-container  .pagination > button:not(span) {
+    cursor: pointer;
+  }
+  
+  .pagination-container  .pagination > button.active {
+    background: #8b50e3;
+    color: #f9f9f9;
+  }
+  
+  .pagination-container  .pagination > button:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }

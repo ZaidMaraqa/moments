@@ -1,7 +1,7 @@
 // Button.js
 import React from 'react';
 import '../css/uploadbutton.css';
-import iconSettings from './settings.svg';
+import iconSettings from './assets/settings.svg';
 
 export const UploadButton = ({ isLoading, handleClick }) => {
   return (

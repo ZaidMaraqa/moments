@@ -23,7 +23,7 @@
   }
   
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Euclid Circular A";
     background-color: #fafafa;
   }
 
@@ -117,7 +117,7 @@
   
   .menu-item button:hover {
     background-color: #8b50e3;
-    color: rgb(15, 15, 15);
+    color: #fff;
   }
   
 
@@ -154,7 +154,7 @@
   .test:hover,
   .settingsForm button:hover{
     background-color: #8b50e3;
-    color: rgb(15, 15, 15);
+    color: #fff;
   }
 
   .settingsForm {
@@ -282,5 +282,5 @@
     .logo {
         display: none;
     }
-}
+  }
   

@@ -93,20 +93,25 @@ const FollowRequests = ({ userId }) => {
     return (
         <div className="follow-requests">
             <h2>Follow Requests</h2>
-            <ul>
-                {requests.map((request) => (
-                    <li key={request.id} className="request-item">
-                        <img src={`http://localhost:8000${request.profile_picture}` || '/Desktop/default_user.jpg'} alt={user.username} />
-                        <span>{request.username}</span>
-                        <div className='mateen'>
-                            <button onClick={() => handleAccept(request.id)}>Accept</button>
-                            <button onClick={() => handleDecline(request.id)}>Decline</button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            {requests.length === 0 ? (
+                <p>No follow requests...</p>
+            ) : (
+                <ul>
+                    {requests.map((request) => (
+                        <li key={request.id} className="request-item">
+                            <img src={`http://localhost:8000${request.profile_picture}` || '/Desktop/default_user.jpg'} alt={user.username} />
+                            <span>{request.username}</span>
+                            <div className='mateen'>
+                                <button onClick={() => handleAccept(request.id)}>Accept</button>
+                                <button onClick={() => handleDecline(request.id)}>Decline</button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
+    
 }
 
 export default FollowRequests;
