@@ -267,7 +267,7 @@ const HomePage = () => {
                   </ul>
                   </div>
                   <div className='pagination-container'>
-                    <PaginationPosts activePage={activePage} pagecount={pageCount} onChange={handlePageChange} />
+                    <PaginationPosts activePage={activePage} pageCount={pageCount} onChange={handlePageChange} />
                     </div>
                 </div>
           </div>

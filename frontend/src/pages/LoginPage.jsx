@@ -30,7 +30,7 @@ useBodyClass('login-background')
               <span className="material-symbols-outlined">lock</span>
             </div>
             <button type="submit">LOGIN</button>
-            <span>Don't have an account? Sign up </span><Link to="/signup">here</Link>
+            <span>Don't have an account? Sign up <Link to="/signup">here</Link></span>
           </form>
         </div>
       </div>

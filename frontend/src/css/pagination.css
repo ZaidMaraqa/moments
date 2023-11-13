@@ -3,7 +3,7 @@
   justify-content: center; /* This will center the pagination horizontally */
   align-items: center; /* This will center the pagination vertically */
   height: fit-content;
-  background: #18202a;
+  /* background: #18202a; */
   font-family: "Euclid Circular A";
 }
 
