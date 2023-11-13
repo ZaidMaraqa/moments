@@ -4,7 +4,7 @@ import "../css/pagination.css"
 
 
 const maxPageButtons = 15;
-
+//test
 const PaginationPosts = ({ activePage, pageCount, onChange }) => {
   const [pages, setPages] = useState([]);
 
