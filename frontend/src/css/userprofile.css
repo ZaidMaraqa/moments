@@ -36,6 +36,7 @@
 .profile-actions1 {
   display: flex;
   gap: 0.5rem;
+  font-family: "Euclid Circular A";
 }
 
 .profile-actions1 button {
@@ -108,4 +109,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.delete {
+  margin: 10px;
 }

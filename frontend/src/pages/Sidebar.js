@@ -188,7 +188,7 @@ const deleteUser = async () => {
       navigate(`/explore`)
     }
     else if (name === "Code") {
-      navigate(`/code`)
+      navigate(`/conduct`)
     }
     else{
       navigate('/')

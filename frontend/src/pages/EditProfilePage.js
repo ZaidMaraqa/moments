@@ -4,6 +4,7 @@ import AuthContext from '../context/AuthContext';
 import '../css/editprofile.css'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useBodyClass from '../utils/BodyClass';
 
 const EditProfilePage = () => {
     let {authTokens} = useContext(AuthContext)
@@ -16,6 +17,8 @@ const EditProfilePage = () => {
     const [bio, setBio] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
     const defaultProfilePicture = '/desktop/default_user.jpg'
+
+    useBodyClass('edit-body');
 
     let isValidImage = (file) => {
         const acceptedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -81,36 +84,38 @@ const EditProfilePage = () => {
 
 
     return (
-        <div className="editprofile-container">
-            <h2>Edit Profile</h2>
-                <form className="form2" onSubmit={editProfile} encType="multipart/form-data">
-            <div className="textbox1">
-                <label className="input-label2" htmlFor="username">Username</label>
-                <input type="text" id="username" name={username} onChange={(e) => setUsername(e.target.value)} />
-            </div>
-            <div className="textbox1">
-                <label className="input-label2"  htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name={firstName} onChange={(e) => setFirstName(e.target.value)} />
-            </div>
-            <div className="textbox1">
-                <label className="input-label2" htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name={lastName} onChange={(e) => setLastName(e.target.value)} />
-            </div>
-            <div className="textbox1">
-                <label className="input-label2" htmlFor="bio">Bio</label>
-                <input type="text" id="bio" name={lastName} onChange={(e) => setBio(e.target.value)} />
-            </div>
-            <div className="textbox1">
-                <label className="input-label2"  htmlFor="profilePicture">Profile Picture</label>
-                <input type="file" id="profilePicture" name="profilePicture" onChange={(e) => setProfilePicture(e.target.files[0])} />
-            </div>
-            {user && (
-                <div className="profile-picture-container3">
-                <img src={profilePicture || user.profile_picture || defaultProfilePicture} alt="Profile" />
+        <div className='edit-body'>
+            <div className="editprofile-container">
+                <h2>Edit Profile</h2>
+                    <form className="form2" onSubmit={editProfile} encType="multipart/form-data">
+                <div className="textbox1">
+                    <label className="input-label2" htmlFor="username">Username</label>
+                    <input type="text" id="username" name={username} onChange={(e) => setUsername(e.target.value)} />
                 </div>
-            )}
-            <button className='bazinga'type="submit">Save Changes</button>
-            </form>
+                <div className="textbox1">
+                    <label className="input-label2"  htmlFor="firstName">First Name</label>
+                    <input type="text" id="firstName" name={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                </div>
+                <div className="textbox1">
+                    <label className="input-label2" htmlFor="lastName">Last Name</label>
+                    <input type="text" id="lastName" name={lastName} onChange={(e) => setLastName(e.target.value)} />
+                </div>
+                <div className="textbox1">
+                    <label className="input-label2" htmlFor="bio">Bio</label>
+                    <input type="text" id="bio" name={lastName} onChange={(e) => setBio(e.target.value)} />
+                </div>
+                <div className="textbox1">
+                    <label className="input-label2"  htmlFor="profilePicture">Profile Picture</label>
+                    <input type="file" id="profilePicture" name="profilePicture" onChange={(e) => setProfilePicture(e.target.files[0])} />
+                </div>
+                {user && (
+                    <div className="profile-picture-container3">
+                    <img src={profilePicture || user.profile_picture || defaultProfilePicture} alt="Profile" />
+                    </div>
+                )}
+                <button className='bazinga'type="submit">Save Changes</button>
+                </form>
+            </div>
         </div>
     );
 

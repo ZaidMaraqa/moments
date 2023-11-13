@@ -115,9 +115,11 @@ const UserProfilePage = () => {
                       style={{ maxWidth: '400px', maxHeight: '400px' }}
                     />
                   </div>
+                <div className='delete'>
                   {authTokens && currentUser.id === parseInt(userId) && (
                     <DeleteButton postId={post.id} authTokens={authTokens}  />
                   )}
+                  </div>
                 </li>
               ))
             )}

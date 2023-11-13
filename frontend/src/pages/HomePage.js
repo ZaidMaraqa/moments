@@ -30,7 +30,7 @@ const HomePage = () => {
 
     // Gets the total number of non-paginated posts for pagination purposes.
     let getTotalPosts = async () => {
-        try {
+      try {
           let response = await fetch(`http://localhost:8000/api/post`, {
                 method: 'GET',
                 headers: {
@@ -38,13 +38,18 @@ const HomePage = () => {
                 },
             });
             
-            let data = await response.json();
-            setPageCount(Math.ceil(data.length / 10)); 
-            console.log("page count is" + pageCount)
-        } catch (error) {
-            console.log(error)
-        }
-    };
+          let data = await response.json();
+  
+          if(response.status === 200){
+              const pageTotl = Math.ceil(data.length / 10)
+              setPageCount(pageTotl); 
+              console.log("Page count set to " + pageTotl)
+          }
+      } catch (error) {
+          console.log(error)
+      }
+  };
+  
     
     
     let getPosts = async (page) => {
@@ -195,6 +200,7 @@ const HomePage = () => {
     useEffect(() => { 
         console.log(activePage)
         getTotalPosts();
+        console.log(pageCount)
         getPosts(activePage);
     }, []);
 

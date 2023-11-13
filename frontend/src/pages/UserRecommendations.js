@@ -33,7 +33,6 @@ const UserRecommendations = () => {
 
     useEffect(() => {
         getRecommendations();
-        console.log('c')
         console.log(currentUser.profile_picture)
     }, [authTokens])
 

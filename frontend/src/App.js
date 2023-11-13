@@ -12,6 +12,7 @@ import CodeOfConduct from './pages/conductpage'
 import SearchPage from './pages/Search';
 import { Sidebar } from './pages/Sidebar';
 import EditProfilePage from './pages/EditProfilePage';
+import { Accordion } from './pages/conduct';
 import ExplorePage from './pages/ExplorePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -44,6 +45,9 @@ function App() {
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/explore" element={<ExplorePage/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
+                  <Route path="/conduct" element={<Accordion/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
                   <Route path="/editprofile/:userId" element={<EditProfilePage/>} />

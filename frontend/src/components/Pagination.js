@@ -9,6 +9,7 @@ const PaginationPosts = ({ activePage, pageCount, onChange }) => {
   const buildPages = useCallback(() => {
     let start = 1; // Start from 1 to match 1-indexed pages from backend
     let end = pageCount < 5 ? pageCount + 1 : 5; // If pageCount is less than 5, show all pages, otherwise show up to 5
+    console.log(pageCount)
   
     // If activePage is greater than 2, and there are more than 4 pages ahead
     if (activePage > 2 && activePage < pageCount - 2) {
