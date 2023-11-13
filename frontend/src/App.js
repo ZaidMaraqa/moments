@@ -1,11 +1,11 @@
 import './App.css';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom'
 import PrivateRoutes from './utils/PrivateRoutes'
 import AuthContext, { AuthProvider } from './context/AuthContext'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignupPage';
-import React, { useContext } from 'react';
 import PostUpload from './pages/PostUploadPage';
 import UserProfilePage from './pages/UserProfile';
 import SearchPage from './pages/Search';
@@ -17,6 +17,29 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+
+  const[isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Example condition: Hide loader after data is fetched or after a timeout
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700); // Assuming it takes 3 seconds to load your data
+
+    // Alternatively, you might set this based on actual data fetching logic
+  }, []);
+
+  useEffect(() => {
+    // This effect runs when isLoading changes.
+    const loader = document.getElementById('loader');
+    if (loader) {
+      if (isLoading) {
+        loader.style.display = 'grid'; // Show loader
+      } else {
+        loader.style.display = 'none'; // Hide loader
+      }
+    }
+  }, [isLoading]);
 
   return (
     <div className="App">
