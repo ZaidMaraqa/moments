@@ -15,7 +15,9 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.217);
+
+    /* background: radial-gradient(circle, rgba(0, 0, 13), rgb(0, 0, 0)); */
   }
   
   .modal-content {
@@ -47,7 +49,6 @@
   
   .image-section img {
     max-width: 100%;
-    max-height: 80vh; /* Limit image height */
     object-fit: contain;
   }
   
@@ -55,6 +56,7 @@
     width: 50%;
     overflow-y: auto; /* Allow scrolling on overflow */
     padding: 20px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
   }
@@ -74,25 +76,45 @@
   .comment-input {
     margin-top: auto; /* Push input to the bottom */
     padding-top: 10px;
-    border-top: 1px solid #dbdbdb;
   }
   
   .comment-input input {
     width: calc(100% - 90px); /* Adjust width for button */
     padding: 8px;
     margin-right: 10px; /* Space between input and button */
-    border: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
     border-radius: 3px;
   }
   
   .comment-input button {
     padding: 8px 20px;
-    background-color: #0095f6;
+    background-color: blue;
+    color:aqua;
     color: white;
-    border: none;
+    border: 2px;
     border-radius: 3px;
     cursor: pointer;
   }
+  /* PostWithComments.css */
+/* ... other styles ... */
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px 0; /* Add padding for spacing */
+  }
+  
+  .comment-user-image {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    border-radius: 50%; /* Circular images for profile pictures */
+    margin-right: 10px; /* Spacing between image and comment text */
+    object-fit: cover; /* Ensure the image covers the area */
+  }
+  
+  /* ... */
+  
   
   
   

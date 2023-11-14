@@ -2,6 +2,8 @@ import React from 'react';
 import '../css/postwithcomments.css'; // Make sure to create this CSS file for styling
 
 const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
+
+    console.log(comments);
   return (
     <div className="post-modal">
       <div className="modal-backdrop" onClick={onClose} />
@@ -17,7 +19,8 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
         <div className="comments-container">
           {comments.map((comment, index) => (
             <div key={index} className="comment">
-              <strong>{comment.username}</strong>: {comment.text}
+                <img src={`http://localhost:8000${comment.user.profile_picture}`} alt={comment.user.username} className="comment-user-image"/>
+                <strong>{comment.user.username}</strong>: {comment.comment_text}
             </div>
           ))}
         </div>
