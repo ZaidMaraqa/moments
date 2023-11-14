@@ -9,6 +9,7 @@ import UserRecommendations from './UserRecommendations';
 import StoriesComponent from './StoriesComponent';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PostWithComments from '../components/PostWithComments';
 import PaginationPosts from '../components/Pagination';
 
 const HomePage = () => {
@@ -21,6 +22,12 @@ const HomePage = () => {
     let [nextPage, setNextPage] = useState(null);
     let [prevPage, setPrevPage] = useState(null);
     let [pageCount, setPageCount] = useState();
+    let [activePost, setActivePost] = useState(null);
+
+
+    const closeModal = async () => {
+      setActivePost(null);
+    }
 
 
 
@@ -81,7 +88,9 @@ const HomePage = () => {
         }
     };
 
-    let handleComment = async (postId) => {
+    let handleComment = async (post) => {
+      const postId = post.id;
+      console.log(postId)
       const commentText = comments[postId];
         try {
           const response = await fetch(`http://localhost:8000/api/posts/${postId}/comment/`, {
@@ -102,6 +111,7 @@ const HomePage = () => {
             // refresh posts
             getPosts(activePage);
             setComments({ ...comments, [postId]: '' });
+            setActivePost(post);
           } 
           else {
             throw new Error(response.statusText);
@@ -114,6 +124,7 @@ const HomePage = () => {
 
     let handleLike = async (post) => {
       const postId = post.id;
+      console.log(postId)
       try {
         let alreadyLiked = JSON.parse(localStorage.getItem('likedPosts')) || [];
         if (alreadyLiked.includes(postId)) {
@@ -238,7 +249,7 @@ const HomePage = () => {
                         <button onClick={() => handleLike(post)}>
                         <FontAwesomeIcon icon={faHeart} />
                           {/* <span>{post.likes.length}</span> */}
-                        </button> <button onClick={() => handleComment(post.id)}>
+                        </button> <button onClick={() => handleComment(post)}>
                             <FontAwesomeIcon icon={faComment} className="comment-icon" />
                           </button>
                         </div>
@@ -254,13 +265,14 @@ const HomePage = () => {
                               setComments({ ...comments, [post.id]: e.target.value })
                             } 
                           />
-                          {/* <ul>
-                          {post.comments.map((comment) => (
-                            <li key={comment.id}>
-                              <p style={{ color: 'black' }}>{comment.user.username}</p>  <span> : </span> <p style={{ color: 'black' }}>{comment.comment_text}</p>
-                            </li>
-                          ))}
-                        </ul> */}
+                        {activePost && (
+                            <PostWithComments
+                              imageUrl={`http://localhost:8000${activePost.image}`}
+                              caption={activePost.text}
+                              comments={activePost.comments}
+                              onClose={closeModal}
+                            />
+                          )}
                           </div>
                         </li>
                       ))}

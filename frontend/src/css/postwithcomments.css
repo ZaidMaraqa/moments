@@ -1,0 +1,135 @@
+/* PostWithComments.css */
+.post-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    position: relative;
+    display: flex;
+    width: 80%; /* You can adjust this */
+    max-width: 1200px; /* And this */
+    background: white;
+    z-index: 1001;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  /* PostWithComments.css */
+.image-section {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-section img {
+    max-width: 100%;
+    max-height: 80vh; /* Limit image height */
+    object-fit: contain;
+  }
+  
+  .comments-section {
+    width: 50%;
+    overflow-y: auto; /* Allow scrolling on overflow */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (max-width: 768px) {
+    .modal-content {
+      flex-direction: column;
+    }
+  
+    .image-section,
+    .comments-section {
+      width: 100%; /* Stack image and comments on smaller screens */
+    }
+  }
+  
+  /* Add any additional styling for your comments and inputs here */
+  .comment-input {
+    margin-top: auto; /* Push input to the bottom */
+    padding-top: 10px;
+    border-top: 1px solid #dbdbdb;
+  }
+  
+  .comment-input input {
+    width: calc(100% - 90px); /* Adjust width for button */
+    padding: 8px;
+    margin-right: 10px; /* Space between input and button */
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+  }
+  
+  .comment-input button {
+    padding: 8px 20px;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  
+  
+
+  
+  /* .caption7 {
+    margin-bottom: 20px;
+  }
+  
+  .comments-container {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .comment {
+    margin-bottom: 10px;
+  }
+  
+  .comment-input {
+    border-top: 1px solid #dbdbdb;
+    padding-top: 10px;
+  }
+  
+  .comment-input input {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+  }
+  
+  .comment-input button {
+    width: 18%;
+    padding: 8px;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    margin-left: 2%;
+  } */
+  
