@@ -41,7 +41,7 @@
 
   /* PostWithComments.css */
 .image-section {
-    width: 50%;
+    width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,11 +49,12 @@
   
   .image-section img {
     max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
   }
   
   .comments-section {
-    width: 50%;
+    width: 40%;
     overflow-y: auto; /* Allow scrolling on overflow */
     padding: 20px;
     flex-grow: 1;
@@ -76,25 +77,28 @@
   .comment-input {
     margin-top: auto; /* Push input to the bottom */
     padding-top: 10px;
+    display: flex;
   }
   
   .comment-input input {
-    width: calc(100% - 90px); /* Adjust width for button */
+    width: calc(100%); /* Adjust width for button */
     padding: 8px;
     margin-right: 10px; /* Space between input and button */
     border-bottom: 1px solid #dbdbdb;
     border-radius: 3px;
+    flex-grow: 1;
+
   }
+  
   
   .comment-input button {
     padding: 8px 20px;
-    background-color: blue;
-    color:aqua;
+    background-color: blue; /* Ensure this is the blue you want */
     color: white;
-    border: 2px;
+    border: none;
     border-radius: 3px;
     cursor: pointer;
-  }
+}
   /* PostWithComments.css */
 /* ... other styles ... */
 

@@ -13,9 +13,9 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
           <img src={imageUrl} alt="Post" />
         </div>
       <div className="comments-section">
-        <div className="caption7">
+        {/* <div className="caption7">
           <strong>Caption:</strong> {caption}
-        </div>
+        </div> */}
         <div className="comments-container">
           {comments.map((comment, index) => (
             <div key={index} className="comment">
@@ -25,7 +25,7 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
           ))}
         </div>
         <div className="comment-input">
-          <input type="text" placeholder="Add a comment..." />
+          <input type="text" placeholder="Add a comment..."  />
           <button>Post</button>
         </div>
       </div>
