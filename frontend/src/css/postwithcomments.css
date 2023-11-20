@@ -29,7 +29,9 @@
     position: relative;
     display: flex;
     width: 80%; /* You can adjust this */
-    max-width: 1200px; /* And this */
+    max-width: 95vw; /* And this */
+    max-height: 90vh;
+    overflow-y: auto;
     background: white;
     z-index: 1001;
   }
@@ -54,16 +56,18 @@
 
   /* PostWithComments.css */
 .image-section {
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    margin: 0;
   }
   
   .image-section img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 950px;
     object-fit: contain;
+    
   }
   
   .comments-section {
@@ -71,6 +75,7 @@
     overflow-y: scroll; /* Allow scrolling on overflow */
     padding: 20px;
     flex-grow: 1;
+    max-height: 850;
     display: flex;
     flex-direction: column;
   }
@@ -84,6 +89,29 @@
     .comments-section {
       width: 100%; /* Stack image and comments on smaller screens */
     }
+
+    .modal-content {
+      /* ... */
+      overflow-y: initial; /* Reset any overflow properties */
+    }
+  
+    .image-section,
+    .comments-section {
+      /* No need to set a fixed height here; it will inherit the height from .modal-content */
+      max-height: none;
+    }
+  
+    .comments-container {
+      /* Allow this to grow as needed on small screens */
+      flex-grow: 1;
+      max-height: none; /* Height is controlled by parent */
+    }
+  
+    .comment-input button {
+      /* ... */
+      left: initial; /* Reset left positioning on small screens */
+      right: 10px; /* Adjust as necessary */
+    }
   }
   
   /* Add any additional styling for your comments and inputs here */
@@ -91,12 +119,14 @@
     margin-top: auto; /* Push input to the bottom */
     padding-top: 10px;
     display: flex;
+    align-items: center;
+    position: relative;
   }
   
   .comment-input input {
-    width: calc(100% - 60px); /* Adjust width for button */
+    width: 100%; /* Adjust width for button */
     padding: 8px;
-    margin-right: 10px; /* Space between input and button */
+    padding-right: 60px; /* Space between input and button */
     border-bottom: 1px solid #dbdbdb;
     border-radius: 3px;
     flex-grow: 1;
@@ -105,19 +135,22 @@
   
   
   .comment-input button {
-    margin-top: 20%;
-    padding: 8px 13px;
-    background-color: #8b50e3; /* Ensure this is the blue you want */
-    color: white;
-    width: fit-content;
-    height: fit-content;
+    position: absolute; /* Position the button absolutely within .comment-input */
+    right: 0%; /* Align to the right */
+    top: 50%; /* Align to the top, then offset by half the height of the button for centering */
+    left: 90%;
+    transform: translateY(-50%); /* Center the button vertically */
+    padding: 8px 16px;
+    color: #8b50e3; /* Adjust the color to your preference */
+    opacity: 0.2;
     border: none;
-    border-radius: 10px;
+    border-radius: 3px 0 0 3px; /* Rounded corners on the left side to blend with the input field */
     cursor: pointer;
-}
+  }
 
   .comment-input button:hover {
-    background-color: #7529e7; 
+    color: #7529e7;
+    opacity: 1; 
   }
 
   .comment {
@@ -135,42 +168,3 @@
     margin-right: 10px; /* Spacing between image and comment text */
     object-fit: cover; /* Ensure the image covers the area */
   }
-  
-  /* ... */
-  
-  
-  
-  
-
-  
-  /* .caption7 {
-    margin-bottom: 20px;
-  }
-  
-  
-  .comment {
-    margin-bottom: 10px;
-  }
-  
-  .comment-input {
-    border-top: 1px solid #dbdbdb;
-    padding-top: 10px;
-  }
-  
-  .comment-input input {
-    width: 80%;
-    padding: 8px;
-    border: 1px solid #dbdbdb;
-    border-radius: 3px;
-  }
-  
-  .comment-input button {
-    width: 18%;
-    padding: 8px;
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    margin-left: 2%;
-  } */
-  

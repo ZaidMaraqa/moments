@@ -33,7 +33,7 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
           ))}
         </div>
         <div className="comment-input">
-          <input type="text" placeholder="Add a comment..."  />
+          <input type="text" placeholder="Add a comment..."  /> 
           <button>Post</button>
         </div>
       </div>
