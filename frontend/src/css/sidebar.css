@@ -22,17 +22,6 @@
     --tab-width: 220px;
   }
   
-  body {
-    font-family: "Euclid Circular A";
-    background-color: #fafafa;
-  }
-
-  @media (max-width: 899px) {
-      .sidebar {
-          display: none;
-      }
-  }
-  
   button {
     background: transparent;
     border: 0;
@@ -62,6 +51,7 @@
     display: flex;
     align-items: center;
     height: 72px;
+    color: black;
     border-bottom: 1px solid rgb(0 0 0 / 10%);
     margin-bottom: 16px;
   }
@@ -71,7 +61,7 @@
     display: grid;
     place-items: center;
     opacity: 0.6;
-    color: #756f7d;
+    color: black;
   }
   
   .tabs button.active {
@@ -126,15 +116,6 @@
     font-size: 22px;
   }
   
-  /* .settingsForm input {
-    border: 0;
-    padding: 12px 0;
-    height: 60px;
-    background: transparent;
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-  } */
   .test {
     display: flex;
     align-items: center; /* vertically center items if they have different heights */
@@ -283,4 +264,53 @@
         display: none;
     }
   }
+
+
+  /* ... existing styles ... */
+
+@media (max-width: 1199px) {
+  .sidebar {
+    width: 60px; /* Adjust to match your design */
+    padding: 0;
+    justify-content: center;
+  }
+  
+  /* Center the icons and hide text labels */
+  .sidebar .material-symbols-outlined {
+    margin: 0 auto; /* Center horizontally */
+    display: block; /* Stack icons vertically */
+    
+  }
+  
+  .sidebar button {
+    width: 100%; /* Full width of the collapsed sidebar */
+    padding: 10px 0; /* Padding for tap area */
+    justify-content: center;
+    text-align: center; /* Center the icon text */
+  }
+
+  .menu-items{
+    margin-top: 20vh;
+  }
+  
+  /* Hide labels next to icons */
+  .sidebar button span {
+    display: none; /* Hide the text label */
+  }
+  .tabs{
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+}
+
+/* Add a class for toggling visibility on small screens */
+.is-collapsed {
+  width: var(--tab-width); /* Only enough width to show icons */
+}
+
+/* ... */
+
   

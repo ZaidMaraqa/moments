@@ -99,7 +99,6 @@
 .username {
   margin: 0;
   font-weight: bold;
-  font-size: 1000000px;
   margin-right: 10px;
 }
 
@@ -233,6 +232,49 @@
   border: none;
   height: fit-content;
   width: fit-content;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .homePage .posts-container {
+    max-width: 90%; /* Give some padding on the sides */
+  }
+
+  .username {
+    font-size: 1rem; /* Smaller font size on mobile */
+  }
+
+  .profile-picture {
+    width: 40px; /* Smaller profile picture on mobile */
+    height: 40px; /* Smaller profile picture on mobile */
+    margin-left: 0;
+  }
+
+  .actions {
+    margin-top: 0;
+    margin-left: 0;
+  }
+  
+  .caption span {
+    font-size: 0.8rem; /* Smaller font size for captions on mobile */
+  }
+}
+
+
+@media only screen and (max-width: 480px) {
+  .profile-header {
+    flex-direction: column; /* Stack profile info and actions vertically on very small screens */
+    align-items: flex-start;
+  }
+
+  .profile-info {
+    width: 100%; /* Allow profile info to take full width */
+    justify-content: space-between;
+  }
+
+  .report-button {
+    align-self: flex-end; /* Align report button to the end of the flex container */
+  }
 }
 
 

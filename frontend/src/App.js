@@ -54,6 +54,9 @@ function App() {
                   <Route path="/" element={<HomePage/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
+                  <Route path="/sidebar" element={<Sidebar/>} />
+              </Route>
+              <Route element={<PrivateRoutes />}>
                   <Route path="/postupload" element={<PostUpload/>} />
               </Route>
               <Route element={<PrivateRoutes />}>
