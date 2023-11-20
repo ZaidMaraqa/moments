@@ -24,6 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         token['id'] = user.id
+        token['profile_picture'] = str(user.profile_picture)
         # ...
     
 

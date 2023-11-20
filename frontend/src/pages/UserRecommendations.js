@@ -34,17 +34,16 @@ const UserRecommendations = () => {
 
     useEffect(() => {
         getRecommendations();
-        console.log(currentUser.profile_picture)
     }, [authTokens])
 
 
     return (
       <div className='recommendations-wrapper'>
-        <ul>
+        <ul className='current-user'>
           <li>
           <img
               className="profile-picture"
-              src={`http://localhost:8000${currentUser.profile_picture}`}
+              src={`http://localhost:8000/media/${currentUser.profile_picture}`}
               alt={`${currentUser.username}'s Profile`}
             />
               <div className='darko'>

@@ -8,6 +8,10 @@ import '../css/userprofile.css';
 import FollowRequests from './Requests'; 
 import DeleteButton from '../components/DeleteButton';
 import { config } from '../utils/env'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import UserRecommendations from './UserRecommendations';
+
 
 
 const UserProfilePage = () => {
@@ -102,9 +106,9 @@ const UserProfilePage = () => {
           <hr className="profile-divider1" />
           <div className="posts-grid1">
             {currentUser.id !== parseInt(userId) && user.is_private && !isFollowing ? (
-              <div>
-                <p>This profile is private.</p>
-                <p>Follow the user to see their posts.</p>
+              <div className='private-display'>
+                <FontAwesomeIcon className='harvey' icon={faLock} />
+                <p>This profile is private.</p>    
               </div>
             ) : (
               posts.map((post) => (

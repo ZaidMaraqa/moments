@@ -114,3 +114,23 @@
 .delete {
   margin: 10px;
 }
+
+
+.private-display{
+  width: max-content;
+  height: max-content;
+  display: grid;
+  align-items: center;
+  margin-left: 15vw;
+  margin-top: 5vh;
+}
+
+.private-display p {
+  font-weight: bold;
+  font-family: "Euclid Circular A";
+  padding: 20px;
+}
+.harvey{
+  width: 200px;
+  height: 200px;
+}

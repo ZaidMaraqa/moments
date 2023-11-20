@@ -2,14 +2,14 @@
   border: none;
   padding: 10px;
   background-color: #ffffff;
-  width: 350px;
+  max-width: 350px;
+  width: 100%;
 }
 
 .recommendations-wrapper h4 {
   opacity: 0.9;
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 20px;
 }
 
 .recommendations-wrapper ul {
@@ -24,13 +24,10 @@
   align-items: center;
   font-weight: 600;
 }
-.darko{
-  justify-content: space-between;
-  flex-direction: row;
-  margin-left: -10px;
-  display: flex;
-  width: 180px;
-  color: #8b50e3;
+
+.recommendations-wrapper .current-user {
+  width: fit-content;
+  height: fit-content;
 }
 
 .recommendations-wrapper ul li:last-child {
@@ -39,8 +36,10 @@
 
 
 .recommendations-wrapper ul li img.profile-picture {
-  width: 40px !important;
-  height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   margin-right: 10px !important; 
 }
@@ -57,7 +56,7 @@
 }
 
 .recommendations-wrapper .follow button{
-  color: #8b50e3 ;
+  color: #8b50e3;
   border: none;
   cursor: pointer;
   width: fit-content;
@@ -74,4 +73,28 @@
 
 .suggested-user-button:hover {
   color: #8b50e3;
+}
+
+
+
+@media (max-width: 768px) {
+  .recommendations-wrapper ul li {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align to the start */
+  }
+
+  .recommendations-wrapper ul li img.profile-picture {
+    width: 30px; /* Smaller image size */
+    height: 30px;
+    margin-bottom: 5px; /* Add space below the image */
+  }
+
+  .suggested-user-button {
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .recommendations-wrapper h4 {
+    font-size: 14px; /* Smaller heading */
+  }
+
 }

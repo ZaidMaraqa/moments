@@ -153,7 +153,7 @@
   justify-content: center; /* Align vertically */
   flex-direction: column; /* Stack children vertically */
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 7vw;
   background: white;
 }
 
@@ -230,6 +230,7 @@
 }
 .recommendations-container1{
   border: none;
+  margin-top: 17vh;
   height: fit-content;
   width: fit-content;
 }
