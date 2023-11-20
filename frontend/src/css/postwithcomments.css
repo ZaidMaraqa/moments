@@ -19,6 +19,11 @@
 
     /* background: radial-gradient(circle, rgba(0, 0, 13), rgb(0, 0, 0)); */
   }
+
+  .comments-container {
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
   
   .modal-content {
     position: relative;
@@ -35,8 +40,16 @@
     right: 10px;
     border: none;
     background: none;
+    color: black;
+    height: fit-content;
+    width: fit-content;
     font-size: 24px;
     cursor: pointer;
+  }
+
+  .comment-text {
+    max-width: 100%; /* Prevent overflow outside the comment container */
+    overflow-y: auto; /* Scroll if text is too long */
   }
 
   /* PostWithComments.css */
@@ -55,7 +68,7 @@
   
   .comments-section {
     width: 40%;
-    overflow-y: auto; /* Allow scrolling on overflow */
+    overflow-y: scroll; /* Allow scrolling on overflow */
     padding: 20px;
     flex-grow: 1;
     display: flex;
@@ -81,7 +94,7 @@
   }
   
   .comment-input input {
-    width: calc(100%); /* Adjust width for button */
+    width: calc(100% - 60px); /* Adjust width for button */
     padding: 8px;
     margin-right: 10px; /* Space between input and button */
     border-bottom: 1px solid #dbdbdb;
@@ -92,22 +105,28 @@
   
   
   .comment-input button {
-    padding: 8px 20px;
-    background-color: blue; /* Ensure this is the blue you want */
+    margin-top: 20%;
+    padding: 8px 13px;
+    background-color: #8b50e3; /* Ensure this is the blue you want */
     color: white;
+    width: fit-content;
+    height: fit-content;
     border: none;
-    border-radius: 3px;
+    border-radius: 10px;
     cursor: pointer;
 }
-  /* PostWithComments.css */
-/* ... other styles ... */
 
-.comment {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 5px 0; /* Add padding for spacing */
+  .comment-input button:hover {
+    background-color: #7529e7; 
   }
+
+  .comment {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      padding: 5px 0; /* Add padding for spacing */
+      word-wrap: break-word;
+    }
   
   .comment-user-image {
     width: 40px; /* Adjust size as needed */
@@ -128,10 +147,6 @@
     margin-bottom: 20px;
   }
   
-  .comments-container {
-    flex-grow: 1;
-    overflow-y: auto;
-  }
   
   .comment {
     margin-bottom: 10px;

@@ -123,7 +123,7 @@
 }
 
 
-.homePage ul li div input[type="text"] {
+.homeInput{
   width: 100%;
   margin-right: 10px;
   padding: 5px;
@@ -131,13 +131,15 @@
   border-radius: 4px;
 }
 
-.homePage ul li div input[type="text"]:focus {
+.homeInput:focus {
   outline: none;
   /* border-color: #1da1f2;
   box-shadow: 0 0 5px #1da1f2; */
 }
 
-.homePage ul li div button {
+.commenting-button,
+.report-button,
+.like-button {
   background-color: transparent;
   color:  #48474a;
   padding: 5px 10px;

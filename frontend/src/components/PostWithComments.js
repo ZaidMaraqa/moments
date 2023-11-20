@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../css/postwithcomments.css'; // Make sure to create this CSS file for styling
 
 const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
 
-    console.log(comments);
+  useEffect(() => {
+    // When the modal is open
+    document.body.style.overflow = 'hidden';
+    // Re-enable scrolling when the modal is closed
+    return () => (document.body.style.overflow = 'unset');
+  }, []); // Run this effect when the component mounts
+
   return (
     <div className="post-modal">
       <div className="modal-backdrop" onClick={onClose} />
@@ -20,7 +26,9 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
           {comments.map((comment, index) => (
             <div key={index} className="comment">
                 <img src={`http://localhost:8000${comment.user.profile_picture}`} alt={comment.user.username} className="comment-user-image"/>
-                <strong>{comment.user.username}</strong>: {comment.comment_text}
+              <div className='comment-text'>
+                <strong>{comment.user.username}</strong> {comment.comment_text}
+              </div>
             </div>
           ))}
         </div>

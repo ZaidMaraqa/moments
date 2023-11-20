@@ -89,9 +89,16 @@ const HomePage = () => {
     };
 
     let handleComment = async (post) => {
-      const postId = post.id;
-      console.log(postId)
-      const commentText = comments[postId];
+        const postId = post.id;
+        const commentText = comments[postId] || '';
+
+        // If the comment is empty, just open the modal and return
+        if (!commentText.trim()) {
+          setActivePost(post);
+          return;
+        }
+
+      
         try {
           const response = await fetch(`http://localhost:8000/api/posts/${postId}/comment/`, {
             method: 'POST',
@@ -118,7 +125,6 @@ const HomePage = () => {
           }
         } catch (error) {
           console.log(error);
-        //   logoutUser();
         }
     };
 
@@ -246,10 +252,11 @@ const HomePage = () => {
                         <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>
                       </div>
                         <div className='actions'>
-                        <button onClick={() => handleLike(post)}>
+                        <button className='like-button' onClick={() => handleLike(post)}>
                         <FontAwesomeIcon icon={faHeart} />
                           {/* <span>{post.likes.length}</span> */}
-                        </button> <button onClick={() => handleComment(post)}>
+                        </button> 
+                        <button  className='commenting-button' onClick={() => handleComment(post)}>
                             <FontAwesomeIcon icon={faComment} className="comment-icon" />
                           </button>
                         </div>
@@ -258,6 +265,7 @@ const HomePage = () => {
                         </div>
                         <div>
                           <input 
+                            className='homeInput'
                             type="text" 
                             placeholder="Add a comment" 
                             value={comments[post.id] || ''} 
