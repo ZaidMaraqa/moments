@@ -5,6 +5,8 @@ import '../css/postUpload.css'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UploadButton } from '../components/UploadButton'
+import { config } from '../utils/env'
+
 
 
 function CombinedUpload() {
@@ -64,7 +66,7 @@ function CombinedUpload() {
     
         try {
             // First, check content safety
-            let safetyResponse = await fetch('http://localhost:8000/api/check_content_safety/', {
+            let safetyResponse = await fetch(`${config.apiUrl}/check_content_safety/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +88,7 @@ function CombinedUpload() {
             formData.append(uploadType === 'post' ? 'image' : 'content', file);
             formData.append(uploadType === 'post' ? 'text' : 'caption', text);
     
-            const url = uploadType === 'post' ? 'http://localhost:8000/api/posts/' : 'http://localhost:8000/api/stories/';
+            const url = uploadType === 'post' ? `${config.apiUrl}/posts/` : `${config.apiUrl}/stories/`;
     
             let uploadResponse = await fetch(url, {
                 method: 'POST',

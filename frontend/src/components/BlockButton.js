@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { config } from '../utils/env'
+
 
 const BlockButton = ({ userId }) => {
     const { authTokens } = useContext(AuthContext);
@@ -10,7 +12,7 @@ const BlockButton = ({ userId }) => {
 
     const getBlocked = async () => {
         try{
-            let response = await fetch(`http://localhost:8000/api/user/${userId}/block_status/`,{
+            let response = await fetch(`${config.apiUrl}/user/${userId}/block_status/`,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +38,7 @@ const BlockButton = ({ userId }) => {
         let action = isBlocked ? 'unblock' : 'block';
 
         try{
-            let response = await fetch(`http://localhost:8000/api/user/${userId}/toggle_block/?action=${action}`, {
+            let response = await fetch(`${config.apiUrl}/user/${userId}/toggle_block/?action=${action}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

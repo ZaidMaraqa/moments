@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom'
 import '../css/recommendations.css';
+import { config } from '../utils/env'
 
 const UserRecommendations = () => {
     let { authTokens, user:currentUser } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const UserRecommendations = () => {
 
     const getRecommendations = async () => {
         try{
-            let response = await fetch(`http://localhost:8000/api/users/${currentUser.id}/recommendations/`,{
+            let response = await fetch(`${config.apiUrl}/users/${currentUser.id}/recommendations/`,{
               method: 'GET',
               headers:{
                 'Content-Type': 'application/json',

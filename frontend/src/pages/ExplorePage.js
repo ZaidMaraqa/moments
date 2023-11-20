@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import '../css/explore.css'
+import { config } from '../utils/env'
+
 
 const ExplorePage = () => {
 
@@ -10,7 +12,7 @@ const ExplorePage = () => {
 
     let getRecommendedPosts = async () => {
         try{
-            let response = await fetch('http://localhost:8000/api/recommended_posts', {
+            let response = await fetch(`${config.apiUrl}/recommended_posts`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

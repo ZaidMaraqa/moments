@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PostWithComments from '../components/PostWithComments';
 import PaginationPosts from '../components/Pagination';
+import { config } from '../utils/env'
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
@@ -38,7 +39,7 @@ const HomePage = () => {
     // Gets the total number of non-paginated posts for pagination purposes.
     let getTotalPosts = async () => {
       try {
-          let response = await fetch(`http://localhost:8000/api/post`, {
+          let response = await fetch(`${config.apiUrl}/post`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authTokens.access}`,
@@ -61,7 +62,7 @@ const HomePage = () => {
     
     let getPosts = async (page) => {
         try {
-          let response = await fetch(`http://localhost:8000/api/posts/?page=${page}`, {
+          let response = await fetch(`${config.apiUrl}/posts/?page=${page}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authTokens.access}`,
@@ -100,7 +101,7 @@ const HomePage = () => {
 
       
         try {
-          const response = await fetch(`http://localhost:8000/api/posts/${postId}/comment/`, {
+          const response = await fetch(`${config.apiUrl}/posts/${postId}/comment/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -138,7 +139,7 @@ const HomePage = () => {
           return;
         }
     
-        let response = await fetch(`http://localhost:8000/api/posts/${postId}/like/`, {
+        let response = await fetch(`${config.apiUrl}/posts/${postId}/like/`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${authTokens.access}`,
@@ -173,7 +174,7 @@ const HomePage = () => {
       }
 
       try {
-          let response = await fetch(`http://localhost:8000/api/posts/${post.id}/report/`, {
+          let response = await fetch(`${config.apiUrl}/posts/${post.id}/report/`, {
               method: 'POST',
               headers: {
                   'Authorization': `Bearer ${authTokens.access}`,

@@ -7,6 +7,7 @@ import BlockButton from '../components/BlockButton';
 import '../css/userprofile.css';
 import FollowRequests from './Requests'; 
 import DeleteButton from '../components/DeleteButton';
+import { config } from '../utils/env'
 
 
 const UserProfilePage = () => {
@@ -19,7 +20,7 @@ const UserProfilePage = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/user/${userId}/profile/`, {
+      const response = await fetch(`${config.apiUrl}/user/${userId}/profile/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ const UserProfilePage = () => {
 
   const getUserPosts = async () => {
     try{
-      const response = await fetch(`http://localhost:8000/api/posts/user/${userId}/`,{
+      const response = await fetch(`${config.apiUrl}/posts/user/${userId}/`,{
         method: 'GET',
         headers:{
           'Content-Type': 'application/json',

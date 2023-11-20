@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import useBodyClass from '../utils/BodyClass';
+import { config } from '../utils/env'
 
 
 
@@ -98,7 +99,7 @@ export const Sidebar = () => {
 
 
   const toggleVisibility = async () => {
-    const response = await fetch('http://localhost:8000/api/toggle-visibility/', {
+    const response = await fetch(`${config.apiUrl}/toggle-visibility/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -118,7 +119,7 @@ export const Sidebar = () => {
 };
 
 const deleteUser = async () => {
-  const response = await fetch('http://localhost:8000/api/delete-user/', {
+  const response = await fetch(`${config.apiUrl}/delete-user/`, {
     method: 'DELETE',
     headers:{
       'Authorization': `Bearer ${authTokens.access}`,
@@ -141,7 +142,7 @@ const deleteUser = async () => {
     const formData = new FormData();
     formData.append('email', email);
     formData.append('password', password);
-    const response = await fetch('http://localhost:8000/api/verify-details/', {
+    const response = await fetch(`${config.apiUrl}/verify-details/`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${authTokens.access}`,

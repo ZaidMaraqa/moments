@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import '../css/deletebutton.css';
+import { config } from '../utils/env'
+
 
 const DeleteButton = ({ postId, authTokens }) => {
 
@@ -10,7 +12,7 @@ const DeleteButton = ({ postId, authTokens }) => {
   const deletePost = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`http://localhost:8000/api/posts/${postId}/delete/`, {
+      const response = await fetch(`${config.apiUrl}/posts/${postId}/delete/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

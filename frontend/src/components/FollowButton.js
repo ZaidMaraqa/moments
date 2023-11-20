@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { config } from '../utils/env'
+
 
 const FollowButton = ({ userId, isFollowing, setFollowing }) => {
   let { authTokens, user } = useContext(AuthContext);
@@ -13,7 +15,7 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
   let handleFollow = async () => {
     if (authTokens && userId) {
       try {
-        let response = await fetch(`http://localhost:8000/api/users/${userId}/follow/`, {
+        let response = await fetch(`${config.apiUrl}/users/${userId}/follow/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -47,7 +49,7 @@ const FollowButton = ({ userId, isFollowing, setFollowing }) => {
   let handleUnFollow = async () => {
     if (authTokens && userId) {
       try {
-        let response = await fetch(`http://localhost:8000/api/users/${userId}/unfollow/`, {
+        let response = await fetch(`${config.apiUrl}/users/${userId}/unfollow/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

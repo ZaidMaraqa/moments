@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import '../css/signUp.css'; 
 import useBodyClass from '../utils/BodyClass';
+import { config } from '../utils/env'
+
 
   const SignupPage = () => {
 
@@ -13,7 +15,7 @@ import useBodyClass from '../utils/BodyClass';
   let signUpUser = async (e ) => {
     try {
       e.preventDefault();
-      const response = await fetch('http://localhost:8000/api/signup/', {
+      const response = await fetch(`${config.apiUrl}/signup/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

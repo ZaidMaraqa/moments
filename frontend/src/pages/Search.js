@@ -2,6 +2,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import '../css/search.css'
+import { config } from '../utils/env'
+
 
 const SearchPage = () => {
     let {authTokens} = useContext(AuthContext);
@@ -11,7 +13,7 @@ const SearchPage = () => {
 
     let searchUsers = async () => {
       try {
-        let response = await fetch(`http://localhost:8000/api/userList?username=${encodeURIComponent(searchUser)}`, {
+        let response = await fetch(`${config.apiUrl}/userList?username=${encodeURIComponent(searchUser)}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

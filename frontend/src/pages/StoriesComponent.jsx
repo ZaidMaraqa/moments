@@ -4,6 +4,7 @@ import '../css/StoriesComponent.css';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { config } from '../utils/env'
 // import Carousel from '../components/Carousel'; 
 
 
@@ -25,7 +26,7 @@ const StoriesComponent = () => {
   
   const getStories = async () => {
     try {
-      let response = await fetch('http://localhost:8000/api/stories/', {
+      let response = await fetch(`${config.apiUrl}/stories/`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${authTokens.access}`,

@@ -5,6 +5,8 @@ import '../css/editprofile.css'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useBodyClass from '../utils/BodyClass';
+import { config } from '../utils/env'
+
 
 const EditProfilePage = () => {
     let {authTokens} = useContext(AuthContext)
@@ -63,7 +65,7 @@ const EditProfilePage = () => {
           }
 
         
-        let response = await fetch(`http://localhost:8000/api/user/${userId}/edit/`, {
+        let response = await fetch(`${config.apiUrl}/user/${userId}/edit/`, {
             method:'PATCH',
             headers: {
                 'Authorization': `Bearer ${authTokens.access}`,

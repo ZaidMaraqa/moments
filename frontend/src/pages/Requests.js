@@ -3,6 +3,8 @@ import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/request.css'
+import { config } from '../utils/env'
+
 
 
 const FollowRequests = ({ userId }) => {
@@ -14,7 +16,7 @@ const FollowRequests = ({ userId }) => {
     let handleAccept = async (requesterId) => {
         if(authTokens && requesterId){
             try{
-                let response = await fetch(`http://localhost:8000/api/users/${requesterId}/accept_follow_request/`, {
+                let response = await fetch(`${config.apiUrl}/users/${requesterId}/accept_follow_request/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -40,7 +42,7 @@ const FollowRequests = ({ userId }) => {
     let handleDecline = async (requesterId) => {
         if(authTokens && requesterId){
             try{
-                let response = await fetch(`http://localhost:8000/api/users/${requesterId}/reject_follow_request/`, {
+                let response = await fetch(`${config.apiUrl}/users/${requesterId}/reject_follow_request/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,7 +68,7 @@ const FollowRequests = ({ userId }) => {
 
     let getFollowRequests = async () => {
         try{
-            let response = await fetch(`http://localhost:8000/api/users/${userId}/follow_requests/`, {
+            let response = await fetch(`${config.apiUrl}/users/${userId}/follow_requests/`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authTokens.access}`,

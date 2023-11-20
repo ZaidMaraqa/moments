@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { config } from '../utils/env'
 
 let AuthContext = createContext()
 
@@ -17,7 +18,7 @@ export const AuthProvider = ({children}) => {
 
     let loginUser = async (e )=> {
         e.preventDefault();
-        let response = await fetch('http://localhost:8000/api/token/', {
+        let response = await fetch(`${config.apiUrl}/token/`, {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -58,7 +59,7 @@ export const AuthProvider = ({children}) => {
     }
 
     let updateToken = async ()=> {
-        let response = await fetch('http://localhost:8000/api/token/refresh/', {
+        let response = await fetch(`${config.apiUrl}/token/refresh/`, {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
