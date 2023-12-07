@@ -15,7 +15,6 @@ import { config } from '../utils/env'
 
 const HomePage = () => {
     let [posts, setPosts] = useState([]);
-    let [totalPosts, setTotalPosts] = useState([])
     let {authTokens} = useContext(AuthContext);
     let [comments, setComments] = useState({});
     let {user} = useContext(AuthContext);
@@ -199,11 +198,6 @@ const HomePage = () => {
 
     let handlePageChange = async (newPage) => {
       console.log('Changing to page: ', newPage);
-
-      if (newPage < 1) {
-        console.log("There's no previous page.");
-        return;
-      }
     
       if (!nextPage && newPage > activePage) {
         console.log("There's no next page.");
@@ -280,6 +274,8 @@ const HomePage = () => {
                               caption={activePost.text}
                               comments={activePost.comments}
                               onClose={closeModal}
+                              postId={activePost.id}
+                              authTokens={authTokens}
                             />
                           )}
                           </div>

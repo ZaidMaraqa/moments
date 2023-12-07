@@ -10,7 +10,6 @@ import DeleteButton from '../components/DeleteButton';
 import { config } from '../utils/env'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import UserRecommendations from './UserRecommendations';
 
 
 

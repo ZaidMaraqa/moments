@@ -1,25 +1,62 @@
-import React, { useEffect } from 'react';
-import '../css/postwithcomments.css'; // Make sure to create this CSS file for styling
+import React, { useState, useEffect, useContext } from 'react';
+import '../css/postwithcomments.css';
+import AuthContext from '../context/AuthContext';
+import { config } from '../utils/env';
+import { toast } from 'react-toastify';
 
-const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
+const PostWithComments = ({ imageUrl, caption, comments, onClose, postId, authTokens }) => {
+  const [newComment, setNewComment] = useState('');
+  let { user } = useContext(AuthContext);
 
   useEffect(() => {
-    // When the modal is open
     document.body.style.overflow = 'hidden';
-    // Re-enable scrolling when the modal is closed
     return () => (document.body.style.overflow = 'unset');
-  }, []); // Run this effect when the component mounts
+  }, []);
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const postComment = async () => {
+    if (!newComment.trim()) return; // Prevent empty comments
+
+    let response;
+
+    try {
+       response = await fetch(`${config.apiUrl}/posts/${postId}/comment/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authTokens.access}`,
+        },
+        body: JSON.stringify({ post:postId, comment_text: newComment, user: user.id }) // Ensure you have the user's id available
+      });
+
+      if (response.status === 201) {
+        toast.success("comment posted")
+        // Handle success, e.g., clear the comment input, close the modal, refresh comments, etc.
+        setNewComment('');
+        onClose();
+      } else {
+        toast.error('failed');
+        console.log(authTokens)
+        throw new Error(response);
+      }
+    } catch (error) {
+      console.error('Error posting comment:', response);
+    }
+  };
 
   return (
     <div className="post-modal">
       <div className="modal-backdrop" onClick={onClose} />
       <div className="modal-content">
-        <button className="close-button" onClick={onClose}>×</button>
+        <button className="closed-button" onClick={onClose}>×</button>
         <div className="image-section">
           <img src={imageUrl} alt="Post" />
         </div>
-      <div className="comments-section">
-        {/* <div className="caption7">
+        <div className="comments-section">
+          {/* <div className="caption7">
           <strong>Caption:</strong> {caption}
         </div> */}
         <div className="comments-container">
@@ -32,12 +69,17 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose }) => {
             </div>
           ))}
         </div>
-        <div className="comment-input">
-          <input type="text" placeholder="Add a comment..."  /> 
-          <button>Post</button>
+          <div className="comment-input">
+            <input 
+              type="text" 
+              placeholder="Add a comment..." 
+              value={newComment}
+              onChange={handleCommentChange}
+            />
+            <button onClick={postComment}>Post</button>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
