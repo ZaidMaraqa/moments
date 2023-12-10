@@ -43,7 +43,7 @@ const UserRecommendations = () => {
           <li>
           <img
               className="profile-picture"
-              src={`http://localhost:8000/media/${currentUser.profile_picture}`}
+              src={`${currentUser.profile_picture}`}
               alt={`${currentUser.username}'s Profile`}
             />
               <div className='darko'>
@@ -60,7 +60,7 @@ const UserRecommendations = () => {
             <li key={user.id}>
               <img
                     className="profile-picture"
-                    src={`http://localhost:8000${user.profile_picture || '/Desktop/default_user.jpg'}`}
+                    src={`${user.profile_picture || '/Desktop/default_user.jpg'}`}
                     alt={`${user.username}'s Profile`}
                   />
               <div className='darko'>

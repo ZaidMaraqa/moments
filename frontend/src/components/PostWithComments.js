@@ -62,7 +62,7 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose, postId, authTo
         <div className="comments-container">
           {comments.map((comment, index) => (
             <div key={index} className="comment">
-                <img src={`http://localhost:8000${comment.user.profile_picture}`} alt={comment.user.username} className="comment-user-image"/>
+                <img src={`${comment.user.profile_picture}`} alt={comment.user.username} className="comment-user-image"/>
               <div className='comment-text'>
                 <strong>{comment.user.username}</strong> {comment.comment_text}
               </div>

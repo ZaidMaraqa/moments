@@ -101,7 +101,7 @@ const FollowRequests = ({ userId }) => {
                 <ul>
                     {requests.map((request) => (
                         <li key={request.id} className="request-item">
-                            <img src={`http://localhost:8000${request.profile_picture}` || '/Desktop/default_user.jpg'} alt={user.username} />
+                            <img src={`${request.profile_picture}` || '/Desktop/default_user.jpg'} alt={user.username} />
                             <span>{request.username}</span>
                             <div className='mateen'>
                                 <button onClick={() => handleAccept(request.id)}>Accept</button>

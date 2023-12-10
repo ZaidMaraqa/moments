@@ -116,7 +116,7 @@ const StoriesComponent = () => {
       <Slider {...settings}>
           {uniqueStories.map((story, index) => (
               <div key={story.id} className={`story-profile ${index <= currentStoryIndex ? "viewed-story" : ""}`} onClick={() => openStory(story, index)}>
-                  <img src={`http://localhost:8000${story.user.profile_picture}`} alt="Profile" />
+                  <img src={`${story.user.profile_picture}`} alt="Profile" />
                   <div className="story-username">{story.user.username}</div>
               </div>
           ))}
@@ -137,10 +137,10 @@ const StoriesComponent = () => {
                                 ))}
                             </div>
                             <div className="story-header">
-                                <img src={`http://localhost:8000${story.user.profile_picture}`} alt="Profile" />
+                                <img src={`${story.user.profile_picture}`} alt="Profile" />
                                 <div className="username4">{story.user.username}</div>
                             </div>
-                            <img src={`http://localhost:8000${story.content}`} alt="Story" />
+                            <img src={`${story.content}`} alt="Story" />
                         </div>
                     ))}
                 </div>

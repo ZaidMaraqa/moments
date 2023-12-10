@@ -68,7 +68,7 @@ def check_content_safety(request):
     # Process the response to check for explicit content
     for output in response.outputs:
         for concept in output.data.concepts:
-            if concept.name == "safe" and concept.value >= 0.85:
+            if concept.name == "safe" and concept.value >= 0.75:
                 return Response({'safe': True}, status=status.HTTP_200_OK)
 
     return Response({'safe': False, 'error': 'Inappropriate content detected.'}, status=status.HTTP_400_BAD_REQUEST)

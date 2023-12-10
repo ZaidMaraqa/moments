@@ -49,14 +49,14 @@ const ExplorePage = () => {
                         <div className="profile-info">
                           <img
                             className="profile-picture"
-                            src={`http://localhost:8000${post.user.profile_picture || '/desktop/default_user.jpg'}`}
+                            src={`${post.user.profile_picture || '/desktop/default_user.jpg'}`}
                             alt={`${post.user.username}'s Profile`}
                           />
                           <span className="username">{post.user.username}</span>
                         </div>
                       </div>
                       <div className='post-conten'>
-                        <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
+                        <img src={`${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
                       </div>
                       <div className='caption'>
                         <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>
