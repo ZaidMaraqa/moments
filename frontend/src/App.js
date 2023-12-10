@@ -15,6 +15,8 @@ import { Accordion } from './pages/conduct';
 import ExplorePage from './pages/ExplorePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from './context/ThemeContext';
+
 
 function App() {
 
@@ -46,6 +48,7 @@ function App() {
       <Router>
         <ToastContainer />
         <AuthProvider>
+          <ThemeProvider>
           <div className='sidebar-container'>
           <DisplaySideBar />
             </div>
@@ -77,6 +80,7 @@ function App() {
               <Route path="/login" element={<LoginPage/>}/>
               <Route path="/signup" element={<SignUpPage/>}/>
             </Routes>
+          </ThemeProvider>
         </AuthProvider>
       </Router>
     </div>

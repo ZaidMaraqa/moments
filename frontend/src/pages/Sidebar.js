@@ -6,7 +6,7 @@ import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import useBodyClass from '../utils/BodyClass';
 import { config } from '../utils/env'
-
+import { useTheme } from '../context/ThemeContext';
 
 
 const menuItems = [
@@ -91,6 +91,13 @@ export const Sidebar = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false)
+  const { theme, setTheme } = useTheme();
+
+  console.log(theme);
+
+  const handleChange = (e) => {
+    setTheme(e.target.checked ? 'dark' : 'light');
+  };
 
   useBodyClass('sidebar-body')
 
@@ -250,29 +257,18 @@ const deleteUser = async () => {
             }
           </div>
           <div>
-          <form className='settingsForm'>
               <div className="row">
                 <div className="switch-label">Dark Mode</div>
                 <span className="switch">
-                  <input id="switch-round" type="checkbox" />
+                <input
+                    id="switch-round" 
+                    type="checkbox" 
+                    checked={theme === 'dark'} 
+                    onChange={handleChange} 
+                  />
                   <label htmlFor="switch-round"></label>
                 </span>
               </div>
-              <div className="row">
-                <div className="switch-label">Accessibility Mode</div>
-                <span className="switch">
-                  <input id="switch-round" type="checkbox" />
-                  <label htmlFor="switch-round"></label>
-                </span>
-              </div>
-              <div className="row">
-                <div className="switch-label">Quirks Mode</div>
-                <span className="switch">
-                  <input id="switch-round" type="checkbox" />
-                  <label htmlFor="switch-round"></label>
-                </span>
-              </div>
-            </form>
           </div>
         </ReactCarousel>
       </div>

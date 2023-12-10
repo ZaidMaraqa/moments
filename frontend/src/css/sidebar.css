@@ -189,9 +189,9 @@
     display: inline-block;
   }
   
-  .sidebar .switch input {
+  /* .sidebar .switch input {
     display: none;
-  }
+  } */
   
   .sidebar .switch label {
     display: block;
