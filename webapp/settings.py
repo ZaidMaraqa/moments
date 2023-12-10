@@ -153,9 +153,8 @@ DATABASES = {
 # Google Cloud Storage settings
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'momentsbucket'
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-)
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'))
+
 
 
 # Password validationGET
