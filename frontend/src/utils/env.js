@@ -1,3 +1,3 @@
 export const config = {
-    apiUrl: "http://localhost:8000/api"
+    apiUrl: "https://web-production-5c9db.up.railway.app/api"
 }
