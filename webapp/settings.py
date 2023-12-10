@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from google.oauth2 import service_account
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -153,7 +154,12 @@ DATABASES = {
 # Google Cloud Storage settings
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'momentsbucket'
-GS_CREDENTIALS = service_account.Credentials.from_service_account_info(os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'))
+
+GOOGLE_CREDENTIALS_RAW = os.environ.get('GOOGLE_CREDENTIALS')
+GOOGLE_CREDENTIALS = json.loads(GOOGLE_CREDENTIALS_RAW)
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS)
+
 
 
 
