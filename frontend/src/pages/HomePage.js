@@ -232,7 +232,7 @@ const HomePage = () => {
                         <div className="profile-info">
                           <img
                             className="profile-picture"
-                            src={`http://localhost:8000${post.user.profile_picture || '/Desktop/default_user.jpg'}`}
+                            src={`${post.user.profile_picture || '/Desktop/default_user.jpg'}`}
                             alt={`${post.user.username}'s Profile`}
                           />
                           <span className="username">{post.user.username}</span>

@@ -273,7 +273,7 @@ const deleteUser = async () => {
         </ReactCarousel>
       </div>
     <div className="logo-container"> 
-      <img src={`http://localhost:8000${'/media/images/logo.jpeg' || '/media/images/default_user.g'}`}  alt="" className="logo" />
+      <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}/logo.jpeg`} alt="" className="logo" />
     </div>
     </aside>
   );
