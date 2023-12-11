@@ -201,6 +201,7 @@ const HomePage = () => {
     
       if (!nextPage && newPage > activePage) {
         console.log("There's no next page.");
+        console.log(prevPage)
         return;
       }
       setActivePage(newPage);
@@ -241,7 +242,7 @@ const HomePage = () => {
                             </button>
                       </div>
                       <div className='post-content'>
-                        <img src={`http://localhost:8000${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
+                        <img src={`${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
                       </div>
                       <div className='caption'>
                         <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>
