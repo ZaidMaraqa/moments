@@ -42,6 +42,7 @@ function App() {
       }
     }
   }, [isLoading]);
+  //    "start": "serve build -s -n -L -p $PORT",
 
   return (
     <div className="App">

@@ -5,6 +5,8 @@
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -47,19 +49,20 @@ input {
   padding: 100px 60px;
   margin-bottom: 0px;
   background: #111820;
+  overflow-y: auto; /* enables scrolling for smaller screens */
+
 }
 
 .signup-container > h2 {
   font-size: 32px;
   font-weight: 600;
-  margin-top: 50px;
   color: rgb(255 255 255 / 96%);
 }
 
 .signup-container > h3 {
   font-size: 16px;
   font-weight: 400;
-  margin: 0 0 40px;
+  margin: 0 0 0px;
   color: rgb(255 255 255 / 40%);
 }
 
@@ -158,5 +161,16 @@ input:focus {
   word-wrap: normal;
   direction: ltr;
   -webkit-font-smoothing: antialiased;
+}
+
+
+@media only screen and (max-width: 480px) {
+  .signup-container {
+    max-width: 100%; /* full width on very small screens */
+  }
+
+  .textbox label {
+    font-size: 14px; /* smaller font size for labels */
+  } 
 }
 

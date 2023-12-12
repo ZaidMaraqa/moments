@@ -257,7 +257,8 @@ const deleteUser = async () => {
             }
           </div>
           <div>
-              <div className="row">
+            <p>Under Construction</p>
+              {/* <div className="row">
                 <div className="switch-label">Dark Mode</div>
                 <span className="switch">
                 <input
@@ -268,12 +269,12 @@ const deleteUser = async () => {
                   />
                   <label htmlFor="switch-round"></label>
                 </span>
-              </div>
+              </div> */}
           </div>
         </ReactCarousel>
       </div>
     <div className="logo-container"> 
-      <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}/logo.jpeg`} alt="" className="logo" />
+      <img src="/logo.jpeg" alt="Logo" className="logo" />
     </div>
     </aside>
   );

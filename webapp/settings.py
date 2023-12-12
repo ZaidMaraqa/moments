@@ -166,6 +166,15 @@ GOOGLE_CREDENTIALS = json.loads(GOOGLE_CREDENTIALS_RAW)
 GS_CREDENTIALS = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS)
 
 
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# GS_BUCKET_NAME = 'momentsbucket'
+
+# GOOGLE_APPLICATION_CREDENTIALS_PATH = '/Users/zaidmaraqa/Downloads/amiable-mode-407710-33104bb51c87.json'
+
+# with open(GOOGLE_APPLICATION_CREDENTIALS_PATH) as credentials_file:
+#     GOOGLE_CREDENTIALS = json.load(credentials_file)
+#     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS)
+
 
 
 # Password validationGET

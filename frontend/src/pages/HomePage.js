@@ -271,7 +271,7 @@ const HomePage = () => {
                           />
                         {activePost && (
                             <PostWithComments
-                              imageUrl={`http://localhost:8000${activePost.image}`}
+                              imageUrl={`${activePost.image}`}
                               caption={activePost.text}
                               comments={activePost.comments}
                               onClose={closeModal}
