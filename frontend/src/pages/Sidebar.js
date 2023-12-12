@@ -95,9 +95,9 @@ export const Sidebar = () => {
 
   console.log(theme);
 
-  const handleChange = (e) => {
-    setTheme(e.target.checked ? 'dark' : 'light');
-  };
+  // const handleChange = (e) => {
+  //   setTheme(e.target.checked ? 'dark' : 'light');
+  // };
 
   useBodyClass('sidebar-body')
 
