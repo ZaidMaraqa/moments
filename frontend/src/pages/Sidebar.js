@@ -6,7 +6,7 @@ import AuthContext from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import useBodyClass from '../utils/BodyClass';
 import { config } from '../utils/env'
-import { useTheme } from '../context/ThemeContext';
+// import { useTheme } from '../context/ThemeContext';
 
 
 const menuItems = [
@@ -91,9 +91,9 @@ export const Sidebar = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false)
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
 
-  console.log(theme);
+  // console.log(theme);
 
   // const handleChange = (e) => {
   //   setTheme(e.target.checked ? 'dark' : 'light');
