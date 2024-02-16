@@ -78,7 +78,7 @@ const UserProfilePage = () => {
           <div className="profile-header1">
             <img
               className="profile-picture1"
-              src={`${user.profile_picture || 'media/images/default_user.png'}`}
+              src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${user.profile_picture || 'media/images/default_user.png'}`}
               alt={`${user.username}'s Profile`}
             />
             <div className="profile-info1">
@@ -114,7 +114,7 @@ const UserProfilePage = () => {
                 <li key={post.id} className='post-item1'>
                   <div className='post-image-container1'>
                     <img className='post-image1'
-                      src={`${post.image ? post.image : '/media/images/background.jpeg'}`}
+                      src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${post.image ? post.image : '/media/images/background.jpeg'}`}
                       alt={post.post}
                       style={{ maxWidth: '400px', maxHeight: '400px' }}
                     />

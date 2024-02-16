@@ -53,7 +53,7 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose, postId, authTo
       <div className="modal-content">
         <button className="closed-button" onClick={onClose}>×</button>
         <div className="image-section">
-          <img src={imageUrl} alt="Post" />
+          <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${imageUrl}`} alt="Post" />
         </div>
         <div className="comments-section">
           {/* <div className="caption7">
@@ -62,7 +62,7 @@ const PostWithComments = ({ imageUrl, caption, comments, onClose, postId, authTo
         <div className="comments-container">
           {comments.map((comment, index) => (
             <div key={index} className="comment">
-                <img src={`${comment.user.profile_picture}`} alt={comment.user.username} className="comment-user-image"/>
+                <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${comment.user.profile_picture}`} alt={comment.user.username} className="comment-user-image"/>
               <div className='comment-text'>
                 <strong>{comment.user.username}</strong> {comment.comment_text}
               </div>

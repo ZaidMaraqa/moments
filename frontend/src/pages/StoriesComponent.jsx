@@ -140,7 +140,7 @@ const StoriesComponent = () => {
                                 <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${story.user.profile_picture}`} alt="Profile" />
                                 <div className="username4">{story.user.username}</div>
                             </div>
-                            <img src={`${story.content}`} alt="Story" />
+                            <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${story.content}`} alt="Story" />
                         </div>
                     ))}
                 </div>

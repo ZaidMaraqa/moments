@@ -219,7 +219,7 @@ const HomePage = () => {
 
 
     return (
-        <div className='homePage'>
+        <div className='homePage' style={{display: "flex", flexDirection:"row", justifyContent: "center" }}>
            <div className="content-container">
               <div className='posts-container'>
                 <StoriesComponent />
