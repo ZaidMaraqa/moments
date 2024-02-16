@@ -232,7 +232,7 @@ const HomePage = () => {
                         <div className="profile-info">
                           <img
                             className="profile-picture"
-                            src={`${post.user.profile_picture || '/Desktop/default_user.jpg'}`}
+                            src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${post.user.profile_picture || '/Desktop/default_user.jpg'}`}
                             alt={`${post.user.username}'s Profile`}
                           />
                           <span className="username">{post.user.username}</span>
@@ -242,7 +242,7 @@ const HomePage = () => {
                             </button>
                       </div>
                       <div className='post-content'>
-                        <img src={`${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
+                        <img src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${post.image ? post.image : '/media/images/background.jpeg'}`} alt={post.post}  />
                       </div>
                       <div className='caption'>
                         <span><b>{post.user.username}</b> </span><span>{post.text ? post.text : 'No caption available'}</span>

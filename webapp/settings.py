@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 CLARIFAI_API_KEY = os.environ.get('CLARIFAI_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 # Application definition
@@ -143,27 +143,34 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',  # Your database name
+#         'USER': 'postgres',  # Your database username
+#         'PASSWORD': os.environ.get('DB_Password'), 
+#         'HOST': 'monorail.proxy.rlwy.net',  # Your database host
+#         'PORT': '35372',  # Your database port
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',  # Your database name
-        'USER': 'postgres',  # Your database username
-        'PASSWORD': os.environ.get('DB_Password'), 
-        'HOST': 'monorail.proxy.rlwy.net',  # Your database host
-        'PORT': '35372',  # Your database port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
 
 
 # Google Cloud Storage settings
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'momentsbucket'
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# GS_BUCKET_NAME = 'momentsbucket'
 
-GOOGLE_CREDENTIALS_RAW = os.environ.get('GOOGLE_CREDENTIALS')
-GOOGLE_CREDENTIALS = json.loads(GOOGLE_CREDENTIALS_RAW)
+# GOOGLE_CREDENTIALS_RAW = os.environ.get('GOOGLE_CREDENTIALS')
+# GOOGLE_CREDENTIALS = json.loads(GOOGLE_CREDENTIALS_RAW)
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS)
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS)
 
 
 # DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'

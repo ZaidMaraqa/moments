@@ -60,7 +60,7 @@ const UserRecommendations = () => {
               <li key={user.id}>
                 <img
                       className="profile-picture"
-                      src={`${user.profile_picture || '/Desktop/default_user.jpg'}`}
+                      src={`${config.REACT_APP_MOMENTS_BUCKET_URL}${user.profile_picture || '/Desktop/default_user.jpg'}`}
                       alt={`${user.username}'s Profile`}
                     />
                 <div className='darko'>
